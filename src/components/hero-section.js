@@ -1,46 +1,96 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { useRouter } from "next/navigation"
 import Image from "next/image"
+import Resources from "./resources"
 
 export function HeroSection() {
   const [currentSlide, setCurrentSlide] = useState(0)
+  const router = useRouter()
+  const [exitAnimation, setExitAnimation] = useState(false)
+
+
+
+  const images = [
+    { src: "/images/Bohag_Bihu.png", alt: "Traditional dancers in red attire" },
+    { src: "/images/Arecanut_01.png", alt: "Second Image" },
+    { src: "/images/lahaul_hp.jpg", alt: "Third Image" },
+    { src: "/images/Sindoor_Play.jpeg", alt: "Fourth Image" }
+  ];
+
+  // Slider logic 
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev === images.length - 1 ? 0 : prev + 1))
+    }, 3000)
+    return () => clearInterval(timer)
+  }, [images.length])
+
+  const handleLearnMoreSec1 = () => {
+    // Start exit animations
+    setExitAnimation(true)
+
+    // Navigate after animations complete
+    setTimeout(() => {
+      router.push('/about-project')
+    }, 500)
+  }
+
+  const handleLearnMoreSec2 = () => {
+    // Start exit animations
+    setExitAnimation(true)
+
+    // Navigate after animations complete
+    setTimeout(() => {
+      router.push('/100-regions')
+    }, 500)
+  }
 
   return (
-    <main className="container mx-auto px-4 md:px-6 max-w-5xl">
-      {/* First Section */}
+    <main className={`container mx-auto px-4 md:px-6 max-w-7xl transition-all duration-1000 ${exitAnimation ? 'opacity-0 scale-95' : 'opacity-100 scale-100'
+      }`}>
+      {/* first section */}
       <section className="py-8 md:py-12 lg:py-16">
-        <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center max-w-4xl mx-auto">
-          <div className="space-y-4 md:space-y-6">
-            <h1 className="text-2xl md:text-3xl lg:text-4xl font-serif text-[#9B2C2C]">
+        <div className="grid md:grid-cols-2 gap-10 md:gap-14 items-center max-w-6xl mx-auto">
+          <div className={`space-y-4 md:space-y-6 transition-all duration-700 ${exitAnimation ? 'translate-x-[-100px] opacity-0' : 'translate-x-0 opacity-100'
+            }`}>
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-serif text-[#9B2C2C]">
               Iks Gyan Gunjan
-            </h1>
+            </h2>
             <p className="text-gray-700 leading-relaxed font-['EB_Garamond'] text-sm md:text-base">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
             </p>
-            <button className="bg-[#F6B352] text-black px-4 md:px-6 py-2 rounded-custom hover:bg-[#f6a93d] transition-colors text-sm">
+            <button onClick={handleLearnMoreSec1} className="bg-[#F6B352] text-black px-4 md:px-6 py-2 rounded-custom hover:bg-[#f6a93d] transition-colors text-sm">
               Learn More
             </button>
           </div>
-          <div className="relative mt-6 md:mt-0">
-            <div className="rounded-custom overflow-hidden">
-              <Image
-                src="/next.svg"
-                alt="Traditional dancers in red attire"
-                width={600}
-                height={450}
-                className="w-full object-cover"
-                priority
-              />
+
+          <div className={`transition-all duration-700 ${exitAnimation ? 'translate-x-[100px] opacity-0' : 'translate-x-0 opacity-100'
+            }`}>
+            <div className="relative h-[350px] md:h-[400px] lg:h-[350px] w-full">
+              <div className="rounded-custom overflow-hidden relative h-full">
+                {images.map((image, index) => (
+                  <div key={index} className={`absolute inset-0 transition-opacity duration-500 ${currentSlide === index ? "opacity-100" : "opacity-0"
+                    }`}>
+                    <Image
+                      src={image.src}
+                      alt={image.alt}
+                      fill
+                      className="object-cover"
+                      priority={index === 0}
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
             <div className="flex justify-center gap-2 mt-4">
-              {[0, 1, 2, 3, 4].map((index) => (
+              {images.map((_, index) => (
                 <button
                   key={index}
                   onClick={() => setCurrentSlide(index)}
                   className={`h-1.5 w-1.5 rounded-full transition-colors ${currentSlide === index ? "bg-[#9B2C2C]" : "bg-gray-300"
                     }`}
-                  aria-label={`Go to slide ${index + 1}`}
                 />
               ))}
             </div>
@@ -53,7 +103,7 @@ export function HeroSection() {
         <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center max-w-4xl mx-auto">
           <div className="relative order-2 md:order-1">
             <Image
-              src="/placeholder.svg"
+              src="/images/map.png"
               alt="Map of India showing 100 regions"
               width={600}
               height={600}
@@ -67,7 +117,7 @@ export function HeroSection() {
             <p className="text-gray-700 leading-relaxed font-['EB_Garamond'] text-sm md:text-base">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
             </p>
-            <button className="bg-[#F6B352] text-black px-4 md:px-6 py-2 rounded-custom hover:bg-[#f6a93d] transition-colors text-sm">
+            <button onClick={handleLearnMoreSec2} className="bg-[#F6B352] text-black px-4 md:px-6 py-2 rounded-custom hover:bg-[#f6a93d] transition-colors text-sm">
               Learn More
             </button>
           </div>
@@ -94,20 +144,20 @@ export function HeroSection() {
 
             {/* Petals Container */}
             <div className="absolute inset-0 flex items-center justify-center">
-            {/* Top Petal */}
-            <div className="absolute left-1/2 top-[-33%] -translate-x-1/2 w-[100%] z-[1] isolation-auto">
-    <div className="relative w-full pb-[160%] group">
-      <svg viewBox="0 0 2650 2803" className="absolute inset-0 w-full h-full transition-transform duration-300 group-hover:scale-105">
+              {/* Top Petal */}
+              <div className="absolute left-1/2 top-[-33%] -translate-x-1/2 w-[100%] z-[1] group hover:z-20">
+                <div className="relative w-full pb-[160%]">
+                  <svg viewBox="0 0 2650 2803" className="absolute inset-0 w-full h-full transition-transform duration-300 group-hover:scale-105">
                     <defs>
                       <clipPath id="custom-petal-clip">
                         <path d="M1029.333374,2.000000 C1027.112061,3.652017 1028.316895,4.894969 1030.409912,6.034768 C1038.573120,10.480114 1046.720703,14.954533 1054.906372,19.358059 C1097.891113,42.481853 1140.880859,65.596756 1183.878540,88.696503 C1221.616211,108.970345 1259.364380,129.224838 1297.112427,149.479416 C1339.534912,172.242233 1381.967407,194.986755 1424.386719,217.755737 C1463.007202,238.485703 1501.746704,258.999023 1540.188965,280.054688 C1571.624268,297.272491 1603.780151,313.496735 1633.705688,333.081207 C1693.885376,372.465118 1739.791504,425.218933 1772.277710,489.584503 C1794.505981,533.625549 1808.631592,579.965271 1814.518311,628.975342 C1817.179810,651.133789 1818.679199,673.326538 1817.533936,695.521362 C1814.740479,749.662354 1803.408203,801.984253 1779.884521,851.070923 C1767.406616,877.108337 1753.427368,902.433350 1739.880249,927.949646 C1721.346802,962.857544 1702.595093,997.649658 1683.908936,1032.476318 C1662.706787,1071.992554 1641.444702,1111.476562 1620.261963,1151.003174 C1599.234375,1190.240356 1578.289062,1229.521362 1557.277954,1268.767212 C1538.936401,1303.026489 1520.559326,1337.266724 1502.187012,1371.509399 C1490.879272,1392.584839 1479.550781,1413.649170 1468.231445,1434.718506 C1467.308960,1436.435547 1466.385498,1438.151978 1465.234497,1440.292603 C1446.976929,1430.524414 1429.151611,1421.010742 1411.347534,1411.457275 C1372.728394,1390.735107 1334.115356,1370.001465 1295.508667,1349.255859 C1253.389648,1326.622803 1211.286011,1303.961060 1169.165771,1281.330566 C1130.555786,1260.586182 1091.916992,1239.895386 1053.319092,1219.129028 C1011.504639,1196.632080 969.612915,1174.275146 927.968567,1151.466919 C903.811462,1138.236206 879.224915,1125.519897 856.316284,1110.332520 C799.281677,1072.521484 755.242126,1022.593811 722.944641,962.197876 C698.068176,915.679077 682.410706,866.238037 676.474487,813.971375 C667.339050,733.537720 679.697327,656.350525 715.945679,583.745300 C735.674133,544.229248 757.330566,505.675323 778.145020,466.702209 C796.618103,432.113190 815.107483,397.532867 833.629211,362.969879 C854.654480,323.735077 875.747986,284.536926 896.766296,245.298401 C915.276367,210.742569 933.684509,176.132141 952.209106,141.584106 C973.401001,102.061638 994.652283,62.570972 1015.926758,23.092899 C1019.549438,16.370451 1023.418091,9.780546 1026.586548,2.564700 C1026.888916,2.000000 1027.777832,2.000000 1029.333374,2.000000 z" />
                       </clipPath>
                     </defs>
                     <foreignObject width="2656" height="2803" clipPath="url(#custom-petal-clip)">
-          <div className="w-full h-full border-2 border-white shadow-lg">
-            <Image src="/images/P1.svg" alt="Rural landscape" fill className="object-cover" />
-          </div>
-        </foreignObject>
+                      <div className="w-full h-full border-2 border-white shadow-lg">
+                        <Image src="/images/P1.svg" alt="Rural landscape" fill className="object-cover" />
+                      </div>
+                    </foreignObject>
                     <path
                       fill="#F9FAFA"
                       opacity="0.1"
@@ -118,9 +168,9 @@ export function HeroSection() {
               </div>
 
               {/* Top Left Petal */}
-              <div className="absolute left-[1%] top-[-23%] w-[100%] -rotate-[72deg] transition-all duration-300 hover:scale-105 hover:z-20 z-[1]">
+              <div className="absolute left-[1%] top-[-23%] w-[100%] -rotate-[72deg] z-[1] group hover:z-20">
                 <div className="relative w-full pb-[160%]">
-                  <svg viewBox="0 0 2656 2803" className="absolute inset-0 w-full h-full">
+                  <svg viewBox="0 0 2656 2803" className="absolute inset-0 w-full h-full transition-transform duration-300 group-hover:scale-105">
                     <defs>
                       <clipPath id="custom-petal-clip-2">
                         <path d="M1029.333374,2.000000 C1027.112061,3.652017 1028.316895,4.894969 1030.409912,6.034768 C1038.573120,10.480114 1046.720703,14.954533 1054.906372,19.358059 C1097.891113,42.481853 1140.880859,65.596756 1183.878540,88.696503 C1221.616211,108.970345 1259.364380,129.224838 1297.112427,149.479416 C1339.534912,172.242233 1381.967407,194.986755 1424.386719,217.755737 C1463.007202,238.485703 1501.746704,258.999023 1540.188965,280.054688 C1571.624268,297.272491 1603.780151,313.496735 1633.705688,333.081207 C1693.885376,372.465118 1739.791504,425.218933 1772.277710,489.584503 C1794.505981,533.625549 1808.631592,579.965271 1814.518311,628.975342 C1817.179810,651.133789 1818.679199,673.326538 1817.533936,695.521362 C1814.740479,749.662354 1803.408203,801.984253 1779.884521,851.070923 C1767.406616,877.108337 1753.427368,902.433350 1739.880249,927.949646 C1721.346802,962.857544 1702.595093,997.649658 1683.908936,1032.476318 C1662.706787,1071.992554 1641.444702,1111.476562 1620.261963,1151.003174 C1599.234375,1190.240356 1578.289062,1229.521362 1557.277954,1268.767212 C1538.936401,1303.026489 1520.559326,1337.266724 1502.187012,1371.509399 C1490.879272,1392.584839 1479.550781,1413.649170 1468.231445,1434.718506 C1467.308960,1436.435547 1466.385498,1438.151978 1465.234497,1440.292603 C1446.976929,1430.524414 1429.151611,1421.010742 1411.347534,1411.457275 C1372.728394,1390.735107 1334.115356,1370.001465 1295.508667,1349.255859 C1253.389648,1326.622803 1211.286011,1303.961060 1169.165771,1281.330566 C1130.555786,1260.586182 1091.916992,1239.895386 1053.319092,1219.129028 C1011.504639,1196.632080 969.612915,1174.275146 927.968567,1151.466919 C903.811462,1138.236206 879.224915,1125.519897 856.316284,1110.332520 C799.281677,1072.521484 755.242126,1022.593811 722.944641,962.197876 C698.068176,915.679077 682.410706,866.238037 676.474487,813.971375 C667.339050,733.537720 679.697327,656.350525 715.945679,583.745300 C735.674133,544.229248 757.330566,505.675323 778.145020,466.702209 C796.618103,432.113190 815.107483,397.532867 833.629211,362.969879 C854.654480,323.735077 875.747986,284.536926 896.766296,245.298401 C915.276367,210.742569 933.684509,176.132141 952.209106,141.584106 C973.401001,102.061638 994.652283,62.570972 1015.926758,23.092899 C1019.549438,16.370451 1023.418091,9.780546 1026.586548,2.564700 C1026.888916,2.000000 1027.777832,2.000000 1029.333374,2.000000 z"
@@ -147,9 +197,9 @@ export function HeroSection() {
               </div>
 
               {/* Bottom Left Petal */}
-              <div className="absolute left-[7%] bottom-[-37%] w-[100%] -rotate-[144deg] transition-all duration-300 hover:scale-105 hover:z-20 z-[1]">
+              <div className="absolute left-[7%] bottom-[-37%] w-[100%] -rotate-[144deg] z-[1] group hover:z-20">
                 <div className="relative w-full pb-[160%]">
-                  <svg viewBox="0 0 2656 2803" className="absolute inset-0 w-full h-full">
+                  <svg viewBox="0 0 2656 2803" className="absolute inset-0 w-full h-full transition-transform duration-300 group-hover:scale-105">
                     <defs>
                       <clipPath id="custom-petal-clip-3">
                         <path d="M1029.333374,2.000000 C1027.112061,3.652017 1028.316895,4.894969 1030.409912,6.034768 C1038.573120,10.480114 1046.720703,14.954533 1054.906372,19.358059 C1097.891113,42.481853 1140.880859,65.596756 1183.878540,88.696503 C1221.616211,108.970345 1259.364380,129.224838 1297.112427,149.479416 C1339.534912,172.242233 1381.967407,194.986755 1424.386719,217.755737 C1463.007202,238.485703 1501.746704,258.999023 1540.188965,280.054688 C1571.624268,297.272491 1603.780151,313.496735 1633.705688,333.081207 C1693.885376,372.465118 1739.791504,425.218933 1772.277710,489.584503 C1794.505981,533.625549 1808.631592,579.965271 1814.518311,628.975342 C1817.179810,651.133789 1818.679199,673.326538 1817.533936,695.521362 C1814.740479,749.662354 1803.408203,801.984253 1779.884521,851.070923 C1767.406616,877.108337 1753.427368,902.433350 1739.880249,927.949646 C1721.346802,962.857544 1702.595093,997.649658 1683.908936,1032.476318 C1662.706787,1071.992554 1641.444702,1111.476562 1620.261963,1151.003174 C1599.234375,1190.240356 1578.289062,1229.521362 1557.277954,1268.767212 C1538.936401,1303.026489 1520.559326,1337.266724 1502.187012,1371.509399 C1490.879272,1392.584839 1479.550781,1413.649170 1468.231445,1434.718506 C1467.308960,1436.435547 1466.385498,1438.151978 1465.234497,1440.292603 C1446.976929,1430.524414 1429.151611,1421.010742 1411.347534,1411.457275 C1372.728394,1390.735107 1334.115356,1370.001465 1295.508667,1349.255859 C1253.389648,1326.622803 1211.286011,1303.961060 1169.165771,1281.330566 C1130.555786,1260.586182 1091.916992,1239.895386 1053.319092,1219.129028 C1011.504639,1196.632080 969.612915,1174.275146 927.968567,1151.466919 C903.811462,1138.236206 879.224915,1125.519897 856.316284,1110.332520 C799.281677,1072.521484 755.242126,1022.593811 722.944641,962.197876 C698.068176,915.679077 682.410706,866.238037 676.474487,813.971375 C667.339050,733.537720 679.697327,656.350525 715.945679,583.745300 C735.674133,544.229248 757.330566,505.675323 778.145020,466.702209 C796.618103,432.113190 815.107483,397.532867 833.629211,362.969879 C854.654480,323.735077 875.747986,284.536926 896.766296,245.298401 C915.276367,210.742569 933.684509,176.132141 952.209106,141.584106 C973.401001,102.061638 994.652283,62.570972 1015.926758,23.092899 C1019.549438,16.370451 1023.418091,9.780546 1026.586548,2.564700 C1026.888916,2.000000 1027.777832,2.000000 1029.333374,2.000000 z"
@@ -174,12 +224,10 @@ export function HeroSection() {
                 </div>
               </div>
 
-              
-
               {/* Bottom Right Petal */}
-              <div className="absolute right-[-9%] bottom-[-30%] w-[100%] rotate-[144deg] transition-all duration-300 hover:scale-105 hover:z-20 z-[1]">
+              <div className="absolute right-[-9%] bottom-[-30%] w-[100%] rotate-[144deg] z-[1] group hover:z-20">
                 <div className="relative w-full pb-[160%]">
-                  <svg viewBox="0 0 2656 2803" className="absolute inset-0 w-full h-full">
+                  <svg viewBox="0 0 2656 2803" className="absolute inset-0 w-full h-full transition-transform duration-300 group-hover:scale-105">
                     <defs>
                       <clipPath id="custom-petal-clip-4">
                         <path d="M1029.333374,2.000000 C1027.112061,3.652017 1028.316895,4.894969 1030.409912,6.034768 C1038.573120,10.480114 1046.720703,14.954533 1054.906372,19.358059 C1097.891113,42.481853 1140.880859,65.596756 1183.878540,88.696503 C1221.616211,108.970345 1259.364380,129.224838 1297.112427,149.479416 C1339.534912,172.242233 1381.967407,194.986755 1424.386719,217.755737 C1463.007202,238.485703 1501.746704,258.999023 1540.188965,280.054688 C1571.624268,297.272491 1603.780151,313.496735 1633.705688,333.081207 C1693.885376,372.465118 1739.791504,425.218933 1772.277710,489.584503 C1794.505981,533.625549 1808.631592,579.965271 1814.518311,628.975342 C1817.179810,651.133789 1818.679199,673.326538 1817.533936,695.521362 C1814.740479,749.662354 1803.408203,801.984253 1779.884521,851.070923 C1767.406616,877.108337 1753.427368,902.433350 1739.880249,927.949646 C1721.346802,962.857544 1702.595093,997.649658 1683.908936,1032.476318 C1662.706787,1071.992554 1641.444702,1111.476562 1620.261963,1151.003174 C1599.234375,1190.240356 1578.289062,1229.521362 1557.277954,1268.767212 C1538.936401,1303.026489 1520.559326,1337.266724 1502.187012,1371.509399 C1490.879272,1392.584839 1479.550781,1413.649170 1468.231445,1434.718506 C1467.308960,1436.435547 1466.385498,1438.151978 1465.234497,1440.292603 C1446.976929,1430.524414 1429.151611,1421.010742 1411.347534,1411.457275 C1372.728394,1390.735107 1334.115356,1370.001465 1295.508667,1349.255859 C1253.389648,1326.622803 1211.286011,1303.961060 1169.165771,1281.330566 C1130.555786,1260.586182 1091.916992,1239.895386 1053.319092,1219.129028 C1011.504639,1196.632080 969.612915,1174.275146 927.968567,1151.466919 C903.811462,1138.236206 879.224915,1125.519897 856.316284,1110.332520 C799.281677,1072.521484 755.242126,1022.593811 722.944641,962.197876 C698.068176,915.679077 682.410706,866.238037 676.474487,813.971375 C667.339050,733.537720 679.697327,656.350525 715.945679,583.745300 C735.674133,544.229248 757.330566,505.675323 778.145020,466.702209 C796.618103,432.113190 815.107483,397.532867 833.629211,362.969879 C854.654480,323.735077 875.747986,284.536926 896.766296,245.298401 C915.276367,210.742569 933.684509,176.132141 952.209106,141.584106 C973.401001,102.061638 994.652283,62.570972 1015.926758,23.092899 C1019.549438,16.370451 1023.418091,9.780546 1026.586548,2.564700 C1026.888916,2.000000 1027.777832,2.000000 1029.333374,2.000000 z" />
@@ -205,9 +253,9 @@ export function HeroSection() {
               </div>
 
               {/* Top Right Petal */}
-              <div className="absolute right-[-5%] top-[-30%] w-[100%] rotate-[72deg] transition-all duration-300 hover:scale-105 hover:z-20 z-[1]">
+              <div className="absolute right-[-5%] top-[-30%] w-[100%] rotate-[72deg] z-[1] group hover:z-20">
                 <div className="relative w-full pb-[160%]">
-                  <svg viewBox="0 0 2656 2803" className="absolute inset-0 w-full h-full">
+                  <svg viewBox="0 0 2656 2803" className="absolute inset-0 w-full h-full transition-transform duration-300 group-hover:scale-105">
                     <defs>
                       <clipPath id="custom-petal-clip-5">
                         <path d="M1029.333374,2.000000 C1027.112061,3.652017 1028.316895,4.894969 1030.409912,6.034768 C1038.573120,10.480114 1046.720703,14.954533 1054.906372,19.358059 C1097.891113,42.481853 1140.880859,65.596756 1183.878540,88.696503 C1221.616211,108.970345 1259.364380,129.224838 1297.112427,149.479416 C1339.534912,172.242233 1381.967407,194.986755 1424.386719,217.755737 C1463.007202,238.485703 1501.746704,258.999023 1540.188965,280.054688 C1571.624268,297.272491 1603.780151,313.496735 1633.705688,333.081207 C1693.885376,372.465118 1739.791504,425.218933 1772.277710,489.584503 C1794.505981,533.625549 1808.631592,579.965271 1814.518311,628.975342 C1817.179810,651.133789 1818.679199,673.326538 1817.533936,695.521362 C1814.740479,749.662354 1803.408203,801.984253 1779.884521,851.070923 C1767.406616,877.108337 1753.427368,902.433350 1739.880249,927.949646 C1721.346802,962.857544 1702.595093,997.649658 1683.908936,1032.476318 C1662.706787,1071.992554 1641.444702,1111.476562 1620.261963,1151.003174 C1599.234375,1190.240356 1578.289062,1229.521362 1557.277954,1268.767212 C1538.936401,1303.026489 1520.559326,1337.266724 1502.187012,1371.509399 C1490.879272,1392.584839 1479.550781,1413.649170 1468.231445,1434.718506 C1467.308960,1436.435547 1466.385498,1438.151978 1465.234497,1440.292603 C1446.976929,1430.524414 1429.151611,1421.010742 1411.347534,1411.457275 C1372.728394,1390.735107 1334.115356,1370.001465 1295.508667,1349.255859 C1253.389648,1326.622803 1211.286011,1303.961060 1169.165771,1281.330566 C1130.555786,1260.586182 1091.916992,1239.895386 1053.319092,1219.129028 C1011.504639,1196.632080 969.612915,1174.275146 927.968567,1151.466919 C903.811462,1138.236206 879.224915,1125.519897 856.316284,1110.332520 C799.281677,1072.521484 755.242126,1022.593811 722.944641,962.197876 C698.068176,915.679077 682.410706,866.238037 676.474487,813.971375 C667.339050,733.537720 679.697327,656.350525 715.945679,583.745300 C735.674133,544.229248 757.330566,505.675323 778.145020,466.702209 C796.618103,432.113190 815.107483,397.532867 833.629211,362.969879 C854.654480,323.735077 875.747986,284.536926 896.766296,245.298401 C915.276367,210.742569 933.684509,176.132141 952.209106,141.584106 C973.401001,102.061638 994.652283,62.570972 1015.926758,23.092899 C1019.549438,16.370451 1023.418091,9.780546 1026.586548,2.564700 C1026.888916,2.000000 1027.777832,2.000000 1029.333374,2.000000 z" />
@@ -244,6 +292,11 @@ export function HeroSection() {
           </div>
         </div>
       </section>
+      {/* 4th section (Resources) */}
+      <section>
+        <Resources></Resources>
+      </section>
+
     </main>
   )
 }

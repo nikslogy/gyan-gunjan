@@ -36,3 +36,39 @@ body {
   animation: floatPetal 1s ease-in-out infinite;
 }
 
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.page-enter {
+  animation: zoomIn 0.5s ease-out;
+}
+
+.movies-swiper {
+  padding: 20px 0 40px;
+}
+
+.movies-swiper .swiper-slide {
+  opacity: 0.4;
+  transition: opacity 0.3s;
+}
+
+.movies-swiper .swiper-slide-active {
+  opacity: 1;
+}
+
+.movies-swiper .swiper-button-next,
+.movies-swiper .swiper-button-prev {
+  color: #9B2C2C;
+}
+
+.movies-swiper .swiper-pagination-bullet-active {
+  background: #9B2C2C;
+}
