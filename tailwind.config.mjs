@@ -9,7 +9,12 @@ export default {
     extend: {
       borderRadius: {
         'custom': '2rem 0 2rem 0',
-        'custom2': '1rem 0 1rem 0'
+        'custom2': '1rem 0 1rem 0',
+        'custom3': '0rem 4rem 0rem 4rem',
+        'custom4': '4rem 0rem 4rem 0rem',
+        'custom5': '0rem 4rem 0rem 4rem',
+        'custom6': '4rem 0rem 4rem 0rem',
+        'custom7': '0rem 4rem 0rem 4rem',
       },
       colors: {
         background: "var(--background)",

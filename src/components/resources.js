@@ -183,47 +183,57 @@ export default function Resources() {
         )}
 
 {activeTab === 'movies' && (
-  <div className="relative px-4">
-    <div className="flex justify-end mb-6">
-      <button className="text-gray-600 hover:text-gray-900 font-['EB_Garamond']">
+  <div className="relative w-full max-w-7xl mx-auto px-2 sm:px-4">
+    <div className="flex justify-end mb-4 sm:mb-6">
+      <button className="text-gray-600 hover:text-gray-900 font-['EB_Garamond'] text-sm sm:text-base">
         View All
       </button>
     </div>
 
-    <div className="relative overflow-hidden">
-      <div className="flex items-center justify-center gap-4">
+    <div className="relative h-[400px] sm:h-[400px] overflow-hidden">
+      <div className="absolute inset-0 flex items-center justify-center">
         {movieResources.map((movie, index) => {
           const position = (index - currentSlide + movieResources.length) % movieResources.length;
           const isCenter = position === 0;
           const isPrev = position === movieResources.length - 1;
           const isNext = position === 1;
-          
+
           return (
             <div
               key={index}
-              className={`relative transition-all duration-500 ease-in-out ${
-                isCenter ? 'w-[600px] opacity-100 z-20' :
-                isPrev || isNext ? 'w-[400px] opacity-50 z-10' : 'hidden'
-              }`}
+              className="absolute transition-all duration-500 ease-in-out"
+              style={{
+                transform: isCenter 
+                  ? 'translateX(-50%) scale(1)'
+                  : isPrev
+                  ? 'translateX(-120%) scale(0.6)' // Adjusted for mobile
+                  : isNext
+                  ? 'translateX(20%) scale(0.6)' // Adjusted for mobile
+                  : 'scale(0)',
+                left: '50%',
+                opacity: isCenter ? 1 : 0.5,
+                zIndex: isCenter ? 30 : 10
+              }}
             >
-              <div className="relative group cursor-pointer rounded-lg overflow-hidden">
-                <Image
-                  src={movie.image}
-                  alt={`Movie ${index + 1}`}
-                  width={800}
-                  height={450}
-                  className="w-full h-auto rounded-lg transition-transform duration-300 group-hover:scale-105"
-                />
-                {isCenter && (
-                  <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all duration-300">
-                    <button
-                      className="w-16 h-16 bg-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 transform scale-75 group-hover:scale-100"
-                      aria-label="Play video"
-                    >
-                      <div className="w-0 h-0 border-t-8 border-t-transparent border-l-12 border-l-[#9B2C2C] border-b-8 border-b-transparent ml-1" />
-                    </button>
-                  </div>
-                )}
+              <div className={`relative group ${isCenter ? '' : 'pointer-events-none'}`}>
+                <div className="w-[280px] sm:w-[480px] lg:w-[640px] aspect-video rounded-lg overflow-hidden">
+                  <Image
+                    src={movie.image}
+                    alt={`Movie ${index + 1}`}
+                    width={800}
+                    height={450}
+                    className={`w-full h-full object-cover transition-transform duration-300 ${
+                      isCenter ? 'group-hover:scale-105' : 'filter blur-sm'
+                    }`}
+                  />
+                  {isCenter && (
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all duration-300 flex items-center justify-center">
+                      <button className="w-12 h-12 sm:w-16 sm:h-16 bg-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transform scale-75 group-hover:scale-100 transition-all duration-300">
+                        <div className="w-0 h-0 border-t-6 sm:border-t-8 border-t-transparent border-l-10 sm:border-l-12 border-l-[#9B2C2C] border-b-6 sm:border-b-8 border-b-transparent ml-1" />
+                      </button>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           );
@@ -232,33 +242,32 @@ export default function Resources() {
 
       <button
         onClick={prevSlide}
-        className="absolute left-0 top-1/2 -translate-y-1/2 bg-white p-2 rounded-full shadow-md z-30"
-        aria-label="Previous slide"
+        className="absolute left-1 sm:left-4 top-1/2 -translate-y-1/2 z-40 bg-white/90 hover:bg-[#9B2C2C] hover:text-white p-2 sm:p-3 rounded-full shadow-lg transition-colors"
       >
-        <svg className="w-6 h-6 text-[#9B2C2C]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg className="w-4 h-4 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
         </svg>
       </button>
 
       <button
         onClick={nextSlide}
-        className="absolute right-0 top-1/2 -translate-y-1/2 bg-white p-2 rounded-full shadow-md z-30"
-        aria-label="Next slide"
+        className="absolute right-1 sm:right-4 top-1/2 -translate-y-1/2 z-40 bg-white/90 hover:bg-[#9B2C2C] hover:text-white p-2 sm:p-3 rounded-full shadow-lg transition-colors"
       >
-        <svg className="w-6 h-6 text-[#9B2C2C]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg className="w-4 h-4 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
         </svg>
       </button>
 
-      <div className="flex justify-center gap-2 mt-4">
+      <div className="absolute -bottom-2 sm:bottom-1 left-0 right-0 flex justify-center gap-2 sm:gap-3 z-50">
         {movieResources.map((_, index) => (
           <button
             key={index}
             onClick={() => setCurrentSlide(index)}
-            className={`w-2 h-2 rounded-full transition-all ${
-              currentSlide === index ? 'bg-[#9B2C2C] w-4' : 'bg-gray-300'
+            className={`h-1.5 sm:h-2 transition-all duration-300 rounded-full ${
+              currentSlide === index 
+                ? 'w-6 sm:w-8 bg-[#9B2C2C]' 
+                : 'w-1.5 sm:w-2 bg-gray-300 hover:bg-gray-400'
             }`}
-            aria-label={`Go to slide ${index + 1}`}
           />
         ))}
       </div>
