@@ -72,3 +72,87 @@ body {
 .movies-swiper .swiper-pagination-bullet-active {
   background: #9B2C2C;
 }
+
+/* Add these at the end of your file */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.page-transition {
+  transform-origin: center right;
+  transition: all 0.7s cubic-bezier(0.645, 0.045, 0.355, 1);
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+}
+
+.right-page {
+  transform-origin: left center;
+}
+
+.left-page {
+  transform-origin: right center;
+}
+
+.page-turning {
+  animation: turnPageRight 0.7s cubic-bezier(0.645, 0.045, 0.355, 1) forwards;
+}
+
+.page-turning-back {
+  animation: turnPageLeft 0.7s cubic-bezier(0.645, 0.045, 0.355, 1) forwards;
+}
+
+@keyframes turnPageRight {
+  0% {
+    transform: perspective(1000px) rotateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: perspective(1000px) rotateY(-180deg);
+    opacity: 0;
+  }
+}
+
+@keyframes turnPageLeft {
+  0% {
+    transform: perspective(1000px) rotateY(180deg);
+    opacity: 0;
+  }
+  100% {
+    transform: perspective(1000px) rotateY(0);
+    opacity: 1;
+  }
+}
+
+/* PDF viewer container styles */
+.react-pdf__Document {
+  transition: transform 0.3s ease;
+}
+
+.react-pdf__Page {
+  margin-bottom: 1rem;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.react-pdf__Page canvas {
+  transition: transform 0.3s ease;
+}
+
+/* Fullscreen mode styles */
+:fullscreen .react-pdf__Document {
+  max-width: 90vw;
+  margin: 0 auto;
+}
+
+/* Smooth loading transition */
+.react-pdf__Page {
+  transition: transform 0.3s ease;
+}
+
+/* Better page loading placeholder */
+.react-pdf__Page--loading {
+  background: #f3f4f6;
+  border-radius: 0.5rem;
+}

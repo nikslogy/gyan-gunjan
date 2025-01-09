@@ -33,7 +33,7 @@ export function NavBar() {
             <Link href="/about" className="text-[#1a365d] hover:text-gray-900">
               About the Project
             </Link>
-            <Link href="/darshan" className="text-[#1a365d]  hover:text-gray-900">
+            <Link href="/jeevan-darshan" className="text-[#1a365d]  hover:text-gray-900">
               Jeevan Darshan
             </Link>
             <div className="relative">
@@ -53,11 +53,13 @@ export function NavBar() {
                 </div>
               )}
             </div>
-            <button 
-              className="bg-[#F6B352] text-black hover:bg-[#f6a93d] rounded-custom px-4 py-1.5 font-medium"
-            >
-              Let's Collaborate
-            </button>
+            <Link href="/lets-collaborate">
+              <button
+                className="bg-[#F6B352] text-black hover:bg-[#f6a93d] rounded-custom px-4 py-1.5 font-medium"
+              >
+                Let's Collaborate
+              </button>
+            </Link>
             <button className="p-1.5">
               <Search className="h-4 w-4 text-[#1a365d]" />
             </button>
