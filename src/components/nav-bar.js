@@ -46,9 +46,10 @@ export function NavBar() {
               {isResourcesOpen && (
                 <div className="absolute top-full left-0 mt-3 w-48 rounded-custom shadow-lg bg-[#F6B352] ring-1 ring-black ring-opacity-5">
                   <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-                    <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-custom" role="menuitem">Resource 1</a>
-                    <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-custom" role="menuitem">Resource 2</a>
-                    <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-custom" role="menuitem">Resource 3</a>
+                    <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-custom" role="menuitem">Coffee Table Books</a>
+                    <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-custom" role="menuitem">Regional Flip Books</a>
+                    <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-custom" role="menuitem">Thematic Concept Notes</a>
+                    <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-custom" role="menuitem">Movies</a>
                   </div>
                 </div>
               )}
@@ -122,9 +123,10 @@ export function NavBar() {
               </button>
               {isResourcesOpen && (
                 <div className="pl-4">
-                  <a href="#" className="block py-2 text-sm text-gray-700 hover:text-gray-900">Resource 1</a>
-                  <a href="#" className="block py-2 text-sm text-gray-700 hover:text-gray-900">Resource 2</a>
-                  <a href="#" className="block py-2 text-sm text-gray-700 hover:text-gray-900">Resource 3</a>
+                  <a href="#" className="block py-2 text-sm text-gray-700 hover:text-gray-900">Coffee Table Books</a>
+                  <a href="#" className="block py-2 text-sm text-gray-700 hover:text-gray-900">Regional Flip Books</a>
+                  <a href="#" className="block py-2 text-sm text-gray-700 hover:text-gray-900">Thematic Concept Notes</a>
+                  <a href="#" className="block py-2 text-sm text-gray-700 hover:text-gray-900">Movies</a>
                 </div>
               )}
               <button 

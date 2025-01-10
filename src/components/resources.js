@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
-import { ChevronLeft, ChevronRight, ZoomIn, ZoomOut, Maximize2, Share2, Search, Menu } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ZoomIn, ZoomOut, Maximize2, Share2, Search, Menu, Download } from 'lucide-react';
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 import 'react-pdf/dist/esm/Page/TextLayer.css';
 
@@ -19,6 +19,14 @@ export function Resources() {
   const [searchText, setSearchText] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [showSearch, setShowSearch] = useState(false);
+  const [showDownloadModal, setShowDownloadModal] = useState(false);
+  const [downloadForm, setDownloadForm] = useState({
+    purpose: '',
+    name: '',
+    mobile: '',
+    email: '',
+  });
+  const [formError, setFormError] = useState('');
 
   useEffect(() => {
     const updateWidth = () => {
@@ -149,6 +157,45 @@ export function Resources() {
       console.error('Search failed:', error);
     }
   };
+
+  const handleDownload = async (e) => {
+    e.preventDefault();
+    if (!downloadForm.purpose || !downloadForm.name || !downloadForm.email) {
+      setFormError('Please fill in all required fields');
+      return;
+    }
+
+    try {
+      // API call to save user data...will add later
+      
+      // Trigger PDF download
+      const response = await fetch('/images/Concept-Note.pdf');
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'Concept-Note.pdf';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(url);
+      
+      setShowDownloadModal(false);
+      setDownloadForm({ purpose: '', name: '', mobile: '', email: '' });
+      setFormError('');
+    } catch (error) {
+      console.error('Download failed:', error);
+    }
+  };
+
+  useEffect(() => {
+    if (showDownloadModal) {
+      const modalElement = document.querySelector('.download-modal');
+      if (modalElement) {
+        modalElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
+  }, [showDownloadModal]);
 
   return (
     <div ref={containerRef} className="flex flex-col items-center w-full max-w-6xl mx-auto p-4">
@@ -312,6 +359,107 @@ export function Resources() {
       <div className="mt-4 text-center text-gray-600">
         Pages {currentPage}-{Math.min(currentPage + 1, numPages)} of {numPages}
       </div>
+
+      <button
+        onClick={() => setShowDownloadModal(true)}
+        className="mt-6 flex items-center gap-2 px-6 py-3 bg-[#9B2C2C] text-white rounded-custom2 hover:bg-[#7B1D1D] transition-colors shadow-lg"
+      >
+        <Download className="h-5 w-5" />
+        Download PDF
+      </button>
+
+      {/* Download Modal */}
+      {showDownloadModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 overflow-y-auto">
+          <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/7 bg-white rounded-lg p-6 max-w-md w-full download-modal">
+            <h2 className="text-2xl font-bold text-[#9B2C2C] mb-4">Download PDF</h2>
+            <form onSubmit={handleDownload} className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Purpose of Download <span className="text-red-500">*</span>
+                </label>
+                <div className="space-y-2 text-black">
+                  {['Academia', 'R&D', 'Business', 'Journalistic', 'Other'].map((purpose) => (
+                    <label key={purpose} className="flex items-center">
+                      <input
+                        type="radio"
+                        name="purpose"
+                        value={purpose}
+                        checked={downloadForm.purpose === purpose}
+                        onChange={(e) => setDownloadForm({ ...downloadForm, purpose: e.target.value })}
+                        className="mr-2 text-[#9B2C2C] focus:ring-[#9B2C2C]"
+                      />
+                      {purpose}
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Name <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  value={downloadForm.name}
+                  onChange={(e) => setDownloadForm({ ...downloadForm, name: e.target.value })}
+                  className="w-full p-2 border rounded focus:ring-[#9B2C2C] focus:border-[#9B2C2C]"
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Mobile No
+                </label>
+                <input
+                  type="tel"
+                  value={downloadForm.mobile}
+                  onChange={(e) => setDownloadForm({ ...downloadForm, mobile: e.target.value })}
+                  className="w-full p-2 border rounded focus:ring-[#9B2C2C] focus:border-[#9B2C2C]"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Email <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="email"
+                  value={downloadForm.email}
+                  onChange={(e) => setDownloadForm({ ...downloadForm, email: e.target.value })}
+                  className="w-full p-2 border rounded focus:ring-[#9B2C2C] focus:border-[#9B2C2C]"
+                  required
+                />
+              </div>
+
+              {formError && (
+                <p className="text-red-500 text-sm">{formError}</p>
+              )}
+
+              <div className="flex gap-4 mt-6">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowDownloadModal(false);
+                    setDownloadForm({ purpose: '', name: '', mobile: '', email: '' });
+                    setFormError('');
+                  }}
+                  className="flex-1 px-4 py-2 text-black border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="flex-1 px-4 py-2 bg-[#9B2C2C] text-white rounded-lg hover:bg-[#7B1D1D] transition-colors"
+                >
+                  Download
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -48,6 +48,16 @@ export function HeroSection() {
     }, 500)
   }
 
+  const handleLearnMoreSec3 = () => {
+    // Start exit animations
+    setExitAnimation(true)
+
+    // Navigate after animations complete
+    setTimeout(() => {
+      router.push('/jeevan-darshan')
+    }, 500)
+  }
+
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentTile((prev) => (prev + 1) % 5);
@@ -268,7 +278,7 @@ export function HeroSection() {
             <p className="text-gray-700 leading-relaxed font-['EB_Garamond'] text-sm md:text-base">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
             </p>
-            <button className="bg-[#F6B352] text-black px-4 md:px-6 py-2 rounded-custom hover:bg-[#f6a93d] transition-colors text-sm">
+            <button onClick={handleLearnMoreSec3} className="bg-[#F6B352] text-black px-4 md:px-6 py-2 rounded-custom hover:bg-[#f6a93d] transition-colors text-sm">
               Learn More
             </button>
           </div>
