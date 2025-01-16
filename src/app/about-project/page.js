@@ -43,7 +43,7 @@ export default function AboutProject() {
         <div className="max-w-5xl mx-auto space-y-16">
           
           {/* Page title */}
-          <h1 className={`text-3xl md:text-4xl font-serif text-[#9B2C2C] transition-all duration-700 delay-300 ${
+          <h1 className={`text-3xl md:text-4xl font-bold text-[#7A2631] transition-all duration-700 delay-300 ${
             mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-[20px]'
           }`}>
             About the Project
@@ -51,7 +51,7 @@ export default function AboutProject() {
 
           {/* Project tag */}
           <div className="inline-block w-full">
-            <span className="bg-[#F6B352] text-black px-4 md:px-20 py-6 rounded-custom2 transition-colors text-sm">
+            <span className="bg-[#E7B24B] text-black font-bold px-2 md:px-12 py-6 rounded-custom2 transition-colors text-2xl">
               Iks Gyan Gunjan
             </span>
           </div>
@@ -99,24 +99,27 @@ export default function AboutProject() {
             mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-[20px]'
           }`}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div className="text-gray-700">
+              <div className="text-black">
                 <p>
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+
                 </p>
               </div>
-              <div className="text-gray-700">
+              <div className="text-black">
                 <p>
                   Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
                 </p>
               </div>
             </div>
           </div>
           <div className="inline-block w-full">
-            <span className="bg-[#F6B352] text-black px-4 md:px-20 py-6 rounded-custom2 transition-colors text-sm">
+            <span className="bg-[#E7B24B] text-black font-bold px-4 md:px-20 py-6 rounded-custom2 transition-colors text-2xl">
               Gyan Gunjan Logo Concept
             </span>
           </div>
-          <Image src="/images/GyanGunjan-Logo-concept.avif" alt="Gyan Gunjan Logo Concept" width={800} height={400} className="object-contain w-full" />
+          <Image src="/images/GyanGunjan-Logo-concept.png" alt="Gyan Gunjan Logo Concept" width={800} height={400} className="object-contain w-full" />
         </div>
       </div>
     <Footer />

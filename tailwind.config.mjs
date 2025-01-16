@@ -20,6 +20,11 @@ export default {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      fontFamily: {
+        inter: ['var(--font-inter)'],
+        philosopher: ['var(--font-philosopher)'],
+        'crimson-pro': ['var(--font-crimson-pro)'],
+      },
     },
   },
   plugins: [],

@@ -8,7 +8,6 @@ import { Footer } from "@/components/footer"
 import { Share2, ChevronDown } from 'lucide-react'
 import { Resources } from "@/components/resources"
 
-
 export default function JeevanDarshan() {
     const searchParams = useSearchParams()
     const [currentSlide, setCurrentSlide] = useState(
@@ -32,7 +31,7 @@ export default function JeevanDarshan() {
     ]
 
     const resourceMenuItems = [
-            'Regional Flip Books',
+        'Regional Flip Books',
         'Movies',
         'Thematic Concept Notes'
     ]
@@ -57,10 +56,10 @@ export default function JeevanDarshan() {
 
             {/* Main container with padding */}
             <div className="container mx-auto px-4 md:px-6 py-12">
-                <div className="max-w-5xl mx-auto space-y-16">
+                <div className="max-w-5xl mx-auto space-y-10">
 
                     {/* Page title */}
-                    <h1 className={`text-3xl md:text-4xl font-serif text-[#9B2C2C] transition-all duration-700 delay-300 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-[20px]'
+                    <h1 className={`text-3xl md:text-4xl font-bold text-[#7A2631] transition-all duration-700 delay-300 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-[20px]'
                         }`}>
                         Jeevan Darshan
                     </h1>
@@ -70,7 +69,7 @@ export default function JeevanDarshan() {
                         <div className="relative">
                             <button
                                 onClick={() => setIsOpen(!isOpen)}
-                                className="inline-block w-full text-left bg-[#F6B352] text-black px-4 md:px-8 py-6 rounded-custom2 font-serif text-base md:text-xl flex items-center justify-between transition-all duration-300 hover:bg-[#f4a93d]"
+                                className="inline-block w-full text-left font-bold bg-[#E7B24B] text-black px-4 md:px-8 py-6 rounded-custom2 text-base md:text-xl flex items-center justify-between transition-all duration-300 hover:bg-[#f4a93d]"
                             >
                                 <span>Nature & Agriculture</span>
                                 <div className={`transform transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}>
@@ -84,7 +83,7 @@ export default function JeevanDarshan() {
                                     {philoMenuItems.map((item, index) => (
                                         <button
                                             key={item}
-                                            className="w-full text-left px-4 md:px-8 py-2 md:py-3 hover:bg-[#f4a93d] font-serif text-base md:text-xl transition-colors"
+                                            className="w-full text-left px-4 md:px-8 py-2 font-philosopher md:py-3 hover:bg-[#f4a93d] text-base md:text-xl transition-colors"
                                         >
                                             {item}
                                         </button>
@@ -95,31 +94,33 @@ export default function JeevanDarshan() {
                     </div>
 
                     {/* Image slider section */}
-                    <div className={`transition-all duration-700 delay-500 relative ${mounted ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
-                        }`}>
+                    <div className={`transition-all duration-700 delay-500 relative ${mounted ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}>
+                        {/* Share button */}
                         <button className="absolute top-4 right-4 z-10 p-2 bg-white/80 rounded-full hover:bg-white transition-colors">
                             <Share2 className="h-5 w-5 text-gray-700" />
                         </button>
+
+                        {/* Image slider container */}
                         <div className="rounded-custom4 overflow-hidden relative 
-    h-[250px] w-[400px]
-    sm:h-[350px] sm:w-[500px]
-    md:h-[400px] md:w-[700px]
-    lg:h-[450px] lg:w-[900px]
-    mx-auto">                            {images.map((image, index) => (
-                            <div
-                                key={index}
-                                className={`absolute inset-0 transition-opacity duration-500 ${currentSlide === index ? "opacity-100" : "opacity-0"
-                                    }`}
-                            >
-                                <Image
-                                    src={image.src}
-                                    alt={image.alt}
-                                    fill
-                                    className="object-cover"
-                                    priority={index === 0}
-                                />
-                            </div>
-                        ))}
+      h-[250px] w-[400px]
+      sm:h-[350px] sm:w-[500px]
+      md:h-[400px] md:w-[700px]
+      lg:h-[450px] lg:w-[900px]
+      mx-auto">
+                            {images.map((image, index) => (
+                                <div
+                                    key={index}
+                                    className={`absolute inset-0 transition-opacity duration-500 ${currentSlide === index ? "opacity-100" : "opacity-0"}`}
+                                >
+                                    <Image
+                                        src={image.src}
+                                        alt={image.alt}
+                                        fill
+                                        className="object-cover"
+                                        priority={index === 0}
+                                    />
+                                </div>
+                            ))}
                         </div>
 
                         {/* Slider navigation dots */}
@@ -128,8 +129,7 @@ export default function JeevanDarshan() {
                                 <button
                                     key={index}
                                     onClick={() => setCurrentSlide(index)}
-                                    className={`h-2 w-2 rounded-full transition-colors ${currentSlide === index ? "bg-[#9B2C2C]" : "bg-gray-300"
-                                        }`}
+                                    className={`h-2 w-2 rounded-full transition-colors ${currentSlide === index ? "bg-[#9B2C2C]" : "bg-gray-300"}`}
                                     aria-label={`Go to slide ${index + 1}`}
                                 />
                             ))}
@@ -137,17 +137,24 @@ export default function JeevanDarshan() {
                     </div>
 
                     {/* Content section */}
-                    <div className="mt-12 grid md:grid-cols-2 text-black gap-8 font-serif">
-                        <div className="prose prose-lg">
-                            <p>
-                                <span className="float-left text-5xl font-serif mr-2 mt-1">L</span>
-                                orem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                            </p>
-                        </div>
-                        <div className="prose prose-lg">
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                            </p>
+                    <div className="mt-12 w-[400px] sm:w-[500px] md:w-[700px] lg:w-[900px] mx-auto">
+                        <div className="grid md:grid-cols-2 text-black gap-8">
+                            <div className="prose prose-lg max-w-full">
+                                <p>
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+
+                                </p>
+                            </div>
+                            <div className="prose prose-lg max-w-full">
+                                <p>
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+
+                                </p>
+                            </div>
                         </div>
                     </div>
 
@@ -156,7 +163,7 @@ export default function JeevanDarshan() {
                         <div className="relative">
                             <button
                                 onClick={() => setIsOpen(!isOpen)}
-                                className="inline-block w-full text-left bg-[#F6B352] text-black px-4 md:px-8 py-6 rounded-custom2 font-serif text-base md:text-xl flex items-center justify-between transition-all duration-300 hover:bg-[#f4a93d]"
+                                className="inline-block w-full text-left bg-[#E7B24B] text-black px-4 md:px-8 py-6 rounded-custom2 font-bold text-base md:text-xl flex items-center justify-between transition-all duration-300 hover:bg-[#f4a93d]"
                             >
                                 <span>Coffee Table Books</span>
                                 <div className={`transform transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}>
@@ -170,7 +177,7 @@ export default function JeevanDarshan() {
                                     {resourceMenuItems.map((item, index) => (
                                         <button
                                             key={item}
-                                            className="w-full text-left px-4 md:px-8 py-2 md:py-3 hover:bg-[#f4a93d] font-serif text-base md:text-xl transition-colors"
+                                            className="w-full font-philosopher text-left px-4 md:px-8 py-2 md:py-3 hover:bg-[#f4a93d] text-base md:text-xl transition-colors"
                                         >
                                             {item}
                                         </button>

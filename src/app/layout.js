@@ -1,14 +1,20 @@
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter, Philosopher, Crimson_Pro } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const inter = Inter({
   subsets: ["latin"],
+  variable: "--font-inter",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const philosopher = Philosopher({
+  weight: ["400", "700"],
   subsets: ["latin"],
+  variable: "--font-philosopher",
+});
+
+const crimsonPro = Crimson_Pro({
+  subsets: ["latin"],
+  variable: "--font-crimson-pro",
 });
 
 export const metadata = {
@@ -19,9 +25,18 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      <head>
+        <script src="/js/jquery.min.js"></script>
+        <script src="/js/html2canvas.min.js"></script>
+        <script src="/js/three.min.js"></script>
+        <script src="/js/pdf.min.js"></script>
+        <script src="/js/pdf.worker.js"></script>
+        <script src="/js/3dflipbook.min.js"></script>
+        <link rel="stylesheet" href="/css/custom-flipbook.css" />
+      </head>
       <body
         suppressHydrationWarning
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${inter.variable} ${philosopher.variable} ${crimsonPro.variable} antialiased`}
       >
         {children}
       </body>

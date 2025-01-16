@@ -12,12 +12,10 @@ export function NavBar() {
 
   return (
     <div className="px-4 py-6">
-      <nav className="max-w-7xl mx-auto rounded-custom bg-[#c4deff] px-4 md:px-6 py-3"
-        
-      >
+      <nav className="max-w-7xl mx-auto rounded-custom bg-[#c4deff] px-4 md:px-6 py-3">
         <div className="flex items-center justify-between">
-          <Link href="/" className="flex flex-col items-start md:items-center gap-0.5">
-            <div className="w-48 md:w-64 h-28 relative -my-2"> {/* Smaller width on mobile */}
+          <Link href="/" className="flex flex-col items-start md:items-center gap-0.5 mr-auto md:w-auto">
+            <div className="w-40 md:w-56 h-32 relative">
               <Image
                 src="/images/GyanGunjan-Logo.png"
                 alt="Gyan Gunjan Logo"
@@ -30,33 +28,32 @@ export function NavBar() {
 
           {/* Desktop*/}
           <div className="hidden md:flex items-center gap-6 justify-center w-full">
-            <Link href="/about" className="text-[#1a365d] hover:text-gray-900">
+            <Link href="/about-project" className="font-inter text-[#1a365d] hover:text-gray-900">
               About the Project
             </Link>
             <Link href="/jeevan-darshan" className="text-[#1a365d]  hover:text-gray-900">
               Jeevan Darshan
             </Link>
             <div className="relative">
-              <button 
+              <button
                 onClick={() => setIsResourcesOpen(!isResourcesOpen)}
                 className="flex items-center gap-1 text-[#1a365d] text-base hover:text-gray-900"
               >
                 Resources <ChevronDown className="h-4 w-4" />
               </button>
               {isResourcesOpen && (
-                <div className="absolute top-full left-0 mt-3 w-48 rounded-custom shadow-lg bg-[#F6B352] ring-1 ring-black ring-opacity-5">
-                  <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-                    <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-custom" role="menuitem">Coffee Table Books</a>
-                    <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-custom" role="menuitem">Regional Flip Books</a>
-                    <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-custom" role="menuitem">Thematic Concept Notes</a>
-                    <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-custom" role="menuitem">Movies</a>
-                  </div>
+                <div className="dropdown-menu absolute top-full left-0 mt-3 w-48 rounded-custom shadow-lg bg-[#F6B352] ring-1 ring-black ring-opacity-5">                  <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+                  <a href="#" className="block px-4 py-2 text-sm text-black hover:bg-gray-100 rounded-custom" role="menuitem">Coffee Table Books</a>
+                  <a href="#" className="block px-4 py-2 text-sm text-black hover:bg-gray-100 rounded-custom" role="menuitem">Regional Flip Books</a>
+                  <a href="#" className="block px-4 py-2 text-sm text-black hover:bg-gray-100 rounded-custom" role="menuitem">Thematic Concept Notes</a>
+                  <a href="movies" className="block px-4 py-2 text-sm text-black hover:bg-gray-100 rounded-custom" role="menuitem">Movies</a>
+                </div>
                 </div>
               )}
             </div>
             <Link href="/lets-collaborate">
               <button
-                className="bg-[#F6B352] text-black hover:bg-[#f6a93d] rounded-custom px-4 py-1.5 font-medium"
+                className="bg-[#E7B24B] text-black hover:bg-[#f6a93d] rounded-custom px-4 py-1.5 font-medium"
               >
                 Let's Collaborate
               </button>
@@ -65,7 +62,7 @@ export function NavBar() {
               <Search className="h-4 w-4 text-[#1a365d]" />
             </button>
             <div className="relative">
-              <button 
+              <button
                 onClick={() => setIsLangOpen(!isLangOpen)}
                 className="flex items-center gap-1 text-[#1a365d] text-base"
               >
@@ -74,8 +71,8 @@ export function NavBar() {
               {isLangOpen && (
                 <div className="absolute top-full right-0 mt-3 w-48 rounded-custom shadow-lg bg-[#F6B352] ring-1 ring-black ring-opacity-5">
                   <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-                    <a href="#" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-custom" role="menuitem">English</a>
-                    <a href="#" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-custom" role="menuitem">Hindi</a>
+                    <a href="#" className="block px-4 py-2 text-black hover:bg-gray-100 rounded-custom" role="menuitem">English</a>
+                    <a href="#" className="block px-4 py-2 text-black hover:bg-gray-100 rounded-custom" role="menuitem">Hindi</a>
                   </div>
                 </div>
               )}
@@ -101,21 +98,21 @@ export function NavBar() {
         {isOpen && (
           <div className="md:hidden mt-4">
             <div className="flex flex-col gap-4">
-              <Link 
-                href="/about" 
+              <Link
+                href="/about-project"
                 className="text-[#1a365d] text-lg hover:text-gray-900"
                 onClick={() => setIsOpen(false)}
               >
                 About the Project
               </Link>
-              <Link 
-                href="/darshan" 
+              <Link
+                href="/jeevan-darshan"
                 className="text-[#1a365d] text-lg hover:text-gray-900"
                 onClick={() => setIsOpen(false)}
               >
                 Jeevan Darshan
               </Link>
-              <button 
+              <button
                 onClick={() => setIsResourcesOpen(!isResourcesOpen)}
                 className="flex items-center justify-between text-[#1a365d] text-lg hover:text-gray-900"
               >
@@ -126,16 +123,18 @@ export function NavBar() {
                   <a href="#" className="block py-2 text-sm text-gray-700 hover:text-gray-900">Coffee Table Books</a>
                   <a href="#" className="block py-2 text-sm text-gray-700 hover:text-gray-900">Regional Flip Books</a>
                   <a href="#" className="block py-2 text-sm text-gray-700 hover:text-gray-900">Thematic Concept Notes</a>
-                  <a href="#" className="block py-2 text-sm text-gray-700 hover:text-gray-900">Movies</a>
+                  <a href="/movies" className="block py-2 text-sm text-gray-700 hover:text-gray-900">Movies</a>
                 </div>
               )}
-              <button 
-                className="bg-[#F6B352] text-black hover:bg-[#f6a93d] rounded-custom px-6 py-2 font-medium w-full"
-                onClick={() => setIsOpen(false)}
-              >
-                Let's Collaborate
-              </button>
-              <button 
+              <Link href={"/lets-collaborate"}>
+                <button
+                  className="bg-[#F6B352] text-black hover:bg-[#f6a93d] rounded-custom px-6 py-2 font-medium w-full"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Let's Collaborate
+                </button>
+              </Link>
+              <button
                 onClick={() => setIsLangOpen(!isLangOpen)}
                 className="flex items-center justify-between text-[#1a365d] text-lg hover:text-gray-900"
               >

@@ -9,37 +9,37 @@ const Footer = () => {
       <div className="max-w-7xl mx-auto rounded-custom bg-[#c4deff] px-8 py-0">
         <div className="grid grid-cols-1 lg:grid-cols-[2fr_3fr] gap-8">
           {/* Left side - Logos */}
-          <div className="flex flex-col items-center gap-1">
-            <div className="flex items-center">
+          <div className="flex flex-col items-center gap-0.5">
+            <div className="flex items-center gap-2">
               <Image
                 src="/images/ministry-logo.png"
                 alt="Ministry of Education"
-                width={150} 
-                height={80} 
-                className="object-contain px-0.5" 
+                width={150}
+                height={80}
+                className="object-contain"
               />
               <Image
                 src="/images/iks-logo.png"
                 alt="Gyan Gunjan"
-                width={150} 
-                height={80} 
-                className="object-contain px-0.5" 
+                width={150}
+                height={80}
+                className="object-contain"
               />
             </div>
-            <div className="flex items-center -mt-4"> {/* Added negative margin-top */}
+            <div className="flex items-center -mt-6 gap-2">
               <Image
                 src="/images/flame-university.png"
                 alt="Flame University"
-                width={150} 
-                height={40} 
-                className="object-contain px-0.5" 
+                width={150}
+                height={40}
+                className="object-contain"
               />
               <Image
                 src="/images/cka.png"
                 alt="CKA Logo"
-                width={150} 
-                height={40} 
-                className="object-contain px-0.5" 
+                width={150}
+                height={40}
+                className="object-contain"
               />
             </div>
           </div>
@@ -47,16 +47,16 @@ const Footer = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center justify-items-center">
             {/* First Column */}
             <div className="flex flex-col gap-3 items-center">
-              <Link href="/about" className="text-[#1a365d] hover:text-gray-900">
+              <Link href="/about-project" className="text-[#1a365d] hover:text-gray-900">
                 About the Project
               </Link>
-              <Link href="/darshan" className="text-[#1a365d] hover:text-gray-900">
+              <Link href="/jeevan-darshan" className="text-[#1a365d] hover:text-gray-900">
                 Jeevan Darshana
               </Link>
               <Link href="/resources" className="text-[#1a365d] hover:text-gray-900">
                 Resources
               </Link>
-              <Link href="/collaborate" className="text-[#1a365d] hover:text-gray-900">
+              <Link href="/lets-collaborate" className="text-[#1a365d] hover:text-gray-900">
                 Lets Collaborate
               </Link>
             </div>
@@ -93,5 +93,5 @@ const Footer = () => {
   );
 };
 
-export {Footer};
+export { Footer };
 
