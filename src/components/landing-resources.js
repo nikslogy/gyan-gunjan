@@ -59,7 +59,15 @@ export default function LandingResources() {
   return (
     <section className="py-8 md:py-12 lg:py-16 bg-white">
       <div className="container mx-auto px-4">
-        <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#7A2631] mb-8">Resources</h2>
+        <div className="flex justify-between items-center mb-8">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#7A2631]">Resources</h2>
+          <button 
+            onClick={() => router.push('/resources')}
+            className="text-black hover:text-gray-900 text-sm sm:text-base border border-black px-4 py-2 rounded-custom2 hover:bg-gray-50 transition-colors"
+          >
+            View All
+          </button>
+        </div>
 
         <div className="mb-8">
           <div className="flex flex-wrap gap-2 bg-[#FAF3E0] p-1 rounded-custom2">

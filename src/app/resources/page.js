@@ -9,6 +9,7 @@ import { ChevronDown } from "lucide-react";
 import Image from "next/image";
 
 export default function ResourcePage() {
+  const searchParams = useSearchParams();
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -49,7 +50,12 @@ export default function ResourcePage() {
 
   useEffect(() => {
     setMounted(true);
-  }, []);
+    const typeFromUrl = searchParams.get('type');
+    if (typeFromUrl) {
+      setSelectedCategory(typeFromUrl);
+      router.replace('/resources', undefined, { shallow: true });
+    }
+  }, [searchParams]);
 
   const handleCategoryChange = (category) => {
     if (category === 'Movies') {

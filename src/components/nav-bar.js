@@ -4,11 +4,13 @@ import { useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { ChevronDown, Menu, Search, X } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 
 export function NavBar() {
   const [isOpen, setIsOpen] = useState(false)
   const [isResourcesOpen, setIsResourcesOpen] = useState(false)
   const [isLangOpen, setIsLangOpen] = useState(false)
+  const router = useRouter();
 
   return (
     <div className="px-4 py-6">
@@ -42,12 +44,49 @@ export function NavBar() {
                 Resources <ChevronDown className="h-4 w-4" />
               </button>
               {isResourcesOpen && (
-                <div className="dropdown-menu absolute top-full left-0 mt-3 w-48 rounded-custom shadow-lg bg-[#F6B352] ring-1 ring-black ring-opacity-5">                  <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-                  <a href="/resources" className="block px-4 py-2 text-sm text-black hover:bg-gray-100 rounded-custom" role="menuitem">Coffee Table Books</a>
-                  <a href="/resources" className="block px-4 py-2 text-sm text-black hover:bg-gray-100 rounded-custom" role="menuitem">Regional Flip Books</a>
-                  <a href="/resources" className="block px-4 py-2 text-sm text-black hover:bg-gray-100 rounded-custom" role="menuitem">Thematic Concept Notes</a>
-                  <a href="movies" className="block px-4 py-2 text-sm text-black hover:bg-gray-100 rounded-custom" role="menuitem">Movies</a>
-                </div>
+                <div className="dropdown-menu absolute top-full left-0 mt-3 w-48 rounded-custom shadow-lg bg-[#F6B352] ring-1 ring-black ring-opacity-5">
+                  <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+                    <button 
+                      onClick={() => {
+                        router.push('/resources?type=Coffee Table Books');
+                        setIsResourcesOpen(false);
+                      }} 
+                      className="block w-full text-left px-4 py-2 text-sm text-black hover:bg-gray-100 rounded-custom" 
+                      role="menuitem"
+                    >
+                      Coffee Table Books
+                    </button>
+                    <button 
+                      onClick={() => {
+                        router.push('/resources?type=Regional Flip Books');
+                        setIsResourcesOpen(false);
+                      }} 
+                      className="block w-full text-left px-4 py-2 text-sm text-black hover:bg-gray-100 rounded-custom" 
+                      role="menuitem"
+                    >
+                      Regional Flip Books
+                    </button>
+                    <button 
+                      onClick={() => {
+                        router.push('/resources?type=Thematic Concept Notes');
+                        setIsResourcesOpen(false);
+                      }} 
+                      className="block w-full text-left px-4 py-2 text-sm text-black hover:bg-gray-100 rounded-custom" 
+                      role="menuitem"
+                    >
+                      Thematic Concept Notes
+                    </button>
+                    <button 
+                      onClick={() => {
+                        router.push('/movies');
+                        setIsResourcesOpen(false);
+                      }} 
+                      className="block w-full text-left px-4 py-2 text-sm text-black hover:bg-gray-100 rounded-custom" 
+                      role="menuitem"
+                    >
+                      Movies
+                    </button>
+                  </div>
                 </div>
               )}
             </div>
