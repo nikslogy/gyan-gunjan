@@ -21,7 +21,8 @@ export default function LetsColaborate() {
             pdf: false,
             image: false,
             video: false
-        }
+        },
+        showContributors: false
     });
 
     const handleSubmit = (e) => {
@@ -198,6 +199,36 @@ export default function LetsColaborate() {
                             />
                         </div>
                     </div>
+                </div>
+
+                {/* Contributors List Dropdown */}
+                <div className="mt-8">
+                    <button 
+                        onClick={() => setFormData(prev => ({...prev, showContributors: !prev.showContributors}))} 
+                        className="w-full bg-[#c4deff] p-4 rounded-custom2 flex justify-center items-center"
+                    >
+                        <h2 className="text-2xl font-bold text-center">List of Contributors</h2>
+                        <svg 
+                            className={`w-6 h-6 transition-transform ml-2 ${formData.showContributors ? 'rotate-180' : ''}`} 
+                            fill="none" 
+                            stroke="currentColor" 
+                            viewBox="0 0 24 24"
+                        >
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+                    
+                    {formData.showContributors && (
+                        <div className="bg-[#F6B352] p-8 rounded-b-lg">
+                            <div className="grid grid-cols-5 gap-4">
+                                {Array(60).fill('Lorem ipsum').map((text, index) => (
+                                    <div key={index} className="text-black">
+                                        {text}
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    )}
                 </div>
             </div>
 

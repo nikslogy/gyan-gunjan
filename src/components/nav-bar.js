@@ -43,9 +43,9 @@ export function NavBar() {
               </button>
               {isResourcesOpen && (
                 <div className="dropdown-menu absolute top-full left-0 mt-3 w-48 rounded-custom shadow-lg bg-[#F6B352] ring-1 ring-black ring-opacity-5">                  <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-                  <a href="#" className="block px-4 py-2 text-sm text-black hover:bg-gray-100 rounded-custom" role="menuitem">Coffee Table Books</a>
-                  <a href="#" className="block px-4 py-2 text-sm text-black hover:bg-gray-100 rounded-custom" role="menuitem">Regional Flip Books</a>
-                  <a href="#" className="block px-4 py-2 text-sm text-black hover:bg-gray-100 rounded-custom" role="menuitem">Thematic Concept Notes</a>
+                  <a href="/resources" className="block px-4 py-2 text-sm text-black hover:bg-gray-100 rounded-custom" role="menuitem">Coffee Table Books</a>
+                  <a href="/resources" className="block px-4 py-2 text-sm text-black hover:bg-gray-100 rounded-custom" role="menuitem">Regional Flip Books</a>
+                  <a href="/resources" className="block px-4 py-2 text-sm text-black hover:bg-gray-100 rounded-custom" role="menuitem">Thematic Concept Notes</a>
                   <a href="movies" className="block px-4 py-2 text-sm text-black hover:bg-gray-100 rounded-custom" role="menuitem">Movies</a>
                 </div>
                 </div>
@@ -120,9 +120,9 @@ export function NavBar() {
               </button>
               {isResourcesOpen && (
                 <div className="pl-4">
-                  <a href="#" className="block py-2 text-sm text-gray-700 hover:text-gray-900">Coffee Table Books</a>
-                  <a href="#" className="block py-2 text-sm text-gray-700 hover:text-gray-900">Regional Flip Books</a>
-                  <a href="#" className="block py-2 text-sm text-gray-700 hover:text-gray-900">Thematic Concept Notes</a>
+                  <a href="/resources" className="block py-2 text-sm text-gray-700 hover:text-gray-900">Coffee Table Books</a>
+                  <a href="/resources" className="block py-2 text-sm text-gray-700 hover:text-gray-900">Regional Flip Books</a>
+                  <a href="/resources" className="block py-2 text-sm text-gray-700 hover:text-gray-900">Thematic Concept Notes</a>
                   <a href="/movies" className="block py-2 text-sm text-gray-700 hover:text-gray-900">Movies</a>
                 </div>
               )}
