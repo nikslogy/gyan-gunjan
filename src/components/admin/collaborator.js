@@ -59,7 +59,7 @@ const Collaborators = () => {
             type="text"
             value={newContributor}
             onChange={(e) => setNewContributor(e.target.value)}
-            className="border rounded-lg px-3 py-2"
+            className="border rounded-lg text-black px-3 py-2"
             placeholder="Enter contributor name"
           />
           <button

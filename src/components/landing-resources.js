@@ -53,7 +53,7 @@ export default function LandingResources() {
   ];
 
   const handlePlayClick = (movie) => {
-    // Your video playing logic here
+    //video playing logic here
   };
 
   return (
@@ -81,7 +81,7 @@ export default function LandingResources() {
               >
                 {tab === 'thematic' && <Book className="w-4 h-4 inline mr-2" />}
                 {tab === 'coffee' && <Book className="w-4 h-4 inline mr-2" />}
-                {tab === 'regional' && <Globe className="w-4 h-4 inline mr-2" />}
+                {tab === 'regional' && <Book className="w-4 h-4 inline mr-2" />}
                 {tab === 'movies' && <Video className="w-4 h-4 inline mr-2" />}
                 {tab.charAt(0).toUpperCase() + tab.slice(1)}{' '}
                 {tab === 'thematic' ? 'Concept Notes' : tab === 'coffee' ? 'Table Books' : tab === 'regional' ? 'Flip Books' : ''}
