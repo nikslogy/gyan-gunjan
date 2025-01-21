@@ -83,3 +83,5 @@ export function HeroSection2() {
     </section>
   )
 }
+
+//nothing to see here
