@@ -1,12 +1,26 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import Image from "next/image"
 
 export function HeroSection2() {
   const router = useRouter()
   const [exitAnimation, setExitAnimation] = useState(false)
+  const [currentSlide, setCurrentSlide] = useState(0)
+
+  const images = [
+    { src: "/images/map.png", alt: "Map of India showing 100 regions" },
+    { src: "/images/map.png", alt: "Second Map of India" },
+    { src: "/images/map.png", alt: "Third Map of India" },
+  ]
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev === images.length - 1 ? 0 : prev + 1))
+    }, 3000)
+    return () => clearInterval(timer)
+  }, [images.length])
 
   const handleLearnMoreSec2 = () => {
     // Start exit animations
@@ -21,16 +35,39 @@ export function HeroSection2() {
   return (
     <section className="py-8 md:py-12 lg:py-16">
       <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-start max-w-4xl mx-auto">
-        {/* Move the image container to the left */}
+        {/* Slider container */}
         <div className="relative order-2 md:order-1 -ml-4 md:-ml-20">
-          <Image
-            src="/images/map.png"
-            alt="Map of India showing 100 regions"
-            width={700}
-            height={600}
-            className="w-full object-contain max-h-[600px]"
-          />
+          <div className="w-full h-[400px] md:h-[500px] lg:h-[500px] relative">
+            {images.map((image, index) => (
+              <div
+                key={index}
+                className={`absolute inset-0 transition-opacity duration-500 ${currentSlide === index ? "opacity-100" : "opacity-0"}`}
+              >
+                <Image
+                  src={image.src}
+                  alt={image.alt}
+                  fill
+                  className="object-contain"
+                  priority={index === 0}
+                />
+              </div>
+            ))}
+          </div>
+
+          {/* Slider navigation dots */}
+          <div className="flex justify-center gap-3 mt-6">
+            {images.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentSlide(index)}
+                className={`h-2 w-2 rounded-full transition-colors ${currentSlide === index ? "bg-[#7A2631]" : "bg-gray-300"}`}
+                aria-label={`Go to slide ${index + 1}`}
+              />
+            ))}
+          </div>
         </div>
+
+        {/* Text content */}
         <div className="space-y-4 md:space-y-6 order-1 md:order-2">
           <h2 className="text-2xl md:text-3xl lg:text-4xl text-[#7A2631] font-bold relative top-[-5]">
             100 regions
