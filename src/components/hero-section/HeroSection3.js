@@ -27,6 +27,10 @@ export function HeroSection3() {
     return () => clearInterval(timer)
   }, [])
 
+  const handlePetalClick = () => {
+    router.push('/resources?type=Coffee Table Books')
+  }
+
   return (
     <section className="py-2 md:py-6 lg:py-6">
       <div className="grid md:grid-cols-2 gap-10 md:gap-18 items-start max-w-5xl mx-auto">
@@ -78,14 +82,14 @@ export function HeroSection3() {
                   image: "/images/P3.svg",
                   title: "Lorem ipsum 4",
                   description: "",
-                  position: "absolute left-[19%] top-[55%] bottom-[4%] w-[40%] rotate-[-30deg]",
+                  position: "absolute left-[17%] top-[55%] bottom-[4%] w-[40%] rotate-[-25deg]",
                   shape: "rounded-custom6",
                   titleRotation: "rotate-[30deg]",
                 },
               ].map((item, index) => (
                 <div
                   key={index}
-                  onClick={() => setCurrentTile(index)}
+                  onClick={handlePetalClick} // Add the click handler here
                   className={`group cursor-pointer aspect-square overflow-hidden transform transition-all duration-500 hover:scale-105 hover:z-10 ${item.position} ${item.shape}
                     ${currentTile === index ? 'ring-2 ring-white z-10 scale-105' : 'ring-4 ring-white'}`}
                 >

@@ -4,51 +4,60 @@ import { Plus, X, Upload } from 'lucide-react';
 import Image from "next/image";
 
 export default function AboutProject({ formData, setFormData }) {
-  const handleImageUpload = async (section, index) => {
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.accept = 'image/*';
-
-    input.onchange = async (e) => {
-      const file = e.target.files[0];
-      if (!file) return;
-
-      try {
-        const imageUrl = URL.createObjectURL(file);
-
-        setFormData(prev => ({
-          ...prev,
-          [section]: {
-            ...prev[section],
-            sliderImages: prev[section].sliderImages.map((img, idx) =>
-              idx === index ? { ...img, src: imageUrl, alt: file.name } : img
-            )
-          }
-        }));
-      } catch (error) {
-        console.error('Error uploading image:', error);
-      }
+  // Initialize if not present
+  if (!formData.aboutProject) {
+    formData.aboutProject = {
+      heading: '',
+      tagline: '',
+      description1: '',
+      description2: '',
+      sliderImages: []
     };
+  }
 
-    input.click();
+  const handleImageUpload = (index, e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    try {
+      const imageUrl = URL.createObjectURL(file);
+      
+      setFormData(prev => {
+        const newSliderImages = [...(prev.aboutProject?.sliderImages || [])];
+        newSliderImages[index] = {
+          src: imageUrl,
+          alt: file.name
+        };
+
+        return {
+          ...prev,
+          aboutProject: {
+            ...prev.aboutProject,
+            sliderImages: newSliderImages
+          }
+        };
+      });
+    } catch (error) {
+      console.error('Error uploading image:', error);
+    }
   };
 
-  const handleAddSliderImage = (section) => {
+  const handleAddImage = () => {
     setFormData(prev => ({
       ...prev,
-      [section]: {
-        ...prev[section],
-        sliderImages: [...prev[section].sliderImages, { src: "", alt: "" }]
+      aboutProject: {
+        ...prev.aboutProject,
+        sliderImages: [...(prev.aboutProject?.sliderImages || []), { src: '', alt: '' }]
       }
     }));
   };
 
-  const handleRemoveImage = (section, index) => {
+  const handleRemoveImage = (index) => {
     setFormData(prev => ({
       ...prev,
-      [section]: {
-        ...prev[section],
-        sliderImages: prev[section].sliderImages.filter((_, idx) => idx !== index)
+      aboutProject: {
+        ...prev.aboutProject,
+        sliderImages: prev.aboutProject.sliderImages.filter((_, idx) => idx !== index)
       }
     }));
   };
@@ -64,7 +73,7 @@ export default function AboutProject({ formData, setFormData }) {
           </label>
           <input
             type="text"
-            value={formData.aboutProject.heading}
+            value={formData.aboutProject?.heading || ''}
             onChange={(e) => setFormData(prev => ({
               ...prev,
               aboutProject: { ...prev.aboutProject, heading: e.target.value }
@@ -79,7 +88,7 @@ export default function AboutProject({ formData, setFormData }) {
           </label>
           <input
             type="text"
-            value={formData.aboutProject.tagline}
+            value={formData.aboutProject?.tagline || ''}
             onChange={(e) => setFormData(prev => ({
               ...prev,
               aboutProject: { ...prev.aboutProject, tagline: e.target.value }
@@ -93,7 +102,7 @@ export default function AboutProject({ formData, setFormData }) {
             Description 1
           </label>
           <textarea
-            value={formData.aboutProject.description1}
+            value={formData.aboutProject?.description1 || ''}
             onChange={(e) => setFormData(prev => ({
               ...prev,
               aboutProject: { ...prev.aboutProject, description1: e.target.value }
@@ -108,7 +117,7 @@ export default function AboutProject({ formData, setFormData }) {
             Description 2
           </label>
           <textarea
-            value={formData.aboutProject.description2}
+            value={formData.aboutProject?.description2 || ''}
             onChange={(e) => setFormData(prev => ({
               ...prev,
               aboutProject: { ...prev.aboutProject, description2: e.target.value }
@@ -125,7 +134,7 @@ export default function AboutProject({ formData, setFormData }) {
             </label>
             <button
               type="button"
-              onClick={() => handleAddSliderImage('aboutProject')}
+              onClick={handleAddImage}
               className="flex items-center gap-2 px-4 py-2 bg-[#7A2631] text-white rounded-md hover:bg-[#9B2C2C]"
             >
               <Plus className="h-4 w-4" />
@@ -134,13 +143,13 @@ export default function AboutProject({ formData, setFormData }) {
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {formData.aboutProject.sliderImages.map((image, index) => (
+            {formData.aboutProject?.sliderImages?.map((image, index) => (
               <div key={index} className="relative">
                 <div className="aspect-square border rounded-lg overflow-hidden">
                   {image.src ? (
                     <Image
                       src={image.src}
-                      alt={image.alt}
+                      alt={image.alt || 'Slider Image'}
                       fill
                       className="object-cover"
                     />
@@ -148,8 +157,8 @@ export default function AboutProject({ formData, setFormData }) {
                     <div className="h-full flex items-center justify-center bg-gray-100">
                       <input
                         type="file"
-                        onChange={(e) => handleImageUpload('aboutProject', index)}
-                        className="absolute inset-0 text-black opacity-0 cursor-pointer"
+                        onChange={(e) => handleImageUpload(index, e)}
+                        className="absolute inset-0 opacity-0 cursor-pointer"
                         accept="image/*"
                       />
                       <Upload className="h-8 w-8 text-gray-400" />
@@ -158,7 +167,7 @@ export default function AboutProject({ formData, setFormData }) {
                 </div>
                 <button
                   type="button"
-                  onClick={() => handleRemoveImage('aboutProject', index)}
+                  onClick={() => handleRemoveImage(index)}
                   className="absolute -top-2 -right-2 p-1 bg-red-500 text-white rounded-full hover:bg-red-600"
                 >
                   <X className="h-4 w-4" />

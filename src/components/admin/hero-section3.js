@@ -4,37 +4,40 @@ import { Plus, X, Upload } from 'lucide-react';
 import Image from "next/image";
 
 export default function HeroSection3({ formData, setFormData }) {
-  const handleImageUpload = async (section, index) => {
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.accept = 'image/*';
+  // Initialize if not present
+  if (!formData.heroSection3) {
+    formData.heroSection3 = { 
+      heading: '', 
+      description: '', 
+      patternImages: [] 
+    };
+  }
 
-    input.onchange = async (e) => {
-      const file = e.target.files[0];
-      if (!file) return;
+  const handleImageUpload = (index, e) => {
+    const file = e.target.files[0];
+    if (!file) return;
 
-      try {
-        const imageUrl = URL.createObjectURL(file);
-
-        const newPatternImages = [...formData.heroSection3.patternImages];
+    try {
+      const imageUrl = URL.createObjectURL(file);
+      
+      setFormData(prev => {
+        const newPatternImages = [...(prev.heroSection3?.patternImages || [])];
         newPatternImages[index] = {
           ...newPatternImages[index],
           image: imageUrl
         };
 
-        setFormData(prev => ({
+        return {
           ...prev,
           heroSection3: {
             ...prev.heroSection3,
             patternImages: newPatternImages
           }
-        }));
-      } catch (error) {
-        console.error('Error uploading image:', error);
-      }
-    };
-
-    input.click();
+        };
+      });
+    } catch (error) {
+      console.error('Error uploading image:', error);
+    }
   };
 
   const handleAddPatternImage = () => {
@@ -49,19 +52,17 @@ export default function HeroSection3({ formData, setFormData }) {
       ...prev,
       heroSection3: {
         ...prev.heroSection3,
-        patternImages: [...prev.heroSection3.patternImages, newPattern]
+        patternImages: [...(prev.heroSection3?.patternImages || []), newPattern]
       }
     }));
   };
 
   const handleRemovePatternImage = (index) => {
-    const newPatternImages = formData.heroSection3.patternImages.filter((_, idx) => idx !== index);
-
     setFormData(prev => ({
       ...prev,
       heroSection3: {
         ...prev.heroSection3,
-        patternImages: newPatternImages
+        patternImages: prev.heroSection3.patternImages.filter((_, idx) => idx !== index)
       }
     }));
   };
@@ -77,7 +78,7 @@ export default function HeroSection3({ formData, setFormData }) {
           </label>
           <input
             type="text"
-            value={formData.heroSection3.heading}
+            value={formData.heroSection3?.heading || ''}
             onChange={(e) => setFormData(prev => ({
               ...prev,
               heroSection3: { ...prev.heroSection3, heading: e.target.value }
@@ -91,7 +92,7 @@ export default function HeroSection3({ formData, setFormData }) {
             Description
           </label>
           <textarea
-            value={formData.heroSection3.description}
+            value={formData.heroSection3?.description || ''}
             onChange={(e) => setFormData(prev => ({
               ...prev,
               heroSection3: { ...prev.heroSection3, description: e.target.value }
@@ -117,7 +118,7 @@ export default function HeroSection3({ formData, setFormData }) {
           </div>
 
           <div className="space-y-6">
-            {formData.heroSection3.patternImages.map((pattern, index) => (
+            {formData.heroSection3?.patternImages?.map((pattern, index) => (
               <div key={index} className="border rounded-lg p-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
@@ -129,7 +130,7 @@ export default function HeroSection3({ formData, setFormData }) {
                         {pattern.image ? (
                           <Image
                             src={pattern.image}
-                            alt={pattern.title}
+                            alt={pattern.title || 'Pattern Image'}
                             fill
                             className="object-cover"
                           />
@@ -137,8 +138,8 @@ export default function HeroSection3({ formData, setFormData }) {
                           <div className="h-full flex items-center justify-center bg-gray-100">
                             <input
                               type="file"
-                              onChange={(e) => handleImageUpload('heroSection3', index)}
-                              className="absolute inset-0 text-black opacity-0 cursor-pointer"
+                              onChange={(e) => handleImageUpload(index, e)}
+                              className="absolute inset-0 opacity-0 cursor-pointer"
                               accept="image/*"
                             />
                             <Upload className="h-8 w-8 text-gray-400" />
@@ -155,7 +156,7 @@ export default function HeroSection3({ formData, setFormData }) {
                       </label>
                       <input
                         type="text"
-                        value={pattern.title}
+                        value={pattern.title || ''}
                         onChange={(e) => {
                           const newPatternImages = [...formData.heroSection3.patternImages];
                           newPatternImages[index] = {
@@ -179,7 +180,7 @@ export default function HeroSection3({ formData, setFormData }) {
                         Description
                       </label>
                       <textarea
-                        value={pattern.description}
+                        value={pattern.description || ''}
                         onChange={(e) => {
                           const newPatternImages = [...formData.heroSection3.patternImages];
                           newPatternImages[index] = {

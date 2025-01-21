@@ -4,39 +4,40 @@ import { Plus, X, Upload } from 'lucide-react';
 import Image from "next/image";
 
 export default function JeevanDarshan({ formData, setFormData }) {
-  const handleImageUpload = async (section, index, categoryIndex) => {
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.accept = 'image/*';
+  // Initialize if not present
+  if (!formData.jeevanDarshan) {
+    formData.jeevanDarshan = {
+      categories: []
+    };
+  }
 
-    input.onchange = async (e) => {
-      const file = e.target.files[0];
-      if (!file) return;
+  const handleImageUpload = (categoryIndex, imageIndex, e) => {
+    const file = e.target.files[0];
+    if (!file) return;
 
-      try {
-        const imageUrl = URL.createObjectURL(file);
-
-        const newCategories = [...formData.jeevanDarshan.categories];
+    try {
+      const imageUrl = URL.createObjectURL(file);
+      
+      setFormData(prev => {
+        const newCategories = [...prev.jeevanDarshan.categories];
         newCategories[categoryIndex] = {
           ...newCategories[categoryIndex],
           images: newCategories[categoryIndex].images.map((img, idx) =>
-            idx === index ? { ...img, src: imageUrl, alt: file.name } : img
+            idx === imageIndex ? { src: imageUrl, alt: file.name } : img
           )
         };
 
-        setFormData(prev => ({
+        return {
           ...prev,
           jeevanDarshan: {
             ...prev.jeevanDarshan,
             categories: newCategories
           }
-        }));
-      } catch (error) {
-        console.error('Error uploading image:', error);
-      }
-    };
-
-    input.click();
+        };
+      });
+    } catch (error) {
+      console.error('Error uploading image:', error);
+    }
   };
 
   const handleAddCategory = () => {
@@ -51,53 +52,55 @@ export default function JeevanDarshan({ formData, setFormData }) {
       ...prev,
       jeevanDarshan: {
         ...prev.jeevanDarshan,
-        categories: [...prev.jeevanDarshan.categories, newCategory]
+        categories: [...(prev.jeevanDarshan?.categories || []), newCategory]
       }
     }));
   };
 
   const handleRemoveCategory = (index) => {
-    const newCategories = formData.jeevanDarshan.categories.filter((_, idx) => idx !== index);
-
     setFormData(prev => ({
       ...prev,
       jeevanDarshan: {
         ...prev.jeevanDarshan,
-        categories: newCategories
+        categories: prev.jeevanDarshan.categories.filter((_, idx) => idx !== index)
       }
     }));
   };
 
   const handleAddImage = (categoryIndex) => {
-    const newCategories = [...formData.jeevanDarshan.categories];
-    newCategories[categoryIndex] = {
-      ...newCategories[categoryIndex],
-      images: [...newCategories[categoryIndex].images, { src: "", alt: "" }]
-    };
+    setFormData(prev => {
+      const newCategories = [...prev.jeevanDarshan.categories];
+      newCategories[categoryIndex] = {
+        ...newCategories[categoryIndex],
+        images: [...(newCategories[categoryIndex].images || []), { src: "", alt: "" }]
+      };
 
-    setFormData(prev => ({
-      ...prev,
-      jeevanDarshan: {
-        ...prev.jeevanDarshan,
-        categories: newCategories
-      }
-    }));
+      return {
+        ...prev,
+        jeevanDarshan: {
+          ...prev.jeevanDarshan,
+          categories: newCategories
+        }
+      };
+    });
   };
 
   const handleRemoveImage = (categoryIndex, imageIndex) => {
-    const newCategories = [...formData.jeevanDarshan.categories];
-    newCategories[categoryIndex] = {
-      ...newCategories[categoryIndex],
-      images: newCategories[categoryIndex].images.filter((_, idx) => idx !== imageIndex)
-    };
+    setFormData(prev => {
+      const newCategories = [...prev.jeevanDarshan.categories];
+      newCategories[categoryIndex] = {
+        ...newCategories[categoryIndex],
+        images: newCategories[categoryIndex].images.filter((_, idx) => idx !== imageIndex)
+      };
 
-    setFormData(prev => ({
-      ...prev,
-      jeevanDarshan: {
-        ...prev.jeevanDarshan,
-        categories: newCategories
-      }
-    }));
+      return {
+        ...prev,
+        jeevanDarshan: {
+          ...prev.jeevanDarshan,
+          categories: newCategories
+        }
+      };
+    });
   };
 
   return (
@@ -115,12 +118,12 @@ export default function JeevanDarshan({ formData, setFormData }) {
       </div>
 
       <div className="space-y-8">
-        {formData.jeevanDarshan.categories.map((category, categoryIndex) => (
+        {formData.jeevanDarshan?.categories?.map((category, categoryIndex) => (
           <div key={categoryIndex} className="border rounded-lg p-4">
             <div className="flex justify-between items-center mb-4">
               <input
                 type="text"
-                value={category.name}
+                value={category.name || ''}
                 onChange={(e) => {
                   const newCategories = [...formData.jeevanDarshan.categories];
                   newCategories[categoryIndex] = {
@@ -153,7 +156,7 @@ export default function JeevanDarshan({ formData, setFormData }) {
                   Description 1
                 </label>
                 <textarea
-                  value={category.description1}
+                  value={category.description1 || ''}
                   onChange={(e) => {
                     const newCategories = [...formData.jeevanDarshan.categories];
                     newCategories[categoryIndex] = {
@@ -178,7 +181,7 @@ export default function JeevanDarshan({ formData, setFormData }) {
                   Description 2
                 </label>
                 <textarea
-                  value={category.description2}
+                  value={category.description2 || ''}
                   onChange={(e) => {
                     const newCategories = [...formData.jeevanDarshan.categories];
                     newCategories[categoryIndex] = {
@@ -205,13 +208,13 @@ export default function JeevanDarshan({ formData, setFormData }) {
                 Category Images
               </label>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                {category.images.map((image, imageIndex) => (
+                {category.images?.map((image, imageIndex) => (
                   <div key={imageIndex} className="relative">
                     <div className="aspect-square border rounded-lg overflow-hidden">
                       {image.src ? (
                         <Image
                           src={image.src}
-                          alt={image.alt}
+                          alt={image.alt || 'Category Image'}
                           fill
                           className="object-cover"
                         />
@@ -219,8 +222,8 @@ export default function JeevanDarshan({ formData, setFormData }) {
                         <div className="h-full flex items-center justify-center bg-gray-100">
                           <input
                             type="file"
-                            onChange={(e) => handleImageUpload('jeevanDarshan', imageIndex, categoryIndex)}
-                            className="absolute inset-0 text-black opacity-0 cursor-pointer"
+                            onChange={(e) => handleImageUpload(categoryIndex, imageIndex, e)}
+                            className="absolute inset-0 opacity-0 cursor-pointer"
                             accept="image/*"
                           />
                           <Upload className="h-8 w-8 text-gray-400" />

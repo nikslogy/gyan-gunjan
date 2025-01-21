@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 
-export const Resources = () => {
+export const Resources = ({ selectedPdf, selectedTitle }) => {
   const [showDownloadModal, setShowDownloadModal] = useState(false);
   const [downloadForm, setDownloadForm] = useState({ purpose: '', name: '', mobile: '', email: '' });
   const [formError, setFormError] = useState('');
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== 'undefined' && selectedPdf) {
       // Wait for DOM to be ready
       const initializeFlipbook = () => {
         window.PDFJS_LOCALE = {
@@ -18,13 +18,15 @@ export const Resources = () => {
           const $ = window.jQuery;
           const container = $('#flipbook-wrapper');
           
-          if (container.length && !$('.solid-container').length) {
+          if (container.length) {
+            // Clear existing content
+            container.empty();
             $('<div class="solid-container"></div>').appendTo(container);
             
             // Small delay to ensure container is ready
             setTimeout(() => {
               $('.solid-container').FlipBook({
-                pdf: '/books/Concept-Note.pdf',
+                pdf: selectedPdf, // Use the selected PDF
                 template: {
                   html: '/templates/default-book-view.html',
                   styles: [
@@ -39,7 +41,7 @@ export const Resources = () => {
                   script: '/js/default-book-view.js'
                 },
                 controlsProps: {
-                  downloadURL: '/books/Concept-Note.pdf',
+                  downloadURL: selectedPdf, // Update download URL
                   actions: {
                     cmdZoomIn: { enabled: true },
                     cmdZoomOut: { enabled: true },
@@ -64,7 +66,7 @@ export const Resources = () => {
       // Run after a small delay to ensure DOM is ready
       setTimeout(initializeFlipbook, 0);
     }
-  }, []);
+  }, [selectedPdf]); // Add selectedPdf as dependency
 
   const handleDownload = (e) => {
     e.preventDefault();
@@ -84,127 +86,136 @@ export const Resources = () => {
 
   return (
     <>
-    <div className="w-full flex justify-center items-center p-4">
-      <div
-        id="flipbook-wrapper"
-        className="relative w-[1600px] h-[700px] bg-gray-100 rounded-custom6 shadow-lg"
-      >
-        {/* FlipBook will be initialized here */}
-      </div>
-    </div>
-    <div className="flex justify-center">
-      <button 
-        onClick={openModal} 
-        className="mt-2 px-10 py-4 bg-[#7A2631] text-white rounded-custom2 hover:bg-[#9B2C36] transition-colors duration-200 flex items-center gap-2"
-      >
-        <svg 
-          xmlns="http://www.w3.org/2000/svg" 
-          className="h-5 w-5" 
-          fill="none" 
-          viewBox="0 0 24 24" 
-          stroke="currentColor"
-        >
-          <path 
-            strokeLinecap="round" 
-            strokeLinejoin="round" 
-            strokeWidth={2} 
-            d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" 
-          />
-        </svg>
-        Download PDF
-      </button>
-    </div>
-    {showDownloadModal && (
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 overflow-y-auto">
-        <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/7 bg-white rounded-lg p-6 max-w-md w-full download-modal">
-          <h2 className="text-2xl font-bold text-[#9B2C2C] mb-4">Download PDF</h2>
-          <form onSubmit={handleDownload} className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Purpose of Download <span className="text-red-500">*</span>
-              </label>
-              <div className="space-y-2 text-black">
-                {['Academia', 'R&D', 'Business', 'Journalistic', 'Other'].map((purpose) => (
-                  <label key={purpose} className="flex items-center">
+      {selectedPdf ? (
+        <>
+          <h2 className="text-2xl font-bold text-[#7A2631] mb-4">{selectedTitle}</h2>
+          <div className="w-full flex justify-center items-center p-4">
+            <div
+              id="flipbook-wrapper"
+              className="relative w-[1600px] h-[700px] bg-gray-100 rounded-custom6 shadow-lg"
+            >
+              {/* FlipBook will be initialized here */}
+            </div>
+          </div>
+          <div className="flex justify-center">
+            <button 
+              onClick={openModal} 
+              className="mt-2 px-10 py-4 bg-[#7A2631] text-white rounded-custom2 hover:bg-[#9B2C36] transition-colors duration-200 flex items-center gap-2"
+            >
+              <svg 
+                xmlns="http://www.w3.org/2000/svg" 
+                className="h-5 w-5" 
+                fill="none" 
+                viewBox="0 0 24 24" 
+                stroke="currentColor"
+              >
+                <path 
+                  strokeLinecap="round" 
+                  strokeLinejoin="round" 
+                  strokeWidth={2} 
+                  d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" 
+                />
+              </svg>
+              Download PDF
+            </button>
+          </div>
+          {showDownloadModal && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 overflow-y-auto">
+              <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/7 bg-white rounded-lg p-6 max-w-md w-full download-modal">
+                <h2 className="text-2xl font-bold text-[#9B2C2C] mb-4">Download PDF</h2>
+                <form onSubmit={handleDownload} className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Purpose of Download <span className="text-red-500">*</span>
+                    </label>
+                    <div className="space-y-2 text-black">
+                      {['Academia', 'R&D', 'Business', 'Journalistic', 'Other'].map((purpose) => (
+                        <label key={purpose} className="flex items-center">
+                          <input
+                            type="radio"
+                            name="purpose"
+                            value={purpose}
+                            checked={downloadForm.purpose === purpose}
+                            onChange={(e) => setDownloadForm({ ...downloadForm, purpose: e.target.value })}
+                            className="mr-2 text-[#9B2C2C] focus:ring-[#9B2C2C]"
+                          />
+                          <span className="text-black">{purpose}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Name <span className="text-red-500">*</span>
+                    </label>
                     <input
-                      type="radio"
-                      name="purpose"
-                      value={purpose}
-                      checked={downloadForm.purpose === purpose}
-                      onChange={(e) => setDownloadForm({ ...downloadForm, purpose: e.target.value })}
-                      className="mr-2 text-[#9B2C2C] focus:ring-[#9B2C2C]"
+                      type="text"
+                      value={downloadForm.name}
+                      onChange={(e) => setDownloadForm({ ...downloadForm, name: e.target.value })}
+                      className="w-full p-2 border rounded focus:ring-[#9B2C2C] focus:border-[#9B2C2C] text-black"
+                      required
                     />
-                    <span className="text-black">{purpose}</span>
-                  </label>
-                ))}
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Mobile No
+                    </label>
+                    <input
+                      type="tel"
+                      value={downloadForm.mobile}
+                      onChange={(e) => setDownloadForm({ ...downloadForm, mobile: e.target.value })}
+                      className="w-full p-2 border rounded focus:ring-[#9B2C2C] focus:border-[#9B2C2C] text-black"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Email <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="email"
+                      value={downloadForm.email}
+                      onChange={(e) => setDownloadForm({ ...downloadForm, email: e.target.value })}
+                      className="w-full p-2 border rounded focus:ring-[#9B2C2C] focus:border-[#9B2C2C] text-black"
+                      required
+                    />
+                  </div>
+
+                  {formError && (
+                    <p className="text-red-500 text-sm">{formError}</p>
+                  )}
+
+                  <div className="flex gap-4 mt-6">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setShowDownloadModal(false);
+                        setDownloadForm({ purpose: '', name: '', mobile: '', email: '' });
+                        setFormError('');
+                      }}
+                      className="flex-1 px-4 py-2 text-black border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="submit"
+                      className="flex-1 px-4 py-2 bg-[#9B2C2C] text-white rounded-lg hover:bg-[#7B1D1D] transition-colors"
+                    >
+                      Download
+                    </button>
+                  </div>
+                </form>
               </div>
             </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Name <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="text"
-                value={downloadForm.name}
-                onChange={(e) => setDownloadForm({ ...downloadForm, name: e.target.value })}
-                className="w-full p-2 border rounded focus:ring-[#9B2C2C] focus:border-[#9B2C2C] text-black"
-                required
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Mobile No
-              </label>
-              <input
-                type="tel"
-                value={downloadForm.mobile}
-                onChange={(e) => setDownloadForm({ ...downloadForm, mobile: e.target.value })}
-                className="w-full p-2 border rounded focus:ring-[#9B2C2C] focus:border-[#9B2C2C] text-black"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Email <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="email"
-                value={downloadForm.email}
-                onChange={(e) => setDownloadForm({ ...downloadForm, email: e.target.value })}
-                className="w-full p-2 border rounded focus:ring-[#9B2C2C] focus:border-[#9B2C2C] text-black"
-                required
-              />
-            </div>
-
-            {formError && (
-              <p className="text-red-500 text-sm">{formError}</p>
-            )}
-
-            <div className="flex gap-4 mt-6">
-              <button
-                type="button"
-                onClick={() => {
-                  setShowDownloadModal(false);
-                  setDownloadForm({ purpose: '', name: '', mobile: '', email: '' });
-                  setFormError('');
-                }}
-                className="flex-1 px-4 py-2 text-black border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-              >
-                Cancel
-              </button>
-              <button
-                type="submit"
-                className="flex-1 px-4 py-2 bg-[#9B2C2C] text-white rounded-lg hover:bg-[#7B1D1D] transition-colors"
-              >
-                Download
-              </button>
-            </div>
-          </form>
+          )}
+        </>
+      ) : (
+        <div className="text-center text-gray-600 py-8">
+          Select a book to view its contents
         </div>
-      </div>
-    )}
+      )}
     </>
   );
 };
