@@ -43,7 +43,7 @@ export default function Resources({ formData, setFormData }) {
         youtubeLink: youtubeLink || null,
       };
 
-      if (selectedResourceCategory === 'Thematic Concept Notes') {
+      if (selectedResourceCategory === 'Regional Flip Books') {
         if (!selectedState || !selectedRegion) {
           alert('Please select a state and region first');
           return;
@@ -56,9 +56,9 @@ export default function Resources({ formData, setFormData }) {
             items: {
               ...prev.resources.items,
               [selectedResourceCategory]: {
-                ...prev.resources.items[selectedResourceCategory],
+                ...prev.resources.items[selectedResourceCategory] || {},
                 [selectedState]: {
-                  ...prev.resources.items[selectedResourceCategory]?.[selectedState],
+                  ...(prev.resources.items[selectedResourceCategory]?.[selectedState] || {}),
                   [selectedRegion]: [
                     ...(prev.resources.items[selectedResourceCategory]?.[selectedState]?.[selectedRegion] || []),
                     newResource
@@ -76,7 +76,10 @@ export default function Resources({ formData, setFormData }) {
             items: {
               ...prev.resources.items,
               [selectedResourceCategory]: [
-                ...(prev.resources.items[selectedResourceCategory] || []),
+                ...(Array.isArray(prev.resources.items[selectedResourceCategory]) 
+                  ? prev.resources.items[selectedResourceCategory] 
+                  : []
+                ),
                 newResource
               ]
             }
@@ -297,8 +300,8 @@ export default function Resources({ formData, setFormData }) {
               ))}
             </select>
 
-            {/* State and Region Selection for Thematic Concept Notes */}
-            {selectedResourceCategory === 'Thematic Concept Notes' && (
+            {/* State and Region Selection for Regional Flip Books */}
+            {selectedResourceCategory === 'Regional Flip Books' && (
               <div className="grid grid-cols-2 gap-4 text-black">
                 <select
                   value={selectedState}
@@ -384,8 +387,11 @@ export default function Resources({ formData, setFormData }) {
             {/* Display Uploaded Resources */}
             {selectedResourceCategory && (
               <div className="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {selectedResourceCategory === 'Thematic Concept Notes' 
-                  ? (formData.resources.items[selectedResourceCategory]?.[selectedState]?.[selectedRegion] || []).map((item, index) => (
+                {selectedResourceCategory === 'Regional Flip Books' 
+                  ? (Array.isArray(formData.resources.items[selectedResourceCategory]?.[selectedState]?.[selectedRegion]) 
+                      ? formData.resources.items[selectedResourceCategory][selectedState][selectedRegion] 
+                      : []
+                    ).map((item, index) => (
                       <ResourceItem
                         key={`${selectedState}-${selectedRegion}-${index}`}
                         item={item}
@@ -393,7 +399,10 @@ export default function Resources({ formData, setFormData }) {
                         onTitleChange={(newTitle) => handleResourceTitleChange(selectedResourceCategory, selectedState, selectedRegion, index, newTitle)}
                       />
                     ))
-                  : (formData.resources.items[selectedResourceCategory] || []).map((item, index) => (
+                  : (Array.isArray(formData.resources.items[selectedResourceCategory]) 
+                      ? formData.resources.items[selectedResourceCategory] 
+                      : []
+                    ).map((item, index) => (
                       <ResourceItem
                         key={index}
                         item={item}
