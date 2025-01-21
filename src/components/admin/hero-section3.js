@@ -42,9 +42,7 @@ export default function HeroSection3({ formData, setFormData }) {
       image: "",
       title: "",
       description: "",
-      position: "absolute",
-      shape: "rounded-custom",
-      titleRotation: "rotate-0"
+      shape: "rounded-custom"
     };
 
     setFormData(prev => ({
@@ -199,58 +197,6 @@ export default function HeroSection3({ formData, setFormData }) {
                         rows={3}
                         className="w-full px-4 py-2 border text-black rounded-md"
                       />
-                    </div>
-
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Position
-                        </label>
-                        <input
-                          type="text"
-                          value={pattern.position}
-                          onChange={(e) => {
-                            const newPatternImages = [...formData.heroSection3.patternImages];
-                            newPatternImages[index] = {
-                              ...pattern,
-                              position: e.target.value
-                            };
-                            setFormData(prev => ({
-                              ...prev,
-                              heroSection3: {
-                                ...prev.heroSection3,
-                                patternImages: newPatternImages
-                              }
-                            }));
-                          }}
-                          className="w-full px-4 py-2 text-black border rounded-md"
-                        />
-                      </div>
-
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Title Rotation
-                        </label>
-                        <input
-                          type="text"
-                          value={pattern.titleRotation}
-                          onChange={(e) => {
-                            const newPatternImages = [...formData.heroSection3.patternImages];
-                            newPatternImages[index] = {
-                              ...pattern,
-                              titleRotation: e.target.value
-                            };
-                            setFormData(prev => ({
-                              ...prev,
-                              heroSection3: {
-                                ...prev.heroSection3,
-                                patternImages: newPatternImages
-                              }
-                            }));
-                          }}
-                          className="w-full px-4 py-2 border text-black rounded-md"
-                        />
-                      </div>
                     </div>
                   </div>
                 </div>

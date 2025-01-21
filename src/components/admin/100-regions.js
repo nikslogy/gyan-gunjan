@@ -4,7 +4,12 @@ import { Plus, X, Upload } from 'lucide-react';
 import Image from "next/image";
 
 export default function HundredRegionsEditor({ formData, setFormData }) {
-  const handleImageUpload = async (section, index) => {
+  // Initialize sliderImages if not present
+  if (!formData['100-regions']) {
+    formData['100-regions'] = { sliderImages: [] };
+  }
+
+  const handleImageUpload = async (index) => {
     const input = document.createElement('input');
     input.type = 'file';
     input.accept = 'image/*';
@@ -15,16 +20,22 @@ export default function HundredRegionsEditor({ formData, setFormData }) {
 
       try {
         const imageUrl = URL.createObjectURL(file);
+        
+        setFormData(prev => {
+          const newSliderImages = [...(prev['100-regions']?.sliderImages || [])];
+          newSliderImages[index] = {
+            src: imageUrl,
+            alt: file.name
+          };
 
-        setFormData(prev => ({
-          ...prev,
-          [section]: {
-            ...prev[section],
-            sliderImages: prev[section].sliderImages.map((img, idx) =>
-              idx === index ? { ...img, src: imageUrl, alt: file.name } : img
-            )
-          }
-        }));
+          return {
+            ...prev,
+            '100-regions': {
+              ...prev['100-regions'],
+              sliderImages: newSliderImages
+            }
+          };
+        });
       } catch (error) {
         console.error('Error uploading image:', error);
       }
@@ -33,22 +44,22 @@ export default function HundredRegionsEditor({ formData, setFormData }) {
     input.click();
   };
 
-  const handleAddSliderImage = (section) => {
+  const handleAddImage = () => {
     setFormData(prev => ({
       ...prev,
-      [section]: {
-        ...prev[section],
-        sliderImages: [...(prev[section]?.sliderImages || []), { src: "", alt: "" }]
+      '100-regions': {
+        ...prev['100-regions'],
+        sliderImages: [...(prev['100-regions']?.sliderImages || []), { src: '', alt: '' }]
       }
     }));
   };
 
-  const handleRemoveImage = (section, index) => {
+  const handleRemoveImage = (index) => {
     setFormData(prev => ({
       ...prev,
-      [section]: {
-        ...prev[section],
-        sliderImages: (prev[section]?.sliderImages || []).filter((_, idx) => idx !== index)
+      '100-regions': {
+        ...prev['100-regions'],
+        sliderImages: prev['100-regions']?.sliderImages.filter((_, idx) => idx !== index)
       }
     }));
   };
@@ -95,7 +106,7 @@ export default function HundredRegionsEditor({ formData, setFormData }) {
             </label>
             <button
               type="button"
-              onClick={() => handleAddSliderImage('100-regions')}
+              onClick={handleAddImage}
               className="flex items-center gap-2 px-4 py-2 bg-[#7A2631] text-white rounded-md hover:bg-[#9B2C2C]"
             >
               <Plus className="h-4 w-4" />
@@ -104,7 +115,7 @@ export default function HundredRegionsEditor({ formData, setFormData }) {
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {formData['100-regions']?.sliderImages.map((image, index) => (
+            {formData['100-regions']?.sliderImages?.map((image, index) => (
               <div key={index} className="relative">
                 <div className="aspect-square border rounded-lg overflow-hidden">
                   {image.src ? (
@@ -118,8 +129,8 @@ export default function HundredRegionsEditor({ formData, setFormData }) {
                     <div className="h-full flex items-center justify-center bg-gray-100">
                       <input
                         type="file"
-                        onChange={(e) => handleImageUpload('100-regions', index)}
-                        className="absolute inset-0 text-black opacity-0 cursor-pointer"
+                        onChange={() => handleImageUpload(index)}
+                        className="absolute inset-0 opacity-0 cursor-pointer"
                         accept="image/*"
                       />
                       <Upload className="h-8 w-8 text-gray-400" />
@@ -128,7 +139,7 @@ export default function HundredRegionsEditor({ formData, setFormData }) {
                 </div>
                 <button
                   type="button"
-                  onClick={() => handleRemoveImage('100-regions', index)}
+                  onClick={() => handleRemoveImage(index)}
                   className="absolute -top-2 -right-2 p-1 bg-red-500 text-white rounded-full hover:bg-red-600"
                 >
                   <X className="h-4 w-4" />
