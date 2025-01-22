@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { ChevronDown, Menu, Search, X } from 'lucide-react'
@@ -11,6 +11,25 @@ export function NavBar() {
   const [isResourcesOpen, setIsResourcesOpen] = useState(false)
   const [isLangOpen, setIsLangOpen] = useState(false)
   const router = useRouter();
+  
+  // Add refs for dropdown containers
+  const resourcesRef = useRef(null)
+  const langRef = useRef(null)
+
+  // Handle click outside
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (resourcesRef.current && !resourcesRef.current.contains(event.target)) {
+        setIsResourcesOpen(false)
+      }
+      if (langRef.current && !langRef.current.contains(event.target)) {
+        setIsLangOpen(false)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
 
   return (
     <div className="px-4 py-6">
@@ -36,7 +55,7 @@ export function NavBar() {
             <Link href="/jeevan-darshan" className="text-[#1a365d]  hover:text-gray-900">
               Jeevan Darshan
             </Link>
-            <div className="relative">
+            <div className="relative" ref={resourcesRef}>
               <button
                 onClick={() => setIsResourcesOpen(!isResourcesOpen)}
                 className="flex items-center gap-1 text-[#1a365d] text-base hover:text-gray-900"
@@ -44,7 +63,7 @@ export function NavBar() {
                 Resources <ChevronDown className="h-4 w-4" />
               </button>
               {isResourcesOpen && (
-                <div className="dropdown-menu absolute top-full left-0 mt-3 w-48 rounded-custom shadow-lg bg-[#F6B352] ring-1 ring-black ring-opacity-5">
+                <div className="dropdown-menu absolute top-full left-0 mt-3 w-48 rounded-custom shadow-lg bg-[#F6B352] ring-1 ring-black ring-opacity-5 transition-all duration-200 ease-in-out opacity-100 transform scale-100 origin-top">
                   <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
                     <button 
                       onClick={() => {
@@ -100,7 +119,7 @@ export function NavBar() {
             <button className="p-1.5">
               <Search className="h-4 w-4 text-[#1a365d]" />
             </button>
-            <div className="relative">
+            <div className="relative" ref={langRef}>
               <button
                 onClick={() => setIsLangOpen(!isLangOpen)}
                 className="flex items-center gap-1 text-[#1a365d] text-base"
@@ -108,7 +127,7 @@ export function NavBar() {
                 Eng <ChevronDown className="h-4 w-4" />
               </button>
               {isLangOpen && (
-                <div className="absolute top-full right-0 mt-3 w-48 rounded-custom shadow-lg bg-[#F6B352] ring-1 ring-black ring-opacity-5">
+                <div className="absolute top-full right-0 mt-3 w-48 rounded-custom shadow-lg bg-[#F6B352] ring-1 ring-black ring-opacity-5 transition-all duration-200 ease-in-out opacity-100 transform scale-100 origin-top">
                   <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
                     <a href="#" className="block px-4 py-2 text-black hover:bg-gray-100 rounded-custom" role="menuitem">English</a>
                     <a href="#" className="block px-4 py-2 text-black hover:bg-gray-100 rounded-custom" role="menuitem">Hindi</a>

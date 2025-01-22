@@ -11,11 +11,11 @@ export default function MoviesPage() {
   const [currentShortMovie, setCurrentShortMovie] = useState(0)
 
   const shortMovies = [
-    { src: "/images/short1.png", alt: "Short movie 1" },
-    { src: "/images/short2.png", alt: "Short movie 2" },
-    { src: "/images/short3.png", alt: "Short movie 3" },
-    { src: "/images/short1.png", alt: "Short movie 4" },
-    { src: "/images/short2.png", alt: "Short movie 5" },
+    { src: "/images/short1.png", alt: "Short movie 1", title: "Short Movie 1" },
+    { src: "/images/short2.png", alt: "Short movie 2", title: "Short Movie 2" },
+    { src: "/images/short3.png", alt: "Short movie 3", title: "Short Movie 3" },
+    { src: "/images/short1.png", alt: "Short movie 4", title: "Short Movie 4" },
+    { src: "/images/short2.png", alt: "Short movie 5", title: "Short Movie 5" },
   ]
 
   useEffect(() => {
@@ -42,23 +42,33 @@ export default function MoviesPage() {
     {
       image: '/images/P1.svg',
       video: 'https://www.youtube.com/embed/aaNq2NL6D4A?si=EAlQ0lhfW8_IPXfs',
-      isYoutube: true
+      isYoutube: true,
+      title: 'Movie Title 1'
     },
     {
       image: '/images/P2.svg',
       video: '/videos/video1.mp4',
-      isYoutube: false
+      isYoutube: false,
+      title: 'Movie Title 2'
     },
     {
       image: '/images/P3.svg',
       video: 'https://www.youtube.com/embed/YOUR_VIDEO_ID_2?autoplay=1&controls=1&rel=0&showinfo=0',
-      isYoutube: true
+      isYoutube: true,
+      title: 'Movie Title 3'
     },
   ];
 
   const handlePlayClick = (movie) => {
     // video playing logic
   };
+
+  // Update recommended movies section
+  const recommendedMovies = [
+    { image: '/images/movie1.png', title: 'Recommended Movie 1' },
+    { image: '/images/movie2.png', title: 'Recommended Movie 2' },
+    { image: '/images/movie3.png', title: 'Recommended Movie 3' },
+  ];
 
   return (
     <main className={`min-h-screen bg-white transition-all duration-1000 ${
@@ -101,16 +111,17 @@ export default function MoviesPage() {
               {/* Movies grid */}
               <div className="bg-[#7B7B7B] p-8">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  {[1, 2, 3].map((num) => (
-                    <div key={num} className="relative group overflow-hidden rounded-lg">
+                  {recommendedMovies.map((movie, index) => (
+                    <div key={index} className="relative group overflow-hidden rounded-lg">
                       <Image
-                        src={`/images/movie${num}.png`}
-                        alt={`Movie ${num}`}
+                        src={movie.image}
+                        alt={movie.title}
                         width={400}
                         height={300}
                         className="w-full transition-transform duration-500 group-hover:scale-110"
                       />
-                      <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                      <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center">
+                        <h3 className="text-white text-xl font-bold mb-4">{movie.title}</h3>
                         <button className="bg-[#E7B24B] text-black px-6 py-2 rounded-full font-semibold transform -translate-y-4 group-hover:translate-y-0 transition-all duration-300">
                           Watch Now
                         </button>
@@ -175,7 +186,8 @@ export default function MoviesPage() {
                       height={300}
                       className="w-full transition-transform duration-500 group-hover:scale-110"
                     />
-                    <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                    <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center">
+                      <h3 className="text-white text-xl font-bold mb-4">{movie.title}</h3>
                       <button className="bg-[#E7B24B] text-black px-6 py-2 rounded-full font-semibold transform -translate-y-4 group-hover:translate-y-0 transition-all duration-300">
                         Watch Now
                       </button>
