@@ -41,14 +41,12 @@ export default function MoviesPage() {
   const movieResources = [
     {
       image: '/images/P1.svg',
-      video: 'https://www.youtube.com/embed/aaNq2NL6D4A?si=EAlQ0lhfW8_IPXfs',
-      isYoutube: true,
+      video: 'https://www.youtube.com/watch?v=aaNq2NL6D4A',
       title: 'Movie Title 1'
     },
     {
       image: '/images/P2.svg',
       video: '/videos/video1.mp4',
-      isYoutube: false,
       title: 'Movie Title 2'
     },
     {
