@@ -65,8 +65,9 @@ export default function MovieSlider({ movies, onPlayClick }) {
                     {isCenter && (
                       <div
                         className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 
-        flex items-center justify-center bg-black/50 rounded-2xl"
+        flex flex-col items-center justify-center bg-black/50 rounded-2xl"
                       >
+                        <h3 className="text-white text-xl font-bold mb-4">{movie.title}</h3>
                         <button
                           onClick={() => onPlayClick(movie)}
                           className="bg-[#E7B24B] text-black px-6 py-2 rounded-full font-semibold transform -translate-y-4 

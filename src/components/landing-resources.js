@@ -38,17 +38,20 @@ export default function LandingResources() {
     {
       image: '/images/P1.svg',
       video: 'https://www.youtube.com/embed/aaNq2NL6D4A?si=EAlQ0lhfW8_IPXfs',
-      isYoutube: true
+      isYoutube: true,
+      title: 'Movie Title 1'
     },
     {
       image: '/images/P2.svg',
       video: '/videos/video1.mp4',
-      isYoutube: false
+      isYoutube: false,
+      title: 'Movie Title 2'
     },
     {
       image: '/images/P3.svg',
       video: 'https://www.youtube.com/embed/YOUR_VIDEO_ID_2?autoplay=1&controls=1&rel=0&showinfo=0',
-      isYoutube: true
+      isYoutube: true,
+      title: 'Movie Title 3'
     },
   ];
 
@@ -189,18 +192,18 @@ export default function LandingResources() {
 
         {activeTab === 'movies' && (
           <>
-        <div className="flex justify-end mb-4 sm:mb-6">
-          <button 
-            onClick={() => router.push('/movies')}
-            className="text-gray-600 hover:text-gray-900 text-sm sm:text-base"
-          >
-            View All
-          </button>
-        </div>
-          <MovieSlider 
-            movies={movieResources} 
-            onPlayClick={handlePlayClick}
-          />
+            <div className="flex justify-end mb-4 sm:mb-6">
+              <button 
+                onClick={() => router.push('/movies')}
+                className="text-gray-600 hover:text-gray-900 text-sm sm:text-base"
+              >
+                View All
+              </button>
+            </div>
+            <MovieSlider 
+              movies={movieResources} 
+              onPlayClick={handlePlayClick}
+            />
           </>
         )}
       </div>

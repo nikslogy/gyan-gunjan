@@ -16,6 +16,8 @@ export default function ResourcePage() {
   const [selectedCategory, setSelectedCategory] = useState('Coffee Table Books');
   const [selectedState, setSelectedState] = useState('');
   const [selectedRegion, setSelectedRegion] = useState('');
+  const [selectedPdf, setSelectedPdf] = useState(null);
+  const [selectedTitle, setSelectedTitle] = useState('');
 
   const resourceMenuItems = [
     'Regional Flip Books',
@@ -31,21 +33,21 @@ export default function ResourcePage() {
   ];
 
   const coffeeResources = [
-    { image: "/images/ct1.png", title: "Coffee Table Book 1" },
-    { image: "/images/ct2.png", title: "Coffee Table Book 2" },
-    { image: "/images/ct3.png", title: "Coffee Table Book 3" },
-    { image: "/images/ct4.png", title: "Coffee Table Book 4" },
-    { image: "/images/ct5.png", title: "Coffee Table Book 5" }
+    { image: "/images/ct1.png", title: "Coffee Table Book 1", pdf: "/books/Concept-Note.pdf" },
+    { image: "/images/ct2.png", title: "Coffee Table Book 2", pdf: "/books/Concept-Note.pdf" },
+    { image: "/images/ct3.png", title: "Coffee Table Book 3", pdf: "/books/coffee-table-3.pdf" },
+    { image: "/images/ct4.png", title: "Coffee Table Book 4", pdf: "/books/coffee-table-4.pdf" },
+    { image: "/images/ct5.png", title: "Coffee Table Book 5", pdf: "/books/coffee-table-5.pdf" }
   ];
   const regionalResources = [
-    { image: "/images/1.png", title: "Regional Book 1" },
-    { image: "/images/17.png", title: "Regional Book 2" },
-    { image: "/images/17.png", title: "Regional Book 3" },
-    { image: "/images/17.png", title: "Regional Book 4" }
+    { image: "/images/1.png", title: "Regional Book 1", pdf: "/books/regional-1.pdf" },
+    { image: "/images/17.png", title: "Regional Book 2", pdf: "/books/regional-2.pdf" },
+    { image: "/images/17.png", title: "Regional Book 3", pdf: "/books/regional-3.pdf" },
+    { image: "/images/17.png", title: "Regional Book 4", pdf: "/books/regional-4.pdf" }
   ];
   const thematicResources = [
-    { image: "/images/CompandiumsP1.png", title: "Thematic Note 1" },
-    { image: "/images/CompandiumsP1.png", title: "Thematic Note 2" }
+    { image: "/images/CompandiumsP1.png", title: "Thematic Note 1", pdf: "/books/Concept-Note.pdf" },
+    { image: "/images/CompandiumsP1.png", title: "Thematic Note 2", pdf: "/books/thematic-2.pdf" }
   ];
 
   useEffect(() => {
@@ -65,6 +67,24 @@ export default function ResourcePage() {
       setIsOpen(false);
     }
   };
+
+  const handleBookSelect = (pdf, title) => {
+    setSelectedPdf(pdf);
+    setSelectedTitle(title);
+    
+    setTimeout(() => {
+      const element = document.getElementById('flipbook-wrapper');
+      if (element) {
+        element.scrollIntoView({ 
+          behavior: 'smooth', 
+          block: 'start' 
+        });
+      }
+    }, 100);
+  };
+
+  // Filter out the currently selected category from dropdown options
+  const dropdownItems = resourceMenuItems.filter(item => item !== selectedCategory);
 
   return (
     <main
@@ -98,7 +118,7 @@ export default function ResourcePage() {
                 className={`absolute top-full left-0 w-full overflow-hidden text-black bg-[#F6B352] rounded-b-lg mt-1 z-10 transition-all duration-300 ease-in-out ${isOpen ? "max-h-[400px] opacity-100" : "max-h-0 opacity-0"}`}
               >
                 <div className="py-2">
-                  {resourceMenuItems.map((item, index) => (
+                  {dropdownItems.map((item) => (
                     <button
                       key={item}
                       onClick={() => handleCategoryChange(item)}
@@ -117,6 +137,7 @@ export default function ResourcePage() {
                 <div
                   key={idx}
                   className="group overflow-hidden border rounded-custom2 transition-transform duration-300 hover:scale-105 cursor-pointer"
+                  onClick={() => handleBookSelect(resource.pdf, resource.title)}
                 >
                   <div className="p-0">
                     <Image
@@ -163,6 +184,7 @@ export default function ResourcePage() {
                   <div
                     key={idx}
                     className="group overflow-hidden border rounded-lg transition-transform duration-300 hover:scale-105 cursor-pointer"
+                    onClick={() => handleBookSelect(resource.pdf, resource.title)}
                   >
                     <div className="p-0">
                       <Image
@@ -174,8 +196,7 @@ export default function ResourcePage() {
                       />
                     </div>
                   </div>
-                ))
-              }
+                ))}
               </>
             )}
             {selectedCategory === 'Movies' &&
@@ -183,6 +204,7 @@ export default function ResourcePage() {
                 <div
                   key={idx}
                   className="group overflow-hidden border rounded-lg transition-transform duration-300 hover:scale-105 cursor-pointer"
+                  onClick={() => handleBookSelect(resource.pdf, resource.title)}
                 >
                   <div className="p-0">
                     <Image
@@ -201,6 +223,7 @@ export default function ResourcePage() {
                 <div
                   key={idx}
                   className="group overflow-hidden border rounded-custom2 transition-transform duration-300 hover:scale-105 cursor-pointer"
+                  onClick={() => handleBookSelect(resource.pdf, resource.title)}
                 >
                   <div className="p-0">
                     <Image
@@ -215,7 +238,7 @@ export default function ResourcePage() {
               ))
             }
           </div>
-          <Resources />
+          <Resources selectedPdf={selectedPdf} selectedTitle={selectedTitle} />
         </div>
       </div>
 

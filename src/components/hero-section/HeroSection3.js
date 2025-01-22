@@ -66,6 +66,7 @@ export function HeroSection3() {
     return () => clearInterval(timer)
   }, [])
 
+
   if (!sectionData) return <div className="text-center py-10">Loading...</div>
 
   return (
@@ -88,6 +89,7 @@ export function HeroSection3() {
                   className={`group cursor-pointer aspect-square overflow-hidden transform transition-all duration-500 hover:scale-105 hover:z-10 
                     ${tileConfigurations[index].position} 
                     ${tileConfigurations[index].shape}
+
                     ${currentTile === index ? 'ring-2 ring-white z-10 scale-105' : 'ring-4 ring-white'}`}
                 >
                   {/* Decorative Frame (unchanged) */}
