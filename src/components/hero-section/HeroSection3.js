@@ -120,7 +120,7 @@ export function HeroSection3() {
                       >
                         {image.image_title}
                       </h3>
-                      <p className="text-sm">{image.image_description}</p>
+                      
                     </div>
                   </div>
                 </div>
