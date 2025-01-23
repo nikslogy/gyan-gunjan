@@ -52,9 +52,37 @@ export function HeroSection3() {
     },
   ]
 
-  const handleLearnMoreSec3 = () => {
+  const handleTileClick = (index) => {
+    // Map index to category name
+    const categories = [
+      'Nature & Agriculture',
+      'Family & Community',
+      'Knowledge & Learning',
+      'Art & Craft',
+      'Village Governance'
+    ]
+    
     setExitAnimation(true)
     setTimeout(() => {
+      // Store the selected category in localStorage instead of URL params
+      localStorage.setItem('selectedCategory', categories[index])
+      router.push('/jeevan-darshan')
+    }, 500)
+  }
+
+  // Add new handler for Learn More button
+  const handleLearnMore = () => {
+    setExitAnimation(true)
+    setTimeout(() => {
+      // Use the current tile's category when Learn More is clicked
+      const categories = [
+        'Nature & Agriculture',
+        'Family & Community',
+        'Knowledge & Learning',
+        'Art & Craft',
+        'Village Governance'
+      ]
+      localStorage.setItem('selectedCategory', categories[currentTile])
       router.push('/jeevan-darshan')
     }, 500)
   }
@@ -85,7 +113,7 @@ export function HeroSection3() {
               {sectionData.images.map((image, index) => (
                 <div
                   key={index}
-                  onClick={() => setCurrentTile(index)}
+                  onClick={() => handleTileClick(index)}
                   className={`group cursor-pointer aspect-square overflow-hidden transform transition-all duration-500 hover:scale-105 hover:z-10 
                     ${tileConfigurations[index].position} 
                     ${tileConfigurations[index].shape}
@@ -164,7 +192,10 @@ export function HeroSection3() {
           <p className="text-black leading-relaxed text-base md:text-lg max-w-lg">
             {sectionData.section_description}
           </p>
-          <button onClick={handleLearnMoreSec3} className="bg-[#F8D89A] text-black px-4 md:px-6 py-2 rounded-custom2 hover:bg-[#f6a93d] transition-colors text-sm">
+          <button 
+            onClick={handleLearnMore} 
+            className="bg-[#F8D89A] text-black px-4 md:px-6 py-2 rounded-custom2 hover:bg-[#f6a93d] transition-colors text-sm"
+          >
             Learn More
           </button>
         </div>
