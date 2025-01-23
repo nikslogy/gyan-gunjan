@@ -9,12 +9,10 @@ import { Share2, ChevronDown } from 'lucide-react'
 import Link from "next/link"
 
 export default function JeevanDarshan() {
-    const searchParams = useSearchParams()
-    const [currentSlide, setCurrentSlide] = useState(
-        parseInt(searchParams.get("currentSlide") || "0")
-    )
+    const [currentSlide, setCurrentSlide] = useState(0)
     const [mounted, setMounted] = useState(false)
     const [isOpen, setIsOpen] = useState(false)
+    const [selectedCategory, setSelectedCategory] = useState('Nature & Agriculture')
 
     const images = [
         { src: "/images/Bohag_Bihu.png", alt: "Traditional dancers in red attire" },
@@ -30,23 +28,89 @@ export default function JeevanDarshan() {
         'Village Governance'
     ]
 
-    const resourceMenuItems = [
-        'Regional Flip Books',
-        'Movies',
-        'Thematic Concept Notes'
-    ]
+    // Define content for each category
+    const categoryContent = {
+        'Nature & Agriculture': {
+            images: [
+                { src: "/images/Bohag_Bihu.png", alt: "Traditional dancers in red attire" },
+                { src: "/images/Arecanut_01.png", alt: "Second Image" },
+                { src: "/images/lahaul_hp.jpg", alt: "Third Image" },
+                { src: "/images/Sindoor_Play.jpeg", alt: "Fourth Image" }
+            ],
+            content: {
+                column1: "Lorem ipsum dolor sit amet... (Nature & Agriculture content)",
+                column2: "Lorem ipsum dolor sit amet... (Nature & Agriculture content)"
+            }
+        },
+        'Family & Community': {
+            images: [
+                { src: "/images/family1.jpg", alt: "Family Image 1" },
+                { src: "/images/family2.jpg", alt: "Family Image 2" }
+            ],
+            content: {
+                column1: "Content about Family & Community...",
+                column2: "More content about Family & Community..."
+            }
+        },
+        'Knowledge & Learning': {
+            images: [
+                { src: "/images/knowledge1.jpg", alt: "Knowledge Image 1" },
+                { src: "/images/knowledge2.jpg", alt: "Knowledge Image 2" }
+            ],
+            content: {
+                column1: "Content about Knowledge & Learning...",
+                column2: "More content about Knowledge & Learning..."
+            }
+        },
+        'Art & Craft': {
+            images: [
+                { src: "/images/art1.jpg", alt: "Art Image 1" },
+                { src: "/images/art2.jpg", alt: "Art Image 2" }
+            ],
+            content: {
+                column1: "Content about Art & Craft...",
+                column2: "More content about Art & Craft..."
+            }
+        },
+        'Village Governance': {
+            images: [
+                { src: "/images/governance1.jpg", alt: "Governance Image 1" },
+                { src: "/images/governance2.jpg", alt: "Governance Image 2" }
+            ],
+            content: {
+                column1: "Content about Village Governance...",
+                column2: "More content about Village Governance..."
+            }
+        }
+    }
 
+    const handleCategoryChange = (category) => {
+        setSelectedCategory(category)
+        setCurrentSlide(0) 
+        setIsOpen(false)
+    }
 
     useEffect(() => {
         const timer = setInterval(() => {
-            setCurrentSlide((prev) => (prev === images.length - 1 ? 0 : prev + 1))
-        }, 3000)
-        return () => clearInterval(timer)
-    }, [images.length])
+            setCurrentSlide((prev) => {
+                const maxSlides = categoryContent[selectedCategory].images.length;
+                return prev === maxSlides - 1 ? 0 : prev + 1;
+            });
+        }, 3000);
+        return () => clearInterval(timer);
+    }, [selectedCategory]);
 
     useEffect(() => {
         // Trigger mount animation
         setMounted(true)
+
+        // Check for stored category
+        const storedCategory = localStorage.getItem('selectedCategory')
+        if (storedCategory && categoryContent[storedCategory]) {
+            setSelectedCategory(storedCategory)
+            // Clear the stored category after using it
+            localStorage.removeItem('selectedCategory')
+        }
     }, [])
 
     return (
@@ -64,14 +128,14 @@ export default function JeevanDarshan() {
                         Jeevan Darshan
                     </h1>
 
-                    {/* Dropdown Menu */}
+                    {/* Modified Dropdown Menu */}
                     <div className="w-full sm:w-[300px] mb-8">
                         <div className="relative">
                             <button
                                 onClick={() => setIsOpen(!isOpen)}
                                 className="inline-block w-full text-left font-bold bg-[#E7B24B] text-black px-4 md:px-8 py-6 rounded-custom2 text-base md:text-xl flex items-center justify-between transition-all duration-300 hover:bg-[#f4a93d]"
                             >
-                                <span>Nature & Agriculture</span>
+                                <span>{selectedCategory}</span>
                                 <div className={`transform transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}>
                                     <ChevronDown className="h-4 w-4 md:h-5 md:w-5" />
                                 </div>
@@ -80,34 +144,37 @@ export default function JeevanDarshan() {
                             <div className={`absolute top-full left-0 w-full overflow-hidden text-black bg-[#F6B352] rounded-b-lg mt-1 z-10 transition-all duration-300 ease-in-out ${isOpen ? 'max-h-[400px] opacity-100' : 'max-h-0 opacity-0'
                                 }`}>
                                 <div className="py-2">
-                                    {philoMenuItems.map((item, index) => (
-                                        <button
-                                            key={item}
-                                            className="w-full text-left px-4 md:px-8 py-2 font-philosopher md:py-3 hover:bg-[#f4a93d] text-base md:text-xl transition-colors"
-                                        >
-                                            {item}
-                                        </button>
-                                    ))}
+                                    {['Nature & Agriculture', ...philoMenuItems]
+                                        .filter(item => item !== selectedCategory)
+                                        .map((item) => (
+                                            <button
+                                                key={item}
+                                                onClick={() => handleCategoryChange(item)}
+                                                className="w-full text-left px-4 md:px-8 py-2 font-philosopher md:py-3 hover:bg-[#f4a93d] text-base md:text-xl transition-colors"
+                                            >
+                                                {item}
+                                            </button>
+                                        ))}
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    {/* Image slider section */}
+                    {/* Modified Image slider section */}
                     <div className={`transition-all duration-700 delay-500 relative ${mounted ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}>
                         {/* Share button */}
                         <button className="absolute top-4 right-4 z-10 p-2 bg-white/80 rounded-full hover:bg-white transition-colors">
                             <Share2 className="h-5 w-5 text-gray-700" />
                         </button>
 
-                        {/* Image slider container */}
+                        {/* Modified Image slider container */}
                         <div className="rounded-custom4 overflow-hidden relative 
       h-[250px] w-[400px]
       sm:h-[350px] sm:w-[500px]
       md:h-[400px] md:w-[700px]
       lg:h-[450px] lg:w-[900px]
       mx-auto">
-                            {images.map((image, index) => (
+                            {categoryContent[selectedCategory].images.map((image, index) => (
                                 <div
                                     key={index}
                                     className={`absolute inset-0 transition-opacity duration-500 ${currentSlide === index ? "opacity-100" : "opacity-0"}`}
@@ -123,9 +190,9 @@ export default function JeevanDarshan() {
                             ))}
                         </div>
 
-                        {/* Slider navigation dots */}
+                        {/* Modified slider navigation dots */}
                         <div className="flex justify-center gap-3 mt-6">
-                            {images.map((_, index) => (
+                            {categoryContent[selectedCategory].images.map((_, index) => (
                                 <button
                                     key={index}
                                     onClick={() => setCurrentSlide(index)}
@@ -136,24 +203,14 @@ export default function JeevanDarshan() {
                         </div>
                     </div>
 
-                    {/* Content section */}
+                    {/* Modified Content section */}
                     <div className="mt-12 w-[400px] sm:w-[500px] md:w-[700px] lg:w-[900px] mx-auto">
                         <div className="grid md:grid-cols-2 text-black gap-8">
                             <div className="prose prose-lg max-w-full">
-                                <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-
-                                </p>
+                                <p>{categoryContent[selectedCategory].content.column1}</p>
                             </div>
                             <div className="prose prose-lg max-w-full">
-                                <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-
-                                </p>
+                                <p>{categoryContent[selectedCategory].content.column2}</p>
                             </div>
                         </div>
                     </div>
@@ -165,20 +222,20 @@ export default function JeevanDarshan() {
                                 <span className="absolute inset-0 w-full h-full bg-gradient-to-br from-[#9B2C2C] to-[#7A2631] opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-out"></span>
                                 <span className="relative flex items-center gap-2">
                                     View All Resources
-                                    <svg 
-                                        xmlns="http://www.w3.org/2000/svg" 
-                                        width="20" 
-                                        height="20" 
-                                        viewBox="0 0 24 24" 
-                                        fill="none" 
-                                        stroke="currentColor" 
-                                        strokeWidth="2" 
-                                        strokeLinecap="round" 
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="20"
+                                        height="20"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        strokeWidth="2"
+                                        strokeLinecap="round"
                                         strokeLinejoin="round"
                                         className="transition-transform duration-300 group-hover:translate-x-1"
                                     >
-                                        <path d="M5 12h14"/>
-                                        <path d="m12 5 7 7-7 7"/>
+                                        <path d="M5 12h14" />
+                                        <path d="m12 5 7 7-7 7" />
                                     </svg>
                                 </span>
                             </button>
