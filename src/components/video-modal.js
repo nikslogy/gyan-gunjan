@@ -16,6 +16,8 @@ export default function VideoModal({ isOpen, onClose, videoSource, title }) {
   const [buffered, setBuffered] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [showSpeedMenu, setShowSpeedMenu] = useState(false);
+  const isYouTubeVideo = videoSource?.includes('youtube.com') || videoSource?.includes('youtu.be');
+  
 
   useEffect(() => {
     if (isOpen) {
@@ -58,7 +60,7 @@ export default function VideoModal({ isOpen, onClose, videoSource, title }) {
     return () => {
       document.body.style.overflow = 'unset';
     };
-  }, [isOpen]);
+  }, [isOpen, isYouTubeVideo]);
 
   useEffect(() => {
     const handleKeyPress = (e) => {
@@ -119,6 +121,36 @@ export default function VideoModal({ isOpen, onClose, videoSource, title }) {
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
+
+  useEffect(() => {
+    if (isYouTubeVideo) {
+      // Handle YouTube player state changes
+      window.onYouTubePlayerStateChange = (event) => {
+        if (event.data === 1) { // Playing
+          setIsPlaying(true);
+        } else if (event.data === 2) { // Paused
+          setIsPlaying(false);
+        }
+      };
+
+      // Add message listener for YouTube iframe API
+      const handleMessage = (event) => {
+        if (event.data && typeof event.data === 'string') {
+          try {
+            const data = JSON.parse(event.data);
+            if (data.event === 'onStateChange') {
+              window.onYouTubePlayerStateChange(data);
+            }
+          } catch (e) {
+            // Not a JSON message
+          }
+        }
+      };
+
+      window.addEventListener('message', handleMessage);
+      return () => window.removeEventListener('message', handleMessage);
+    }
+  }, [isYouTubeVideo]);
 
   const formatTime = (time) => {
     const hours = Math.floor(time / 3600);
@@ -221,8 +253,6 @@ export default function VideoModal({ isOpen, onClose, videoSource, title }) {
   };
 
   if (!isOpen) return null;
-
-  const isYouTubeVideo = videoSource?.includes('youtube.com') || videoSource?.includes('youtu.be');
 
   return (
     <div 
