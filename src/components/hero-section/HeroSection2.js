@@ -17,7 +17,7 @@ export function HeroSection2() {
     // Navigate to the 100-regions page after animation completes
     setTimeout(() => {
       router.push('/100-regions');
-    }, 500); // 0.5 second delay to allow animation to finish
+    }, 200); // 0.5 second delay to allow animation to finish
   };
 
   // Fetch data from Django API

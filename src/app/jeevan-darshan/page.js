@@ -7,6 +7,7 @@ import Image from "next/image"
 import { Footer } from "@/components/footer"
 import { Share2, ChevronDown } from 'lucide-react'
 import Link from "next/link"
+import { ResourcesContent } from "@/components/resources-content"
 
 export default function JeevanDarshan() {
     const [currentSlide, setCurrentSlide] = useState(0)
@@ -216,30 +217,8 @@ export default function JeevanDarshan() {
                     </div>
 
                     {/* Replace Resources component with View All Resources button */}
-                    <div className="flex justify-center mt-12">
-                        <Link href="/resources">
-                            <button className="group relative inline-flex items-center justify-center px-8 py-3 font-bold text-white bg-[#7A2631] rounded-custom2 overflow-hidden transition-all duration-300 ease-out hover:scale-105 hover:shadow-lg">
-                                <span className="absolute inset-0 w-full h-full bg-gradient-to-br from-[#9B2C2C] to-[#7A2631] opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-out"></span>
-                                <span className="relative flex items-center gap-2">
-                                    View All Resources
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        width="20"
-                                        height="20"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        strokeWidth="2"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        className="transition-transform duration-300 group-hover:translate-x-1"
-                                    >
-                                        <path d="M5 12h14" />
-                                        <path d="m12 5 7 7-7 7" />
-                                    </svg>
-                                </span>
-                            </button>
-                        </Link>
+                    <div className="container mx-auto px-4 md:px-6 py-12">
+                        <ResourcesContent initialCategory="Coffee Table Books" />
                     </div>
                 </div>
             </div>
