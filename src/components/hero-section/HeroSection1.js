@@ -17,7 +17,7 @@ export function HeroSection1() {
     // Navigate to the about page after animation completes
     setTimeout(() => {
       router.push('/about-project');
-    }, 1000); // 1 second delay to allow animation to finish
+    }, 200);
   };
 
   // Fetch data from Django API
