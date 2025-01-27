@@ -147,6 +147,7 @@ export default function AboutProject() {
             </div>
           </div>
 
+
           {/* Logo Section - Now Dynamic */}
           <div className="inline-block w-full">
             <span className="bg-[#E7B24B] text-black font-bold px-4 md:px-20 py-6 rounded-custom2 transition-colors text-2xl">
