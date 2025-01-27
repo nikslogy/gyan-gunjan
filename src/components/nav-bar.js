@@ -67,7 +67,8 @@ export function NavBar() {
                   <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
                     <button 
                       onClick={() => {
-                        router.push('/resources?type=Coffee Table Books');
+                        router.push('/resources');
+                        localStorage.setItem('selectedResourceType', 'Coffee Table Books');
                         setIsResourcesOpen(false);
                       }} 
                       className="block w-full text-left px-4 py-2 text-sm text-black hover:bg-gray-100 rounded-custom" 
@@ -77,7 +78,8 @@ export function NavBar() {
                     </button>
                     <button 
                       onClick={() => {
-                        router.push('/resources?type=Regional Flip Books');
+                        router.push('/resources');
+                        localStorage.setItem('selectedResourceType', 'Regional Flip Books');
                         setIsResourcesOpen(false);
                       }} 
                       className="block w-full text-left px-4 py-2 text-sm text-black hover:bg-gray-100 rounded-custom" 
@@ -87,7 +89,8 @@ export function NavBar() {
                     </button>
                     <button 
                       onClick={() => {
-                        router.push('/resources?type=Thematic Concept Notes');
+                        router.push('/resources');
+                        localStorage.setItem('selectedResourceType', 'Thematic Concept Notes');
                         setIsResourcesOpen(false);
                       }} 
                       className="block w-full text-left px-4 py-2 text-sm text-black hover:bg-gray-100 rounded-custom" 
