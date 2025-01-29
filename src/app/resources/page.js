@@ -19,6 +19,9 @@ export default function ResourcePage() {
         }
     }, []);
 
+
+    
+
     return (
         <main className={`min-h-screen bg-white transition-all duration-1000 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-[20px]"}`}>
             <NavBar />
