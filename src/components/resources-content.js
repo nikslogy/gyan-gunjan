@@ -15,8 +15,19 @@ export function ResourcesContent({ initialCategory = 'Coffee Table Books' }) {
     const [selectedPdf, setSelectedPdf] = useState(null);
     const [selectedTitle, setSelectedTitle] = useState('');
 
+    // API Data States
+    const [coffeeBooks, setCoffeeBooks] = useState([]);
+    const [thematics, setThematics] = useState([]);
+    const [movies, setMovies] = useState([]);
+    const [flipBooks, setFlipBooks] = useState([]);
+    const [states, setStates] = useState([]);
+    const [regions, setRegions] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+
     useEffect(() => {
         setSelectedCategory(initialCategory);
+        fetchInitialData();
     }, [initialCategory]);
 
     const resourceMenuItems = [
@@ -26,25 +37,63 @@ export function ResourcesContent({ initialCategory = 'Coffee Table Books' }) {
         'Coffee Table Books'
     ];
 
-    const coffeeResources = [
-        { image: "/images/ct1.png", title: "Coffee Table Book 1", pdf: "/books/Concept-Note.pdf" },
-        { image: "/images/ct2.png", title: "Coffee Table Book 2", pdf: "/books/Concept-Note.pdf" },
-        { image: "/images/ct3.png", title: "Coffee Table Book 3", pdf: "/books/coffee-table-3.pdf" },
-        { image: "/images/ct4.png", title: "Coffee Table Book 4", pdf: "/books/coffee-table-4.pdf" },
-        { image: "/images/ct5.png", title: "Coffee Table Book 5", pdf: "/books/coffee-table-5.pdf" }
-    ];
+    const fetchInitialData = async () => {
+        try {
+            setLoading(true);
+            const [statesRes, coffeeRes, thematicRes, movieRes] = await Promise.all([
+                fetch('http://127.0.0.1:8000/api/states/'),
+                fetch('http://127.0.0.1:8000/api/coffee-table-books/'),
+                fetch('http://127.0.0.1:8000/api/thematic/'),
+                fetch('http://127.0.0.1:8000/api/movies/')
+            ]);
+            
+            setStates(await statesRes.json());
+            setCoffeeBooks(await coffeeRes.json());
+            setThematics(await thematicRes.json());
+            setMovies(await movieRes.json());
+        } catch (err) {
+            setError(err.message);
+        } finally {
+            setLoading(false);
+        }
+    };
 
-    const regionalResources = [
-        { image: "/images/1.png", title: "Regional Book 1", pdf: "/books/regional-1.pdf" },
-        { image: "/images/17.png", title: "Regional Book 2", pdf: "/books/regional-2.pdf" },
-        { image: "/images/17.png", title: "Regional Book 3", pdf: "/books/regional-3.pdf" },
-        { image: "/images/17.png", title: "Regional Book 4", pdf: "/books/regional-4.pdf" }
-    ];
+    const fetchFlipBooks = async (stateId, regionId) => {
+        try {
+            setLoading(true);
+            let url = 'http://127.0.0.1:8000/api/flipbooks/';
+            const params = new URLSearchParams();
+            if (stateId) params.append('state', stateId);
+            if (regionId) params.append('region', regionId);
+            
+            if (stateId || regionId) {
+                url += `?${params.toString()}`;
+            }
+            
+            const res = await fetch(url);
+            setFlipBooks(await res.json());
+        } catch (err) {
+            setError(err.message);
+        } finally {
+            setLoading(false);
+        }
+    };
 
-    const thematicResources = [
-        { image: "/images/CompandiumsP1.png", title: "Thematic Note 1", pdf: "/books/Concept-Note.pdf" },
-        { image: "/images/CompandiumsP1.png", title: "Thematic Note 2", pdf: "/books/thematic-2.pdf" }
-    ];
+    const fetchRegions = async (stateId) => {
+        if (!stateId) return;
+        try {
+            const res = await fetch(`http://127.0.0.1:8000/api/regions/?state=${stateId}`);
+            setRegions(await res.json());
+        } catch (err) {
+            setError(err.message);
+        }
+    };
+
+    useEffect(() => {
+        if (selectedCategory === 'Regional Flip Books') {
+            fetchFlipBooks(selectedState, selectedRegion);
+        }
+    }, [selectedState, selectedRegion]);
 
     const handleCategoryChange = (category) => {
         if (category === 'Movies') {
@@ -52,11 +101,25 @@ export function ResourcesContent({ initialCategory = 'Coffee Table Books' }) {
         } else {
             setSelectedCategory(category);
             setIsOpen(false);
+            if (category === 'Regional Flip Books') {
+                fetchFlipBooks();
+            }
         }
     };
 
-    const handleBookSelect = (pdf, title) => {
-        setSelectedPdf(pdf);
+    const handleStateChange = async (e) => {
+        const stateId = e.target.value;
+        setSelectedState(stateId);
+        setSelectedRegion('');
+        await fetchRegions(stateId);
+    };
+
+    const handleBookSelect = (resource) => {
+        // Determine PDF URL based on resource type
+        const pdfUrl = resource.file || resource.book_pdf || resource.cover_image;
+        const title = resource.title || resource.name || resource.coffee_table_book_name;
+        
+        setSelectedPdf(pdfUrl);
         setSelectedTitle(title);
 
         setTimeout(() => {
@@ -70,11 +133,39 @@ export function ResourcesContent({ initialCategory = 'Coffee Table Books' }) {
         }, 100);
     };
 
+    const getResourceData = () => {
+        switch(selectedCategory) {
+            case 'Coffee Table Books':
+                return coffeeBooks;
+            case 'Regional Flip Books':
+                return flipBooks;
+            case 'Thematic Concept Notes':
+                return thematics;
+            case 'Movies':
+                return movies;
+            default:
+                return [];
+        }
+    };
+
+    const getImageSource = (resource) => {
+        // Handle different resource types
+        if (resource.movie_thumbnail) return resource.movie_thumbnail;
+        if (resource.cover_image) return resource.cover_image;
+        if (resource.cover_picture) return resource.cover_picture;
+        return "/images/default-thumbnail.jpg";
+    };
+
     const dropdownItems = resourceMenuItems.filter(item => item !== selectedCategory);
+
+    if (error) return <div className="text-red-500 p-4">Error loading resources: {error}</div>;
+    if (loading) return <div className="p-4">Loading resources...</div>;
 
     return (
         <div className="max-w-5xl mx-auto space-y-10">
             <h1 className="text-3xl md:text-4xl font-bold text-[#7A2631] transition-all duration-700 delay-300">Resources</h1>
+            
+            {/* Category Dropdown */}
             <div className="w-full sm:w-[300px] mb-8">
                 <div className="relative">
                     <button
@@ -103,94 +194,60 @@ export function ResourcesContent({ initialCategory = 'Coffee Table Books' }) {
                 </div>
             </div>
 
+            {/* Resource Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
-                {selectedCategory === 'Coffee Table Books' && 
-                    coffeeResources.map((resource, idx) => (
-                        <div
-                            key={idx}
-                            className="group overflow-hidden border rounded-custom2 transition-transform duration-300 hover:scale-105 cursor-pointer"
-                            onClick={() => handleBookSelect(resource.pdf, resource.title)}
-                        >
-                            <div className="p-0">
-                                <Image
-                                    src={resource.image}
-                                    alt={resource.title}
-                                    width={200}
-                                    height={300}
-                                    className="w-full h-auto object-cover transition-opacity duration-300 group-hover:opacity-90"
-                                />
-                            </div>
-                        </div>
-                    ))
-                }
                 {selectedCategory === 'Regional Flip Books' && (
-                    <>
-                        <div className="col-span-full">
-                            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
-                                <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
-                                    <select
-                                        value={selectedState}
-                                        onChange={(e) => setSelectedState(e.target.value)}
-                                        className="w-full sm:w-[200px] text-black bg-white border border-gray-300 rounded-md px-3 py-2"
-                                    >
-                                        <option value="">Choose State</option>
-                                        <option value="assam">Assam</option>
-                                        <option value="bihar">Bihar</option>
-                                        <option value="gujarat">Gujarat</option>
-                                    </select>
+                    <div className="col-span-full">
+                        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+                            <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+                                <select
+                                    value={selectedState}
+                                    onChange={handleStateChange}
+                                    className="w-full sm:w-[200px] text-black bg-white border border-gray-300 rounded-md px-3 py-2"
+                                >
+                                    <option value="">Choose State</option>
+                                    {states.map(state => (
+                                        <option key={state.id} value={state.id}>{state.name}</option>
+                                    ))}
+                                </select>
 
-                                    <select
-                                        value={selectedRegion}
-                                        onChange={(e) => setSelectedRegion(e.target.value)}
-                                        className="w-full sm:w-[200px] text-black bg-white border border-gray-300 rounded-md px-3 py-2"
-                                    >
-                                        <option value="">Choose Region</option>
-                                        <option value="upper">Upper Region</option>
-                                        <option value="lower">Lower Region</option>
-                                        <option value="central">Central Region</option>
-                                    </select>
-                                </div>
+                                <select
+                                    value={selectedRegion}
+                                    onChange={(e) => setSelectedRegion(e.target.value)}
+                                    className="w-full sm:w-[200px] text-black bg-white border border-gray-300 rounded-md px-3 py-2"
+                                >
+                                    <option value="">Choose Region</option>
+                                    {regions.map(region => (
+                                        <option key={region.id} value={region.id}>{region.name}</option>
+                                    ))}
+                                </select>
                             </div>
                         </div>
-                        {regionalResources.map((resource, idx) => (
-                            <div
-                                key={idx}
-                                className="group overflow-hidden border rounded-lg transition-transform duration-300 hover:scale-105 cursor-pointer"
-                                onClick={() => handleBookSelect(resource.pdf, resource.title)}
-                            >
-                                <div className="p-0">
-                                    <Image
-                                        src={resource.image}
-                                        alt={resource.title}
-                                        width={300}
-                                        height={400}
-                                        className="w-full h-auto object-cover transition-opacity duration-300 group-hover:opacity-90"
-                                    />
-                                </div>
-                            </div>
-                        ))}
-                    </>
+                    </div>
                 )}
-                {selectedCategory === 'Thematic Concept Notes' &&
-                    thematicResources.map((resource, idx) => (
-                        <div
-                            key={idx}
-                            className="group overflow-hidden border rounded-custom2 transition-transform duration-300 hover:scale-105 cursor-pointer"
-                            onClick={() => handleBookSelect(resource.pdf, resource.title)}
-                        >
-                            <div className="p-0">
-                                <Image
-                                    src={resource.image}
-                                    alt={resource.title}
-                                    width={300}
-                                    height={400}
-                                    className="w-full h-auto object-cover transition-opacity duration-300 group-hover:opacity-90"
-                                />
-                            </div>
+
+                {getResourceData().map((resource, idx) => (
+                    <div
+                        key={idx}
+                        className="group overflow-hidden border rounded-custom2 transition-transform duration-300 hover:scale-105 cursor-pointer"
+                        onClick={() => handleBookSelect(resource)}
+                    >
+                        <div className="p-0">
+                            <Image
+                                src={getImageSource(resource)}
+                                alt={resource.title || resource.name || resource.coffee_table_book_name}
+                                width={300}
+                                height={400}
+                                className="w-full h-auto object-cover transition-opacity duration-300 group-hover:opacity-90"
+                                onError={(e) => {
+                                    e.target.src = "/images/default-thumbnail.jpg";
+                                }}
+                            />
                         </div>
-                    ))
-                }
+                    </div>
+                ))}
             </div>
+
             <Resources selectedPdf={selectedPdf} selectedTitle={selectedTitle} />
         </div>
     );
