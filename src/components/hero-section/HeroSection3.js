@@ -191,6 +191,7 @@ export function HeroSection3() {
         <div className="space-y-6 md:mt-48">
           <p className="text-black leading-relaxed text-base md:text-lg max-w-lg">
             {sectionData.section_description}
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget sapien.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget sapien. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget sapien.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget sapien. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget sapien. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget sapien.
           </p>
           <button 
             onClick={handleLearnMore} 

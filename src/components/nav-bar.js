@@ -10,13 +10,13 @@ export function NavBar() {
   const [isOpen, setIsOpen] = useState(false)
   const [isResourcesOpen, setIsResourcesOpen] = useState(false)
   const [isLangOpen, setIsLangOpen] = useState(false)
-  const router = useRouter();
+  const [isSearchOpen, setIsSearchOpen] = useState(false)
+  const [searchQuery, setSearchQuery] = useState("")
+  const router = useRouter()
   
-  // Add refs for dropdown containers
   const resourcesRef = useRef(null)
   const langRef = useRef(null)
 
-  // Handle click outside
   useEffect(() => {
     function handleClickOutside(event) {
       if (resourcesRef.current && !resourcesRef.current.contains(event.target)) {
@@ -30,6 +30,12 @@ export function NavBar() {
     document.addEventListener('mousedown', handleClickOutside)
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
+
+  const handleSearch = (e) => {
+    if (e) e.preventDefault()
+    // Add your search logic here
+    console.log("Searching for:", searchQuery)
+  }
 
   return (
     <div className="px-4 py-6">
@@ -52,7 +58,7 @@ export function NavBar() {
             <Link href="/about-project" className="font-inter text-[#1a365d] hover:text-gray-900">
               About the Project
             </Link>
-            <Link href="/jeevan-darshan" className="text-[#1a365d]  hover:text-gray-900">
+            <Link href="/jeevan-darshan" className="text-[#1a365d] hover:text-gray-900">
               Jeevan Darshan
             </Link>
             <div className="relative" ref={resourcesRef}>
@@ -113,15 +119,49 @@ export function NavBar() {
               )}
             </div>
             <Link href="/lets-collaborate">
-              <button
-                className="bg-[#E7B24B] text-black hover:bg-[#f6a93d] rounded-custom px-4 py-1.5 font-medium"
-              >
+              <button className="bg-[#E7B24B] text-black hover:bg-[#f6a93d] rounded-custom px-4 py-1.5 font-medium">
                 Let's Collaborate
               </button>
             </Link>
-            <button className="p-1.5">
-              <Search className="h-4 w-4 text-[#1a365d]" />
-            </button>
+            
+            {/* Desktop Search */}
+            <div className="flex items-center">
+              <button
+                onClick={() => setIsSearchOpen(!isSearchOpen)}
+                className={`p-1.5 hidden md:block transition-opacity duration-300 ${
+                  isSearchOpen ? 'opacity-0' : 'opacity-100'
+                }`}
+              >
+                <Search className="h-4 w-4 text-[#1a365d]" />
+              </button>
+              <form 
+                onSubmit={handleSearch}
+                className={`transition-all duration-300 ease-in-out overflow-hidden ${
+                  isSearchOpen ? 'w-64 opacity-100' : 'w-0 opacity-0'
+                }`}
+              >
+                <div className="flex">
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Search..."
+                    className="w-full p-2 rounded-custom2 text-black border border-r-0 border-gray-300 focus:outline-none"
+                  />
+                  <button 
+                    type="button"
+                    onClick={() => {
+                      setIsSearchOpen(false);
+                      setSearchQuery("");
+                    }}
+                    className="p-2 border border-l-0 border-gray-300 hover:bg-gray-50"
+                  >
+                    <X className="h-4 w-4 text-[#1a365d]" />
+                  </button>
+                </div>
+              </form>
+            </div>
+
             <div className="relative" ref={langRef}>
               <button
                 onClick={() => setIsLangOpen(!isLangOpen)}
@@ -140,11 +180,12 @@ export function NavBar() {
             </div>
           </div>
 
-          {/* Mobile*/}
+          {/* Mobile */}
           <div className="md:hidden flex items-center gap-4">
-            <button className="p-2">
+            <button onClick={() => setIsSearchOpen(!isSearchOpen)} className="p-2">
               <Search className="h-5 w-5 text-[#1a365d]" />
             </button>
+            
             <button onClick={() => setIsOpen(!isOpen)} className="p-2">
               {isOpen ? (
                 <X className="h-5 w-5 text-[#1a365d]" />
@@ -154,6 +195,31 @@ export function NavBar() {
             </button>
           </div>
         </div>
+
+        {/* Mobile Search Bar - Moved outside the navigation items */}
+        {isSearchOpen && (
+          <div className="md:hidden mt-4 px-2">
+            <form onSubmit={handleSearch} className="relative w-full">
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search..."
+                className="w-full p-2 pr-10 rounded-custom2 text-black border border-gray-300 focus:outline-none"
+              />
+              <button 
+                type="button"
+                onClick={() => {
+                  setIsSearchOpen(false);
+                  setSearchQuery("");
+                }}
+                className="absolute right-2 top-1/2 transform -translate-y-1/2 p-1"
+              >
+                <X className="h-5 w-5 text-[#1a365d]" />
+              </button>
+            </form>
+          </div>
+        )}
 
         {/* Mobile Menu Content */}
         {isOpen && (
@@ -187,7 +253,7 @@ export function NavBar() {
                   <a href="/movies" className="block py-2 text-sm text-gray-700 hover:text-gray-900">Movies</a>
                 </div>
               )}
-              <Link href={"/lets-collaborate"}>
+              <Link href="/lets-collaborate">
                 <button
                   className="bg-[#F6B352] text-black hover:bg-[#f6a93d] rounded-custom px-6 py-2 font-medium w-full"
                   onClick={() => setIsOpen(false)}
