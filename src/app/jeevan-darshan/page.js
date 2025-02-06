@@ -8,6 +8,7 @@ import { Footer } from "@/components/footer"
 import { Share2, ChevronDown } from 'lucide-react'
 import Link from "next/link"
 import { ResourcesContent } from "@/components/resources-content"
+import { JeevanResources } from "@/components/jeevan-resources"
 
 export default function JeevanDarshan() {
     const [currentSlide, setCurrentSlide] = useState(0)
@@ -39,8 +40,8 @@ export default function JeevanDarshan() {
                 { src: "/images/Sindoor_Play.jpeg", alt: "Fourth Image" }
             ],
             content: {
-                column1: "Lorem ipsum dolor sit amet... (Nature & Agriculture content)",
-                column2: "Lorem ipsum dolor sit amet... (Nature & Agriculture content)"
+                column1: "Lorem ipsum dolor sit amet... (Nature & Agriculture content)Lorem ipsum dolor sit amet... (Nature & Agriculture content)Lorem ipsum dolor sit amet... (Nature & Agriculture content)Lorem ipsum dolor sit amet... (Nature & Agriculture content)Lorem ipsum dolor sit amet... (Nature & Agriculture content)Lorem ipsum dolor sit amet... (Nature & Agriculture content)Lorem ipsum dolor sit amet... (Nature & Agriculture content)Lorem ipsum dolor sit amet... (Nature & Agriculture content) Hello this is testing parahraph",
+                column2: "Lorem ipsum dolor sit amet... (Nature & Agriculture content)Lorem ipsum dolor sit amet... (Nature & Agriculture content)Lorem ipsum dolor sit amet... (Nature & Agriculture content)Lorem ipsum dolor sit amet... (Nature & Agriculture content)Lorem ipsum dolor sit amet... (Nature & Agriculture content)Lorem ipsum dolor sit amet... (Nature & Agriculture content)Lorem ipsum dolor sit amet... (Nature & Agriculture content)Lorem ipsum dolor sit amet... (Nature & Agriculture content)"
             }
         },
         'Family & Community': {
@@ -218,7 +219,7 @@ export default function JeevanDarshan() {
 
                     {/* Replace Resources component with View All Resources button */}
                     <div className="container mx-auto px-4 md:px-6 py-12">
-                        <ResourcesContent initialCategory="Coffee Table Books" />
+                        <JeevanResources selectedCategory={selectedCategory} />
                     </div>
                 </div>
             </div>
