@@ -69,15 +69,18 @@ export function NavBar() {
                 Resources <ChevronDown className="h-4 w-4" />
               </button>
               {isResourcesOpen && (
-                <div className="dropdown-menu absolute top-full left-0 mt-3 w-48 rounded-custom shadow-lg bg-[#F6B352] ring-1 ring-black ring-opacity-5 transition-all duration-200 ease-in-out opacity-100 transform scale-100 origin-top">
-                  <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+                <div className="dropdown-menu absolute top-full right-0 mt-3 w-48 rounded-custom2 shadow-lg bg-[#F6B352] ring-1 ring-black ring-opacity-5 transition-all duration-200 ease-in-out opacity-100 transform scale-100 origin-top">
+                  <div className="py-0" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
                     <button 
                       onClick={() => {
                         router.push('/resources');
                         localStorage.setItem('selectedResourceType', 'Coffee Table Books');
+                        window.dispatchEvent(new CustomEvent('navResourceChange', { 
+                          detail: 'Coffee Table Books' 
+                        }));
                         setIsResourcesOpen(false);
                       }} 
-                      className="block w-full text-left px-4 py-2 text-sm text-black hover:bg-gray-100 rounded-custom" 
+                      className="block w-full text-left px-4 py-2 text-sm text-black hover:bg-gray-100 rounded-custom2" 
                       role="menuitem"
                     >
                       Coffee Table Books
@@ -86,9 +89,12 @@ export function NavBar() {
                       onClick={() => {
                         router.push('/resources');
                         localStorage.setItem('selectedResourceType', 'Regional Flip Books');
+                        window.dispatchEvent(new CustomEvent('navResourceChange', { 
+                          detail: 'Regional Flip Books' 
+                        }));
                         setIsResourcesOpen(false);
                       }} 
-                      className="block w-full text-left px-4 py-2 text-sm text-black hover:bg-gray-100 rounded-custom" 
+                      className="block w-full text-left px-4 py-2 text-sm text-black hover:bg-gray-100 rounded-custom2" 
                       role="menuitem"
                     >
                       Regional Flip Books
@@ -97,29 +103,36 @@ export function NavBar() {
                       onClick={() => {
                         router.push('/resources');
                         localStorage.setItem('selectedResourceType', 'Thematic Concept Notes');
+                        window.dispatchEvent(new CustomEvent('navResourceChange', { 
+                          detail: 'Thematic Concept Notes' 
+                        }));
                         setIsResourcesOpen(false);
                       }} 
-                      className="block w-full text-left px-4 py-2 text-sm text-black hover:bg-gray-100 rounded-custom" 
+                      className="block w-full text-left px-4 py-2 text-sm text-black hover:bg-gray-100 rounded-custom2" 
                       role="menuitem"
                     >
                       Thematic Concept Notes
                     </button>
                     <button 
                       onClick={() => {
-                        router.push('/movies');
+                        router.push('/resources');
+                        localStorage.setItem('selectedResourceType', 'Movies');
+                        window.dispatchEvent(new CustomEvent('navResourceChange', { 
+                          detail: 'Movies' 
+                        }));
                         setIsResourcesOpen(false);
                       }} 
-                      className="block w-full text-left px-4 py-2 text-sm text-black hover:bg-gray-100 rounded-custom" 
+                      className="block w-full text-left px-4 py-2 text-sm text-black hover:bg-gray-100 rounded-custom2" 
                       role="menuitem"
                     >
                       Movies
-                    </button>
+                    </button> 
                   </div>
                 </div>
               )}
             </div>
             <Link href="/lets-collaborate">
-              <button className="bg-[#E7B24B] text-black hover:bg-[#f6a93d] rounded-custom px-4 py-1.5 font-medium">
+              <button className="bg-[#E7B24B] text-black hover:bg-[#f6a93d] rounded-custom2 px-4 py-1.5 font-medium">
                 Let's Collaborate
               </button>
             </Link>
@@ -170,10 +183,10 @@ export function NavBar() {
                 Eng <ChevronDown className="h-4 w-4" />
               </button>
               {isLangOpen && (
-                <div className="absolute top-full right-0 mt-3 w-48 rounded-custom shadow-lg bg-[#F6B352] ring-1 ring-black ring-opacity-5 transition-all duration-200 ease-in-out opacity-100 transform scale-100 origin-top">
-                  <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-                    <a href="#" className="block px-4 py-2 text-black hover:bg-gray-100 rounded-custom" role="menuitem">English</a>
-                    <a href="#" className="block px-4 py-2 text-black hover:bg-gray-100 rounded-custom" role="menuitem">Hindi</a>
+                <div className="absolute top-full left-0 mt-3 w-48 rounded-custom2 shadow-lg bg-[#F6B352] ring-1 ring-black ring-opacity-5 transition-all duration-200 ease-in-out opacity-100 transform scale-100 origin-top">
+                  <div className="py-0" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+                    <a href="#" className="block px-4 py-2 text-black hover:bg-gray-100 rounded-custom2" role="menuitem">English</a>
+                    <a href="#" className="block px-4 py-2 text-black hover:bg-gray-100 rounded-custom2" role="menuitem">Hindi (coming soon)</a>
                   </div>
                 </div>
               )}
@@ -270,7 +283,7 @@ export function NavBar() {
               {isLangOpen && (
                 <div className="pl-4">
                   <a href="#" className="block py-2 text-sm text-gray-700 hover:text-gray-900">English</a>
-                  <a href="#" className="block py-2 text-sm text-gray-700 hover:text-gray-900">Hindi</a>
+                  <a href="#" className="block py-2 text-sm text-gray-700 hover:text-gray-900">Hindi (coming soon)</a>
                 </div>
               )}
             </div>

@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect } from "react";
@@ -76,24 +75,24 @@ export function JeevanResources({ selectedCategory = 'Nature & Agriculture' }) {
     const hasContent = getCurrentData().length > 0;
 
     return (
-        <div className="space-y-8">
+        <div className="space-y-8 w-full overflow-x-auto">
             {/* Tab navigation */}
-            <div className="flex flex-wrap gap-2 bg-[#FAF3E0] p-1 rounded-custom2 min-w-max max-w-max">
+            <div className="flex flex-wrap gap-2 bg-[#FAF3E0] p-1 rounded-custom2 w-fit">
                 <button
                     onClick={() => setActiveTab('coffee')}
-                    className={`px-6 py-3 rounded-custom2 transition-colors flex items-center justify-center gap-2 text-sm ${
+                    className={`px-6 py-3 rounded-custom2 transition-colors flex items-center justify-center gap-2 text-sm whitespace-nowrap ${
                         activeTab === 'coffee' 
                             ? 'bg-[#E4A853] text-black' 
                             : 'text-gray-700 hover:bg-[#E4A853] hover:text-black'
                     }`}
                 >
-                    <BookImage className="w-4 h-4" />
+                    <Book className="w-4 h-4" />
                     Coffee Table Books
                 </button>
 
                 <button
                     onClick={() => setActiveTab('thematic')}
-                    className={`px-4 py-2 rounded-custom2 transition-colors flex items-center justify-center gap-2 text-sm ${
+                    className={`px-4 py-2 rounded-custom2 transition-colors flex items-center justify-center gap-2 text-sm whitespace-nowrap ${
                         activeTab === 'thematic' 
                             ? 'bg-[#E4A853] text-black' 
                             : 'text-gray-700 hover:bg-[#E4A853] hover:text-black'
@@ -105,9 +104,11 @@ export function JeevanResources({ selectedCategory = 'Nature & Agriculture' }) {
             </div>
 
             {hasContent ? (
-                <Resources selectedPdf={selectedPdf} selectedTitle={selectedTitle} />
+                <div className="w-full">
+                    <Resources selectedPdf={selectedPdf} selectedTitle={selectedTitle} />
+                </div>
             ) : (
-                <div className="text-center py-12">
+                <div className="text-center py-12 w-full">
                     <div className="bg-gray-50 rounded-lg p-8 max-w-md mx-auto">
                         <Book className="w-12 h-12 mx-auto text-gray-400 mb-4" />
                         <h3 className="text-xl font-semibold text-gray-900 mb-2">

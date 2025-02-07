@@ -1,19 +1,22 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useEffect, useRef } from "react";
 import { ChevronDown } from "lucide-react";
 import Image from "next/image";
 import { Resources } from "@/components/resources";
+import MovieSlider from "@/components/movie-slider";
+import VideoModal from "@/components/video-modal";
 
 export function ResourcesContent({ initialCategory = 'Coffee Table Books' }) {
-    const router = useRouter();
     const [isOpen, setIsOpen] = useState(false);
     const [selectedCategory, setSelectedCategory] = useState(initialCategory);
     const [selectedState, setSelectedState] = useState('');
     const [selectedRegion, setSelectedRegion] = useState('');
     const [selectedPdf, setSelectedPdf] = useState(null);
     const [selectedTitle, setSelectedTitle] = useState('');
+    const [currentShortMovie, setCurrentShortMovie] = useState(0);
+    const [currentRecommendedMovie, setCurrentRecommendedMovie] = useState(0);
+    const [selectedVideo, setSelectedVideo] = useState(null);
 
     // API Data States
     const [coffeeBooks, setCoffeeBooks] = useState([]);
@@ -25,8 +28,103 @@ export function ResourcesContent({ initialCategory = 'Coffee Table Books' }) {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
+    // Movie Data
+    const movieResources = [
+        {
+            image: '/images/P1.svg',
+            video: 'https://www.youtube.com/watch?v=aaNq2NL6D4A',
+            title: 'Movie Title 1'
+        },
+        {
+            image: '/images/P2.svg',
+            video: '/videos/video1.mp4',
+            title: 'Movie Title 2'
+        },
+        {
+            image: '/images/P3.svg',
+            video: 'https://www.youtube.com/embed/YOUR_VIDEO_ID_2?autoplay=1&controls=1&rel=0&showinfo=0',
+            title: 'Movie Title 3'
+        },
+    ];
+
+    const recommendedMovies = [
+        { 
+            image: '/images/movie1.png', 
+            title: 'Recommended Movie 1',
+            video: '/videos/recommended1.mp4'
+        },
+        { 
+            image: '/images/movie2.png', 
+            title: 'Recommended Movie 2',
+            video: 'https://www.youtube.com/watch?v=YOUR_VIDEO_ID'
+        },
+        { image: '/images/movie3.png', title: 'Recommended Movie 3' },
+        { image: '/images/movie1.png', title: 'Recommended Movie 4' },
+        { image: '/images/movie2.png', title: 'Recommended Movie 5' },
+    ];
+
+    const shortMovies = [
+        { 
+            src: "/images/short1.png", 
+            alt: "Short movie 1", 
+            title: "Short Movie 1",
+            video: "/videos/short1.mp4"
+        },
+        { 
+            src: "/images/short2.png", 
+            alt: "Short movie 2", 
+            title: "Short Movie 2",
+            video: "https://www.youtube.com/watch?v=YOUR_VIDEO_ID"
+        },
+        { src: "/images/short3.png", alt: "Short movie 3", title: "Short Movie 3" },
+        { src: "/images/short1.png", alt: "Short movie 4", title: "Short Movie 4" },
+    ];
+
+    // Add new state to control Resources component visibility
+    const [showResources, setShowResources] = useState(true);
+
+    // Add ref for the dropdown
+    const dropdownRef = useRef(null);
+
+    // Add useEffect for click outside handling
+    useEffect(() => {
+        function handleClickOutside(event) {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setIsOpen(false);
+            }
+        }
+
+        // Add event listener
+        document.addEventListener('mousedown', handleClickOutside);
+        
+        // Cleanup
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
+
+    useEffect(() => {
+        // Handle category changes from navbar
+        const handleNavResourceChange = (event) => {
+            setSelectedCategory(event.detail);
+            // Reset states when changing categories
+            setSelectedPdf(null);
+            setSelectedTitle('');
+            setShowResources(event.detail !== 'Movies');
+        };
+
+        window.addEventListener('navResourceChange', handleNavResourceChange);
+        return () => {
+            window.removeEventListener('navResourceChange', handleNavResourceChange);
+        };
+    }, []);
+
     useEffect(() => {
         setSelectedCategory(initialCategory);
+        // Reset states when initialCategory changes
+        setSelectedPdf(null);
+        setSelectedTitle('');
+        setShowResources(initialCategory !== 'Movies');
         fetchInitialData();
     }, [initialCategory]);
 
@@ -95,15 +193,20 @@ export function ResourcesContent({ initialCategory = 'Coffee Table Books' }) {
         }
     }, [selectedState, selectedRegion]);
 
+    // Modify handleCategoryChange to handle Resources visibility
     const handleCategoryChange = (category) => {
+        setSelectedCategory(category);
+        setIsOpen(false);
+        if (category === 'Regional Flip Books') {
+            fetchFlipBooks();
+        }
+        // Reset selected PDF and hide Resources component when switching to Movies
         if (category === 'Movies') {
-            router.push('/movies');
+            setSelectedPdf(null);
+            setSelectedTitle('');
+            setShowResources(false);
         } else {
-            setSelectedCategory(category);
-            setIsOpen(false);
-            if (category === 'Regional Flip Books') {
-                fetchFlipBooks();
-            }
+            setShowResources(true);
         }
     };
 
@@ -115,7 +218,6 @@ export function ResourcesContent({ initialCategory = 'Coffee Table Books' }) {
     };
 
     const handleBookSelect = (resource) => {
-        // Determine PDF URL based on resource type
         const pdfUrl = resource.file || resource.book_pdf || resource.cover_image;
         const title = resource.title || resource.name || resource.coffee_table_book_name;
         
@@ -149,11 +251,34 @@ export function ResourcesContent({ initialCategory = 'Coffee Table Books' }) {
     };
 
     const getImageSource = (resource) => {
-        // Handle different resource types
         if (resource.movie_thumbnail) return resource.movie_thumbnail;
         if (resource.cover_image) return resource.cover_image;
         if (resource.cover_picture) return resource.cover_picture;
         return "/images/default-thumbnail.jpg";
+    };
+
+    const getVisibleMovies = () => {
+        const movies = [...shortMovies];
+        const result = [];
+        for (let i = 0; i < 3; i++) {
+            const index = (currentShortMovie + i) % shortMovies.length;
+            result.push(movies[index]);
+        }
+        return result;
+    };
+
+    const getVisibleRecommendedMovies = () => {
+        const movies = [...recommendedMovies];
+        const result = [];
+        for (let i = 0; i < 3; i++) {
+            const index = (currentRecommendedMovie + i) % recommendedMovies.length;
+            result.push(movies[index]);
+        }
+        return result;
+    };
+
+    const handleWatchNow = (movie) => {
+        setSelectedVideo(movie);
     };
 
     const dropdownItems = resourceMenuItems.filter(item => item !== selectedCategory);
@@ -163,11 +288,13 @@ export function ResourcesContent({ initialCategory = 'Coffee Table Books' }) {
 
     return (
         <div className="max-w-5xl mx-auto space-y-10">
-            <h1 className="text-3xl md:text-4xl font-bold text-[#7A2631] transition-all duration-700 delay-300">Resources</h1>
+            <h1 className="text-3xl md:text-4xl font-bold text-[#7A2631] transition-all duration-700 delay-300">
+                Resources
+            </h1>
             
-            {/* Category Dropdown */}
-            <div className="w-full sm:w-[300px] mb-8">
-                <div className="relative">
+            {/* Category Dropdown - Add ref here */}
+            <div className="w-full sm:w-[300px] mb-8 relative z-50">
+                <div className="relative" ref={dropdownRef}>
                     <button
                         onClick={() => setIsOpen(!isOpen)}
                         className="inline-block w-full text-left font-bold bg-[#E7B24B] text-black px-4 md:px-8 py-6 rounded-custom2 text-base md:text-xl flex items-center justify-between transition-all duration-300 hover:bg-[#f4a93d]"
@@ -178,7 +305,7 @@ export function ResourcesContent({ initialCategory = 'Coffee Table Books' }) {
                         </div>
                     </button>
 
-                    <div className={`absolute top-full left-0 w-full overflow-hidden text-black bg-[#F6B352] rounded-b-lg mt-1 z-10 transition-all duration-300 ease-in-out ${isOpen ? "max-h-[400px] opacity-100" : "max-h-0 opacity-0"}`}>
+                    <div className={`absolute top-full left-0 w-full overflow-hidden text-black bg-[#F6B352] rounded-b-lg mt-1 transition-all duration-300 ease-in-out ${isOpen ? "max-h-[400px] opacity-100" : "max-h-0 opacity-0"}`}>
                         <div className="py-2">
                             {dropdownItems.map((item) => (
                                 <button
@@ -194,61 +321,257 @@ export function ResourcesContent({ initialCategory = 'Coffee Table Books' }) {
                 </div>
             </div>
 
-            {/* Resource Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
-                {selectedCategory === 'Regional Flip Books' && (
-                    <div className="col-span-full">
-                        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
-                            <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
-                                <select
-                                    value={selectedState}
-                                    onChange={handleStateChange}
-                                    className="w-full sm:w-[200px] text-black bg-white border border-gray-300 rounded-md px-3 py-2"
-                                >
-                                    <option value="">Choose State</option>
-                                    {states.map(state => (
-                                        <option key={state.id} value={state.id}>{state.name}</option>
-                                    ))}
-                                </select>
+            {/* Rest of the content - Lower z-index */}
+            <div className="relative z-0">
+                {selectedCategory === 'Movies' ? (
+                    // Movies Content
+                    <div className="space-y-12">
+                        {/* Movie Slider */}
+                        <MovieSlider
+                            movies={movieResources}
+                            onPlayClick={handleWatchNow}
+                        />
 
-                                <select
-                                    value={selectedRegion}
-                                    onChange={(e) => setSelectedRegion(e.target.value)}
-                                    className="w-full sm:w-[200px] text-black bg-white border border-gray-300 rounded-md px-3 py-2"
-                                >
-                                    <option value="">Choose Region</option>
-                                    {regions.map(region => (
-                                        <option key={region.id} value={region.id}>{region.name}</option>
-                                    ))}
-                                </select>
+                        {/* Recommended Movies Section */}
+                        <section>
+                            <div className="inline-block w-full mb-8 mt-10">
+                                <span className="bg-[#E7B24B] text-black font-bold px-4 md:px-12 py-6 rounded-custom2 transition-colors text-2xl">
+                                    Recommended Movies
+                                </span>
                             </div>
-                        </div>
+
+                            <div className="relative rounded-lg overflow-hidden mt-8">
+                                {/* Film strip border - top */}
+                                <div className="h-8 w-full bg-[#7B7B7B]" 
+                                    style={{
+                                        backgroundImage: 'repeating-linear-gradient(to right, transparent, transparent 20px, white 20px, white 48px)',
+                                    }}
+                                />
+
+                                {/* Movies slider */}
+                                <div className="bg-[#7B7B7B] p-8 relative">
+                                    {/* Previous button */}
+                                    <button 
+                                        onClick={() => setCurrentRecommendedMovie((prev) => 
+                                            prev === 0 ? recommendedMovies.length - 1 : prev - 1
+                                        )}
+                                        className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white/80 hover:bg-white text-gray-800 hover:text-black p-2 rounded-full shadow-lg transition-all duration-300 ml-4"
+                                        aria-label="Previous recommended movie"
+                                    >
+                                        <div className="w-10 h-10 flex items-center justify-center">
+                                            <span className="text-2xl font-bold">&lt;</span>
+                                        </div>
+                                    </button>
+
+                                    {/* Next button */}
+                                    <button 
+                                        onClick={() => setCurrentRecommendedMovie((prev) => 
+                                            (prev + 1) % recommendedMovies.length
+                                        )}
+                                        className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white/80 hover:bg-white text-gray-800 hover:text-black p-2 rounded-full shadow-lg transition-all duration-300 mr-4"
+                                        aria-label="Next recommended movie"
+                                    >
+                                        <div className="w-10 h-10 flex items-center justify-center">
+                                            <span className="text-2xl font-bold">&gt;</span>
+                                        </div>
+                                    </button>
+
+                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                        {getVisibleRecommendedMovies().map((movie, index) => (
+                                            <div key={index} className="relative group overflow-hidden rounded-lg">
+                                                <Image
+                                                    src={movie.image}
+                                                    alt={movie.title}
+                                                    width={400}
+                                                    height={300}
+                                                    className="w-full transition-transform duration-500 group-hover:scale-110"
+                                                />
+                                                <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center">
+                                                    <h3 className="text-white text-xl font-bold mb-4">{movie.title}</h3>
+                                                    <button 
+                                                        onClick={() => handleWatchNow(movie)}
+                                                        className="bg-[#E7B24B] text-black px-6 py-2 rounded-full font-semibold transform -translate-y-4 group-hover:translate-y-0 transition-all duration-300"
+                                                    >
+                                                        Watch Now
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                {/* Film strip border - bottom */}
+                                <div className="h-8 w-full bg-[#7B7B7B]" 
+                                    style={{
+                                        backgroundImage: 'repeating-linear-gradient(to right, transparent, transparent 20px, white 20px, white 48px)',
+                                    }}
+                                />
+
+                                {/* Navigation dots */}
+                                <div className="flex justify-center gap-3 mt-8">
+                                    {recommendedMovies.map((_, index) => (
+                                        <button
+                                            key={index}
+                                            onClick={() => setCurrentRecommendedMovie(index)}
+                                            className={`h-3 w-3 rounded-full transition-all duration-300 ${
+                                                currentRecommendedMovie === index 
+                                                    ? "bg-[#7A2631] w-6" 
+                                                    : "bg-gray-300 hover:bg-[#E7B24B]"
+                                            }`}
+                                            aria-label={`Go to recommended slide ${index + 1}`}
+                                        />
+                                    ))}
+                                </div>
+                            </div>
+                        </section>
+
+                        {/* Short Movies Section */}
+                        <section className="pb-12">
+                            <div className="inline-block w-full mb-8 mt-20">
+                                <span className="bg-[#E7B24B] text-black font-bold px-4 md:px-12 py-6 rounded-custom2 transition-colors text-2xl">
+                                    Short Movies
+                                </span>
+                            </div>
+
+                            <div className="relative mt-8">
+                                {/* Previous button */}
+                                <button 
+                                    onClick={() => setCurrentShortMovie((prev) => 
+                                        prev === 0 ? shortMovies.length - 1 : prev - 1
+                                    )}
+                                    className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 bg-white/80 hover:bg-white text-gray-800 hover:text-black p-2 rounded-full shadow-lg transition-all duration-300"
+                                    aria-label="Previous slide"
+                                >
+                                    <div className="w-10 h-10 flex items-center justify-center">
+                                        <span className="text-2xl font-bold">&lt;</span>
+                                    </div>
+                                </button>
+
+                                {/* Next button */}
+                                <button 
+                                    onClick={() => setCurrentShortMovie((prev) => 
+                                        (prev + 1) % shortMovies.length
+                                    )}
+                                    className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 bg-white/80 hover:bg-white text-gray-800 hover:text-black p-2 rounded-full shadow-lg transition-all duration-300"
+                                    aria-label="Next slide"
+                                >
+                                    <div className="w-10 h-10 flex items-center justify-center">
+                                        <span className="text-2xl font-bold">&gt;</span>
+                                    </div>
+                                </button>
+
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                    {getVisibleMovies().map((movie, index) => (
+                                        <div key={index} className="relative group overflow-hidden rounded-lg">
+                                            <Image
+                                                src={movie.src}
+                                                alt={movie.alt}
+                                                width={400}
+                                                height={300}
+                                                className="w-full transition-transform duration-500 group-hover:scale-110"
+                                            />
+                                            <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center">
+                                                <h3 className="text-white text-xl font-bold mb-4">{movie.title}</h3>
+                                                <button 
+                                                    onClick={() => handleWatchNow(movie)}
+                                                    className="bg-[#E7B24B] text-black px-6 py-2 rounded-full font-semibold transform -translate-y-4 group-hover:translate-y-0 transition-all duration-300"
+                                                >
+                                                    Watch Now
+                                                </button>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+
+                                {/* Navigation dots */}
+                                <div className="flex justify-center gap-3 mt-8">
+                                    {shortMovies.map((_, index) => (
+                                        <button
+                                            key={index}
+                                            onClick={() => setCurrentShortMovie(index)}
+                                            className={`h-3 w-3 rounded-full transition-all duration-300 ${
+                                                currentShortMovie === index 
+                                                    ? "bg-[#7A2631] w-6" 
+                                                    : "bg-gray-300 hover:bg-[#E7B24B]"
+                                            }`}
+                                            aria-label={`Go to slide ${index + 1}`}
+                                        />
+                                    ))}
+                                </div>
+                            </div>
+                        </section>
                     </div>
+                ) : (
+                    // Other Resources Grid
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+                        {selectedCategory === 'Regional Flip Books' && (
+                            <div className="col-span-full">
+                                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+                                    <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+                                        <select
+                                            value={selectedState}
+                                            onChange={handleStateChange}
+                                            className="w-full sm:w-[200px] text-black bg-white border border-gray-300 rounded-md px-3 py-2"
+                                        >
+                                            <option value="">Choose State</option>
+                                            {states.map(state => (
+                                                <option key={state.id} value={state.id}>{state.name}</option>
+                                            ))}
+                                        </select>
+
+                                        <select
+                                            value={selectedRegion}
+                                            onChange={(e) => setSelectedRegion(e.target.value)}
+                                            className="w-full sm:w-[200px] text-black bg-white border border-gray-300 rounded-md px-3 py-2"
+                                        >
+                                            <option value="">Choose Region</option>
+                                            {regions.map(region => (
+                                                <option key={region.id} value={region.id}>{region.name}</option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        {getResourceData().map((resource, idx) => (
+                            <div
+                                key={idx}
+                                className="group overflow-hidden border rounded-custom2 transition-transform duration-300 hover:scale-105 cursor-pointer"
+                                onClick={() => handleBookSelect(resource)}
+                            >
+                                <div className="p-0"></div>
+                                    <Image
+                                        src={getImageSource(resource)}
+                                        alt={resource.title || resource.name || resource.coffee_table_book_name}
+                                        width={300}
+                                        height={400}
+                                        className="w-full h-auto object-cover transition-opacity duration-300 group-hover:opacity-90"
+                                        onError={(e) => {
+                                            e.target.src = "/images/default-thumbnail.jpg";
+                                        }}
+                                    />
+                                </div>
+                        ))}
+                    </div>
+                )
+
+
+                /* Video Modal */}
+                <VideoModal 
+                    isOpen={!!selectedVideo}
+                    onClose={() => setSelectedVideo(null)}
+                    videoSource={selectedVideo?.video}
+                    title={selectedVideo?.title}
+
+
+                />
+
+                {/* Conditionally render Resources component */}
+                {showResources && (
+                    <Resources selectedPdf={selectedPdf} selectedTitle={selectedTitle} />
                 )}
-
-                {getResourceData().map((resource, idx) => (
-                    <div
-                        key={idx}
-                        className="group overflow-hidden border rounded-custom2 transition-transform duration-300 hover:scale-105 cursor-pointer"
-                        onClick={() => handleBookSelect(resource)}
-                    >
-                        <div className="p-0">
-                            <Image
-                                src={getImageSource(resource)}
-                                alt={resource.title || resource.name || resource.coffee_table_book_name}
-                                width={300}
-                                height={400}
-                                className="w-full h-auto object-cover transition-opacity duration-300 group-hover:opacity-90"
-                                onError={(e) => {
-                                    e.target.src = "/images/default-thumbnail.jpg";
-                                }}
-                            />
-                        </div>
-                    </div>
-                ))}
             </div>
-
-            <Resources selectedPdf={selectedPdf} selectedTitle={selectedTitle} />
         </div>
     );
 }
