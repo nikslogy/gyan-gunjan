@@ -53,37 +53,36 @@ export function HeroSection3() {
   ]
 
   const handleTileClick = (index) => {
-    // Map index to category name
-    const categories = [
-      'Nature & Agriculture',
-      'Family & Community',
-      'Knowledge & Learning',
-      'Art & Craft',
-      'Village Governance'
-    ]
+    // Map the tile index to the correct category based on visual position
+    const categoryMapping = {
+      0: 'Nature & Agriculture',    // Left bottom tile
+      3: 'Knowledge & Learning',   // Top center tile
+      4: 'Village Governance',     // Right bottom tile
+      1: 'Art & Craft',           // Right top tile
+      2: 'Family & Community'    // Left top tile
+    }
+
     
     setExitAnimation(true)
     setTimeout(() => {
-      // Store the selected category in localStorage instead of URL params
-      localStorage.setItem('selectedCategory', categories[index])
-      router.push('/jeevan-darshan')
+        localStorage.setItem('selectedCategory', categoryMapping[index])
+        router.push('/jeevan-darshan')
     }, 500)
   }
 
-  // Add new handler for Learn More button
+  // Update the handleLearnMore function to use the same mapping
   const handleLearnMore = () => {
     setExitAnimation(true)
     setTimeout(() => {
-      // Use the current tile's category when Learn More is clicked
-      const categories = [
-        'Nature & Agriculture',
-        'Family & Community',
-        'Knowledge & Learning',
-        'Art & Craft',
-        'Village Governance'
-      ]
-      localStorage.setItem('selectedCategory', categories[currentTile])
-      router.push('/jeevan-darshan')
+        const categoryMapping = {
+            0: 'Village Governance',
+            1: 'Art & Craft',
+            2: 'Knowledge & Learning',
+            3: 'Family & Community',
+            4: 'Nature & Agriculture'
+        }
+        localStorage.setItem('selectedCategory', categoryMapping[currentTile])
+        router.push('/jeevan-darshan')
     }, 500)
   }
 
@@ -169,7 +168,7 @@ export function HeroSection3() {
               </div>
 
               {/* Navigation Dots (unchanged) */}
-              <div className="absolute bottom-[-20px] left-1/2 transform -translate-x-1/2 flex items-center gap-3 z-30">
+              {/* <div className="absolute bottom-[-20px] left-1/2 transform -translate-x-1/2 flex items-center gap-3 z-30">
                 {[0, 1, 2, 3, 4].map((index) => (
                   <button
                     key={index}
@@ -182,7 +181,7 @@ export function HeroSection3() {
                     aria-label={`View tile ${index + 1}`}
                   />
                 ))}
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
@@ -191,7 +190,7 @@ export function HeroSection3() {
         <div className="space-y-6 md:mt-48">
           <p className="text-black leading-relaxed text-base md:text-lg max-w-lg">
             {sectionData.section_description}
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget sapien.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget sapien. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget sapien.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget sapien. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget sapien. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget sapien.
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget sapien.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget sapien. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget sapien.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget sapien. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget sapien.
           </p>
           <button 
             onClick={handleLearnMore} 

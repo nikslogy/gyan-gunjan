@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { useSearchParams } from "next/navigation"
 import { NavBar } from "@/components/nav-bar"
 import Image from "next/image"
@@ -115,6 +115,46 @@ export default function JeevanDarshan() {
         }
     }, [])
 
+    // Add ref for dropdown
+    const dropdownRef = useRef(null);
+
+    // Add click outside handler
+    useEffect(() => {
+        function handleClickOutside(event) {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setIsOpen(false);
+            }
+        }
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
+
+    // Add share functionality
+    const handleShare = async () => {
+        if (navigator.share) {
+            try {
+                await navigator.share({
+                    title: 'Jeevan Darshan',
+                    text: 'Check out this interesting content about ' + selectedCategory,
+                    url: window.location.href
+                });
+            } catch (error) {
+                console.log('Error sharing:', error);
+            }
+        } else {
+            // Fallback for browsers that don't support native sharing
+            try {
+                await navigator.clipboard.writeText(window.location.href);
+                alert('Link copied to clipboard!');
+            } catch (error) {
+                console.log('Error copying to clipboard:', error);
+            }
+        }
+    };
+
     return (
         <main className={`min-h-screen bg-white transition-all duration-1000 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-[20px]'
             }`}>
@@ -130,9 +170,9 @@ export default function JeevanDarshan() {
                         Jeevan Darshan
                     </h1>
 
-                    {/* Modified Dropdown Menu */}
+                    {/* Modified Dropdown Menu with ref */}
                     <div className="w-full sm:w-[300px] mb-8">
-                        <div className="relative">
+                        <div className="relative" ref={dropdownRef}>
                             <button
                                 onClick={() => setIsOpen(!isOpen)}
                                 className="inline-block w-full text-left font-bold bg-[#E7B24B] text-black px-4 md:px-8 py-6 rounded-custom2 text-base md:text-xl flex items-center justify-between transition-all duration-300 hover:bg-[#f4a93d]"
@@ -162,11 +202,15 @@ export default function JeevanDarshan() {
                         </div>
                     </div>
 
-                    {/* Modified Image slider section */}
+                    {/* Modified Image slider section with updated share button */}
                     <div className={`transition-all duration-700 delay-500 relative ${mounted ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}>
-                        {/* Share button */}
-                        <button className="absolute top-4 right-4 z-10 p-2 bg-white/80 rounded-full hover:bg-white transition-colors">
-                            <Share2 className="h-5 w-5 text-gray-700" />
+                        {/* Updated share button */}
+                        <button 
+                            onClick={handleShare}
+                            className="absolute top-0 right-4 z-10 p-2.5 bg-white/80 rounded-full hover:bg-white transition-colors duration-300 hover:shadow-md"
+                            aria-label="Share this content"
+                        >
+                            <Share2 className="h-5 w-5 text-gray-700 hover:text-gray-900" />
                         </button>
 
                         {/* Modified Image slider container */}
