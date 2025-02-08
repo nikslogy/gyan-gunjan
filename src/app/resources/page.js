@@ -14,13 +14,19 @@ export default function ResourcePage() {
         const savedCategory = localStorage.getItem('selectedResourceType');
         if (savedCategory) {
             setInitialCategory(savedCategory);
-            // Optional: Clear the stored value after using it
             localStorage.removeItem('selectedResourceType');
         }
+
+        // Listen for category changes from navbar
+        const handleCategoryChange = (event) => {
+            setInitialCategory(event.detail);
+        };
+
+        window.addEventListener('resourceCategoryChange', handleCategoryChange);
+        return () => {
+            window.removeEventListener('resourceCategoryChange', handleCategoryChange);
+        };
     }, []);
-
-
-    
 
     return (
         <main className={`min-h-screen bg-white transition-all duration-1000 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-[20px]"}`}>

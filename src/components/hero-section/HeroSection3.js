@@ -36,18 +36,36 @@ export function HeroSection3() {
   ]
 
   const handleTileClick = (index) => {
+    // Map index to category name
+    const categories = [
+      'Nature & Agriculture',
+      'Family & Community',
+      'Knowledge & Learning',
+      'Art & Craft',
+      'Village Governance'
+    ]
+    
     setExitAnimation(true)
     setTimeout(() => {
-      localStorage.setItem('selectedCategory', sections[index].title)
+      // Store the selected category in localStorage instead of URL params
+      localStorage.setItem('selectedCategory', categories[index])
       router.push('/jeevan-darshan')
     }, 500)
   }
 
+  // Update the handleLearnMore function to use the same mapping
   const handleLearnMore = () => {
     setExitAnimation(true)
     setTimeout(() => {
-      localStorage.setItem('selectedCategory', sections[currentTile].title)
-      router.push('/jeevan-darshan')
+        const categoryMapping = {
+            0: 'Village Governance',
+            1: 'Art & Craft',
+            2: 'Knowledge & Learning',
+            3: 'Family & Community',
+            4: 'Nature & Agriculture'
+        }
+        localStorage.setItem('selectedCategory', categoryMapping[currentTile])
+        router.push('/jeevan-darshan')
     }, 500)
   }
 
@@ -126,16 +144,16 @@ export function HeroSection3() {
                 <div className="absolute inset-[-16px] border-2 border-[#9B2C2C] rounded-full opacity-20"></div>
               </div>
 
-              {/* Navigation Dots */}
-              <div className="absolute bottom-[-20px] left-1/2 transform -translate-x-1/2 flex items-center gap-3 z-30">
-                {sections.map((_, index) => (
+              {/* Navigation Dots (unchanged) */}
+              {/* <div className="absolute bottom-[-20px] left-1/2 transform -translate-x-1/2 flex items-center gap-3 z-30">
+                {[0, 1, 2, 3, 4].map((index) => (
                   <button
                     key={index}
                     onClick={() => setCurrentTile(index)}
                     className={`h-3 rounded-full transition-all duration-300 ease-in-out ${currentTile === index ? 'w-8 bg-[#9B2C2C]' : 'w-3 bg-[#F6B352]'}`}
                   />
                 ))}
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
@@ -143,7 +161,8 @@ export function HeroSection3() {
         {/* Right Column: Section Description */}
         <div className="space-y-6 md:mt-48">
           <p className="text-black leading-relaxed text-base md:text-lg max-w-lg">
-            {currentSection.short_description}
+            {sectionData.section_description}
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget sapien.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget sapien. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget sapien.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget sapien. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget sapien. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget sapien.
           </p>
           <button 
             onClick={handleLearnMore} 

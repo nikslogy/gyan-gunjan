@@ -88,10 +88,11 @@ export const Resources = ({ selectedPdf, selectedTitle }) => {
     <>
       {selectedPdf ? (
         <>
-          <h2 className="text-2xl font-bold text-[#7A2631] mb-4">{selectedTitle}</h2>
+          <h2 className="text-2xl font-bold text-[#7A2631] mb-4 mt-20">{selectedTitle}</h2>
           <div className="w-full flex justify-center items-center p-4">
             <div
               id="flipbook-wrapper"
+
               className="relative w-[1600px] h-[700px] bg-gray-100 rounded-custom6 shadow-lg"
             >
               {/* FlipBook will be initialized here */}

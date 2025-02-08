@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { Book, Globe, Video } from 'lucide-react';
+import { Book, BookOpen, Notebook, Video } from 'lucide-react';
 import MovieSlider from './movie-slider';
 import { useRouter } from 'next/navigation';
+
 
 export default function LandingResources() {
   const router = useRouter();
@@ -106,11 +107,11 @@ export default function LandingResources() {
                 onClick={() => setActiveTab(tab)}
                 className={`px-6 py-3 rounded-custom2 transition-colors ${
                   activeTab === tab ? 'bg-[#E4A853] text-black' : 'text-gray-700 hover:bg-[#E4A853] hover:text-black'
-                }`}
+                }`} 
               >
-                {tab === 'thematic' && <Book className="w-4 h-4 inline mr-2" />}
+                {tab === 'thematic' && <Notebook className="w-4 h-4 inline mr-2" />}
                 {tab === 'coffee' && <Book className="w-4 h-4 inline mr-2" />}
-                {tab === 'regional' && <Book className="w-4 h-4 inline mr-2" />}
+                {tab === 'regional' && <BookOpen className="w-4 h-4 inline mr-2" />}
                 {tab === 'movies' && <Video className="w-4 h-4 inline mr-2" />}
                 {tab.charAt(0).toUpperCase() + tab.slice(1)}{' '}
                 {tab === 'thematic' ? 'Concept Notes' : tab === 'coffee' ? 'Table Books' : tab === 'regional' ? 'Flip Books' : ''}
@@ -125,6 +126,13 @@ export default function LandingResources() {
             {thematicData.map((item) => (
               <div
                 key={item.id}
+                onClick={() => {
+                  router.push('/resources');
+                  localStorage.setItem('selectedResourceType', 'Thematic Concept Notes');
+                  window.dispatchEvent(new CustomEvent('navResourceChange', { 
+                    detail: 'Thematic Concept Notes' 
+                  }));
+                }}
                 className="group overflow-hidden border rounded-custom2 transition-transform duration-300 hover:scale-105 cursor-pointer"
               >
                 <div className="p-0">
@@ -147,6 +155,13 @@ export default function LandingResources() {
             {coffeeData.map((item) => (
               <div
                 key={item.id}
+                onClick={() => {
+                  router.push('/resources');
+                  localStorage.setItem('selectedResourceType', 'Coffee Table Books');
+                  window.dispatchEvent(new CustomEvent('navResourceChange', { 
+                    detail: 'Coffee Table Books' 
+                  }));
+                }}
                 className="group overflow-hidden border rounded-custom4 transition-transform duration-300 hover:scale-105 cursor-pointer"
               >
                 <div className="p-0">
@@ -192,10 +207,17 @@ export default function LandingResources() {
               </div>
 
               <button 
-                onClick={() => router.push('/resources')}
+                onClick={() => {
+                  router.push('/resources');
+                  localStorage.setItem('selectedResourceType', 'Regional Flip Books');
+                  window.dispatchEvent(new CustomEvent('navResourceChange', { 
+                    detail: 'Regional Flip Books' 
+                  }));
+                }}
                 className="text-gray-600 hover:text-gray-900 w-full sm:w-auto text-center sm:text-left"
               >
                 View All
+
               </button>
             </div>
 
@@ -225,10 +247,17 @@ export default function LandingResources() {
           <>
             <div className="flex justify-end mb-4 sm:mb-6">
               <button 
-                onClick={() => router.push('/movies')}
+                onClick={() => {
+                  router.push('/resources');
+                  localStorage.setItem('selectedResourceType', 'Movies');
+                  window.dispatchEvent(new CustomEvent('navResourceChange', { 
+                    detail: 'Movies' 
+                  }));
+                }}
                 className="text-gray-600 hover:text-gray-900 text-sm sm:text-base"
               >
                 View All
+
               </button>
             </div>
             <MovieSlider 
