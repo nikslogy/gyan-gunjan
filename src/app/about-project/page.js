@@ -8,29 +8,68 @@ import { Footer } from "@/components/footer"
 
 export default function AboutProject() {
   const searchParams = useSearchParams()
-  const [currentSlide, setCurrentSlide] = useState(
-    parseInt(searchParams.get("currentSlide") || "0")
-  )
+  const [currentSlide, setCurrentSlide] = useState(0)
   const [mounted, setMounted] = useState(false)
+  const [aboutData, setAboutData] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
 
-  const images = [
-    { src: "/images/Bohag_Bihu.png", alt: "Traditional dancers in red attire" },
-    { src: "/images/Arecanut_01.png", alt: "Second Image" },
-    { src: "/images/lahaul_hp.jpg", alt: "Third Image" },
-    { src: "/images/Sindoor_Play.jpeg", alt: "Fourth Image" }
-  ]
+  // Utility function to handle image URLs
+  const getImageUrl = (path) => {
+    if (!path) return '';
+    try {
+      new URL(path) // Check if already absolute URL
+      return path
+    } catch {
+      return `http://127.0.0.1:8000${path.startsWith('/') ? path : `/${path}`}`
+    }
+  }
 
+  // Fetch data from API
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('http://127.0.0.1:8000/api/about-project/')
+        if (!response.ok) throw new Error('Failed to fetch data')
+        const data = await response.json()
+        
+        if (data.length > 0) {
+          const firstItem = data[0]
+          setAboutData({
+            ...firstItem,
+            images: firstItem.images.map(img => ({
+              ...img,
+              image: getImageUrl(img.image)
+            })),
+            logo_image: getImageUrl(firstItem.logo_image)
+          })
+        }
+      } catch (err) {
+        setError(err.message)
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchData()
+  }, [])
+
+  // Slider animation effect
+  useEffect(() => {
+    if (!aboutData?.images) return
     const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev === images.length - 1 ? 0 : prev + 1))
+      setCurrentSlide(prev => (prev === aboutData.images.length - 1 ? 0 : prev + 1))
     }, 3000)
     return () => clearInterval(timer)
-  }, [images.length])
+  }, [aboutData?.images])
 
+  // Mount animation
   useEffect(() => {
-    // Trigger mount animation
     setMounted(true)
   }, [])
+
+  if (loading) return <div className="min-h-screen bg-white flex items-center justify-center">Loading...</div>
+  if (error) return <div className="min-h-screen bg-white flex items-center justify-center text-red-500">Error: {error}</div>
+  if (!aboutData) return null
 
   return (
     <main className={`min-h-screen bg-white transition-all duration-1000 ${
@@ -38,50 +77,50 @@ export default function AboutProject() {
     }`}>
       <NavBar />
       
-      {/* Main container with padding */}
       <div className="container mx-auto px-4 md:px-6 py-12">
         <div className="max-w-5xl mx-auto space-y-16">
           
-          {/* Page title */}
+          {/* Page Title - Now Dynamic */}
           <h1 className={`text-3xl md:text-4xl font-bold text-[#7A2631] transition-all duration-700 delay-300 ${
             mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-[20px]'
           }`}>
-            About the Project
+            {aboutData.title || "About the Project"}
           </h1>
 
-          {/* Project tag */}
+          {/* Project Tag - Now Dynamic */}
           <div className="inline-block w-full">
             <span className="bg-[#E7B24B] text-black font-bold px-2 md:px-12 py-6 rounded-custom2 transition-colors text-2xl">
-              Iks Gyan Gunjan
+              {aboutData.tag || "Iks Gyan Gunjan"}
             </span>
           </div>
           
-          {/* Image slider section */}
+          {/* Image Slider - Now Dynamic */}
           <div className={`transition-all duration-700 delay-500 ${
             mounted ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
           }`}>
             <div className="rounded-custom overflow-hidden relative h-[550px]">
-              {images.map((image, index) => (
+              {aboutData.images.map((image, index) => (
                 <div
-                  key={index}
+                  key={image.id}
                   className={`absolute inset-0 transition-opacity duration-500 ${
                     currentSlide === index ? "opacity-100" : "opacity-0"
                   }`}
                 >
                   <Image
-                    src={image.src}
-                    alt={image.alt}
+                    src={image.image}
+                    alt={image.alt_text || "Project image"}
                     fill
                     className="object-cover"
                     priority={index === 0}
+                    sizes="(max-width: 768px) 100vw, 50vw"
                   />
                 </div>
               ))}
             </div>
 
-            {/* Slider navigation dots */}
+            {/* Slider Dots - Now Dynamic */}
             <div className="flex justify-center gap-3 mt-6">
-              {images.map((_, index) => (
+              {aboutData.images.map((_, index) => (
                 <button
                   key={index}
                   onClick={() => setCurrentSlide(index)}
@@ -94,36 +133,38 @@ export default function AboutProject() {
             </div>
           </div>
 
-          {/* Content section */}
+          {/* Content Section - Now Dynamic */}
           <div className={`prose prose-lg mx-auto transition-all duration-700 delay-700 ${
             mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-[20px]'
           }`}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div className="text-black">
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-
-                </p>
+              <div className="text-black whitespace-pre-line">
+                <p>{aboutData.description_left}</p>
               </div>
-              <div className="text-black">
-                <p>
-                  Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                </p>
+              <div className="text-black whitespace-pre-line">
+                <p>{aboutData.description_right}</p>
               </div>
             </div>
           </div>
+
+
+          {/* Logo Section - Now Dynamic */}
           <div className="inline-block w-full">
             <span className="bg-[#E7B24B] text-black font-bold px-4 md:px-20 py-6 rounded-custom2 transition-colors text-2xl">
               Gyan Gunjan Logo Concept
             </span>
           </div>
-          <Image src="/images/GyanGunjan-Logo-concept.png" alt="Gyan Gunjan Logo Concept" width={800} height={400} className="object-contain w-full" />
+          <Image 
+            src={aboutData.logo_image} 
+            alt="Gyan Gunjan Logo Concept" 
+            width={800} 
+            height={400} 
+            className="object-contain w-full"
+            sizes="(max-width: 768px) 100vw, 800px"
+          />
         </div>
       </div>
-    <Footer />
+      <Footer />
     </main>
   )
 }
-

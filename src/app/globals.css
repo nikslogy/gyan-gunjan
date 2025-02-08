@@ -22,6 +22,7 @@ body {
 .dropdown-menu {
   position: absolute;
   z-index: 1000;
+  animation: dropdownIn 0.2s ease-out;
 }
 
 @keyframes floatPetal {
@@ -99,7 +100,36 @@ body {
   }
 }
 
+@keyframes dropdownIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
 
+/* Mobile menu animations */
+.mobile-menu {
+  animation: slideDown 0.3s ease-out;
+}
+
+.mobile-submenu {
+  animation: slideDown 0.2s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
 @layer base {
   /* Navigation elements */
@@ -126,4 +156,22 @@ body {
     @apply font-philosopher
   }
 
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+}
+
+@keyframes float-delayed {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(20px); }
+}
+
+.animate-float {
+  animation: float 8s ease-in-out infinite;
+}
+
+.animate-float-delayed {
+  animation: float-delayed 10s ease-in-out infinite;
 }
