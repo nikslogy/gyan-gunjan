@@ -29,56 +29,24 @@ export function ResourcesContent({ initialCategory = 'Coffee Table Books' }) {
     const [error, setError] = useState(null);
 
     // Movie Data
-    const movieResources = [
-        {
-            image: '/images/P1.svg',
-            video: 'https://www.youtube.com/watch?v=aaNq2NL6D4A',
-            title: 'Movie Title 1'
-        },
-        {
-            image: '/images/P2.svg',
-            video: '/videos/video1.mp4',
-            title: 'Movie Title 2'
-        },
-        {
-            image: '/images/P3.svg',
-            video: 'https://www.youtube.com/embed/YOUR_VIDEO_ID_2?autoplay=1&controls=1&rel=0&showinfo=0',
-            title: 'Movie Title 3'
-        },
-    ];
+    const movieResources = movies.map(movie => ({
+        image: movie.movie_thumbnail || "/images/default-thumbnail.jpg",
+        video: movie.youtube_link || movie.uploaded_movie || "#",
+        title: movie.name || "Untitled Movie"
+    }));
 
-    const recommendedMovies = [
-        { 
-            image: '/images/movie1.png', 
-            title: 'Recommended Movie 1',
-            video: '/videos/recommended1.mp4'
-        },
-        { 
-            image: '/images/movie2.png', 
-            title: 'Recommended Movie 2',
-            video: 'https://www.youtube.com/watch?v=YOUR_VIDEO_ID'
-        },
-        { image: '/images/movie3.png', title: 'Recommended Movie 3' },
-        { image: '/images/movie1.png', title: 'Recommended Movie 4' },
-        { image: '/images/movie2.png', title: 'Recommended Movie 5' },
-    ];
+    const recommendedMovies = movies.map(movie => ({
+        image: movie.movie_thumbnail || "/images/default-thumbnail.jpg",
+        title: movie.name || "Untitled Movie",
+        video: movie.youtube_link || movie.uploaded_movie || "#"
+    }));
 
-    const shortMovies = [
-        { 
-            src: "/images/short1.png", 
-            alt: "Short movie 1", 
-            title: "Short Movie 1",
-            video: "/videos/short1.mp4"
-        },
-        { 
-            src: "/images/short2.png", 
-            alt: "Short movie 2", 
-            title: "Short Movie 2",
-            video: "https://www.youtube.com/watch?v=YOUR_VIDEO_ID"
-        },
-        { src: "/images/short3.png", alt: "Short movie 3", title: "Short Movie 3" },
-        { src: "/images/short1.png", alt: "Short movie 4", title: "Short Movie 4" },
-    ];
+    const shortMovies = movies.map(movie => ({
+        src: movie.movie_thumbnail || "/images/default-thumbnail.jpg",
+        alt: movie.name || "Untitled Movie",
+        title: movie.name || "Untitled Movie",
+        video: movie.youtube_link || movie.uploaded_movie || "#"
+    }));
 
     // Add new state to control Resources component visibility
     const [showResources, setShowResources] = useState(true);
@@ -258,21 +226,21 @@ export function ResourcesContent({ initialCategory = 'Coffee Table Books' }) {
     };
 
     const getVisibleMovies = () => {
-        const movies = [...shortMovies];
+        const moviesList = [...shortMovies];
         const result = [];
         for (let i = 0; i < 3; i++) {
             const index = (currentShortMovie + i) % shortMovies.length;
-            result.push(movies[index]);
+            result.push(moviesList[index]);
         }
         return result;
     };
 
     const getVisibleRecommendedMovies = () => {
-        const movies = [...recommendedMovies];
+        const moviesList = [...recommendedMovies];
         const result = [];
         for (let i = 0; i < 3; i++) {
             const index = (currentRecommendedMovie + i) % recommendedMovies.length;
-            result.push(movies[index]);
+            result.push(moviesList[index]);
         }
         return result;
     };
