@@ -29,56 +29,24 @@ export function ResourcesContent({ initialCategory = 'Coffee Table Books' }) {
     const [error, setError] = useState(null);
 
     // Movie Data
-    const movieResources = [
-        {
-            image: '/images/P1.svg',
-            video: 'https://www.youtube.com/watch?v=aaNq2NL6D4A',
-            title: 'Movie Title 1'
-        },
-        {
-            image: '/images/P2.svg',
-            video: '/videos/video1.mp4',
-            title: 'Movie Title 2'
-        },
-        {
-            image: '/images/P3.svg',
-            video: 'https://www.youtube.com/embed/YOUR_VIDEO_ID_2?autoplay=1&controls=1&rel=0&showinfo=0',
-            title: 'Movie Title 3'
-        },
-    ];
+    const movieResources = movies.map(movie => ({
+        image: movie.movie_thumbnail || "/images/default-thumbnail.jpg",
+        video: movie.youtube_link || movie.uploaded_movie || "#",
+        title: movie.name || "Untitled Movie"
+    }));
 
-    const recommendedMovies = [
-        { 
-            image: '/images/movie1.png', 
-            title: 'Recommended Movie 1',
-            video: '/videos/recommended1.mp4'
-        },
-        { 
-            image: '/images/movie2.png', 
-            title: 'Recommended Movie 2',
-            video: 'https://www.youtube.com/watch?v=YOUR_VIDEO_ID'
-        },
-        { image: '/images/movie3.png', title: 'Recommended Movie 3' },
-        { image: '/images/movie1.png', title: 'Recommended Movie 4' },
-        { image: '/images/movie2.png', title: 'Recommended Movie 5' },
-    ];
+    const recommendedMovies = movies.map(movie => ({
+        image: movie.movie_thumbnail || "/images/default-thumbnail.jpg",
+        title: movie.name || "Untitled Movie",
+        video: movie.youtube_link || movie.uploaded_movie || "#"
+    }));
 
-    const shortMovies = [
-        { 
-            src: "/images/short1.png", 
-            alt: "Short movie 1", 
-            title: "Short Movie 1",
-            video: "/videos/short1.mp4"
-        },
-        { 
-            src: "/images/short2.png", 
-            alt: "Short movie 2", 
-            title: "Short Movie 2",
-            video: "https://www.youtube.com/watch?v=YOUR_VIDEO_ID"
-        },
-        { src: "/images/short3.png", alt: "Short movie 3", title: "Short Movie 3" },
-        { src: "/images/short1.png", alt: "Short movie 4", title: "Short Movie 4" },
-    ];
+    const shortMovies = movies.map(movie => ({
+        src: movie.movie_thumbnail || "/images/default-thumbnail.jpg",
+        alt: movie.name || "Untitled Movie",
+        title: movie.name || "Untitled Movie",
+        video: movie.youtube_link || movie.uploaded_movie || "#"
+    }));
 
     // Add new state to control Resources component visibility
     const [showResources, setShowResources] = useState(true);
@@ -258,21 +226,23 @@ export function ResourcesContent({ initialCategory = 'Coffee Table Books' }) {
     };
 
     const getVisibleMovies = () => {
-        const movies = [...shortMovies];
+        if (!shortMovies || shortMovies.length === 0) return [];
+        const moviesList = [...shortMovies];
         const result = [];
         for (let i = 0; i < 3; i++) {
             const index = (currentShortMovie + i) % shortMovies.length;
-            result.push(movies[index]);
+            result.push(moviesList[index]);
         }
         return result;
     };
 
     const getVisibleRecommendedMovies = () => {
-        const movies = [...recommendedMovies];
+        if (!recommendedMovies || recommendedMovies.length === 0) return [];
+        const moviesList = [...recommendedMovies];
         const result = [];
         for (let i = 0; i < 3; i++) {
             const index = (currentRecommendedMovie + i) % recommendedMovies.length;
-            result.push(movies[index]);
+            result.push(moviesList[index]);
         }
         return result;
     };
@@ -348,56 +318,64 @@ export function ResourcesContent({ initialCategory = 'Coffee Table Books' }) {
                                     }}
                                 />
 
-                                {/* Movies slider */}
                                 <div className="bg-[#7B7B7B] p-8 relative">
-                                    {/* Previous button */}
-                                    <button 
-                                        onClick={() => setCurrentRecommendedMovie((prev) => 
-                                            prev === 0 ? recommendedMovies.length - 1 : prev - 1
-                                        )}
-                                        className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white/80 hover:bg-white text-gray-800 hover:text-black p-2 rounded-full shadow-lg transition-all duration-300 ml-4"
-                                        aria-label="Previous recommended movie"
-                                    >
-                                        <div className="w-10 h-10 flex items-center justify-center">
-                                            <span className="text-2xl font-bold">&lt;</span>
-                                        </div>
-                                    </button>
-
-                                    {/* Next button */}
-                                    <button 
-                                        onClick={() => setCurrentRecommendedMovie((prev) => 
-                                            (prev + 1) % recommendedMovies.length
-                                        )}
-                                        className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white/80 hover:bg-white text-gray-800 hover:text-black p-2 rounded-full shadow-lg transition-all duration-300 mr-4"
-                                        aria-label="Next recommended movie"
-                                    >
-                                        <div className="w-10 h-10 flex items-center justify-center">
-                                            <span className="text-2xl font-bold">&gt;</span>
-                                        </div>
-                                    </button>
-
-                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                                        {getVisibleRecommendedMovies().map((movie, index) => (
-                                            <div key={index} className="relative group overflow-hidden rounded-lg">
-                                                <Image
-                                                    src={movie.image}
-                                                    alt={movie.title}
-                                                    width={400}
-                                                    height={300}
-                                                    className="w-full transition-transform duration-500 group-hover:scale-110"
-                                                />
-                                                <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center">
-                                                    <h3 className="text-white text-xl font-bold mb-4">{movie.title}</h3>
-                                                    <button 
-                                                        onClick={() => handleWatchNow(movie)}
-                                                        className="bg-[#E7B24B] text-black px-6 py-2 rounded-full font-semibold transform -translate-y-4 group-hover:translate-y-0 transition-all duration-300"
-                                                    >
-                                                        Watch Now
-                                                    </button>
+                                    {recommendedMovies.length > 0 ? (
+                                        <>
+                                            {/* Previous button */}
+                                            <button 
+                                                onClick={() => setCurrentRecommendedMovie((prev) => 
+                                                    prev === 0 ? recommendedMovies.length - 1 : prev - 1
+                                                )}
+                                                className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white/80 hover:bg-white text-gray-800 hover:text-black p-2 rounded-full shadow-lg transition-all duration-300 ml-4"
+                                                aria-label="Previous recommended movie"
+                                            >
+                                                <div className="w-10 h-10 flex items-center justify-center">
+                                                    <span className="text-2xl font-bold">&lt;</span>
                                                 </div>
+                                            </button>
+
+                                            {/* Next button */}
+                                            <button 
+                                                onClick={() => setCurrentRecommendedMovie((prev) => 
+                                                    (prev + 1) % recommendedMovies.length
+                                                )}
+                                                className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white/80 hover:bg-white text-gray-800 hover:text-black p-2 rounded-full shadow-lg transition-all duration-300 mr-4"
+                                                aria-label="Next recommended movie"
+                                            >
+                                                <div className="w-10 h-10 flex items-center justify-center">
+                                                    <span className="text-2xl font-bold">&gt;</span>
+                                                </div>
+                                            </button>
+
+                                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                                {getVisibleRecommendedMovies().map((movie, index) => (
+                                                    <div key={index} className="relative group overflow-hidden rounded-lg">
+                                                        <Image
+                                                            src={movie.image}
+                                                            alt={movie.title}
+                                                            width={400}
+                                                            height={300}
+                                                            className="w-full transition-transform duration-500 group-hover:scale-110"
+                                                        />
+                                                        <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center">
+                                                            <h3 className="text-white text-xl font-bold mb-4">{movie.title}</h3>
+                                                            <button 
+                                                                onClick={() => handleWatchNow(movie)}
+                                                                className="bg-[#E7B24B] text-black px-6 py-2 rounded-full font-semibold transform -translate-y-4 group-hover:translate-y-0 transition-all duration-300"
+                                                            >
+                                                                Watch Now
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                ))}
                                             </div>
-                                        ))}
-                                    </div>
+                                        </>
+                                    ) : (
+                                        <div className="flex flex-col items-center justify-center py-20">
+                                            <h3 className="text-white text-2xl font-bold mb-2">Coming Soon</h3>
+                                            <p className="text-white/80">No movies available at the moment</p>
+                                        </div>
+                                    )}
                                 </div>
 
                                 {/* Film strip border - bottom */}
@@ -407,21 +385,22 @@ export function ResourcesContent({ initialCategory = 'Coffee Table Books' }) {
                                     }}
                                 />
 
-                                {/* Navigation dots */}
-                                <div className="flex justify-center gap-3 mt-8">
-                                    {recommendedMovies.map((_, index) => (
-                                        <button
-                                            key={index}
-                                            onClick={() => setCurrentRecommendedMovie(index)}
-                                            className={`h-3 w-3 rounded-full transition-all duration-300 ${
-                                                currentRecommendedMovie === index 
-                                                    ? "bg-[#7A2631] w-6" 
-                                                    : "bg-gray-300 hover:bg-[#E7B24B]"
-                                            }`}
-                                            aria-label={`Go to recommended slide ${index + 1}`}
-                                        />
-                                    ))}
-                                </div>
+                                {recommendedMovies.length > 0 && (
+                                    <div className="flex justify-center gap-3 mt-8">
+                                        {recommendedMovies.map((_, index) => (
+                                            <button
+                                                key={index}
+                                                onClick={() => setCurrentRecommendedMovie(index)}
+                                                className={`h-3 w-3 rounded-full transition-all duration-300 ${
+                                                    currentRecommendedMovie === index 
+                                                        ? "bg-[#7A2631] w-6" 
+                                                        : "bg-gray-300 hover:bg-[#E7B24B]"
+                                                }`}
+                                                aria-label={`Go to recommended slide ${index + 1}`}
+                                            />
+                                        ))}
+                                    </div>
+                                )}
                             </div>
                         </section>
 
@@ -434,70 +413,78 @@ export function ResourcesContent({ initialCategory = 'Coffee Table Books' }) {
                             </div>
 
                             <div className="relative mt-8">
-                                {/* Previous button */}
-                                <button 
-                                    onClick={() => setCurrentShortMovie((prev) => 
-                                        prev === 0 ? shortMovies.length - 1 : prev - 1
-                                    )}
-                                    className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 bg-white/80 hover:bg-white text-gray-800 hover:text-black p-2 rounded-full shadow-lg transition-all duration-300"
-                                    aria-label="Previous slide"
-                                >
-                                    <div className="w-10 h-10 flex items-center justify-center">
-                                        <span className="text-2xl font-bold">&lt;</span>
-                                    </div>
-                                </button>
-
-                                {/* Next button */}
-                                <button 
-                                    onClick={() => setCurrentShortMovie((prev) => 
-                                        (prev + 1) % shortMovies.length
-                                    )}
-                                    className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 bg-white/80 hover:bg-white text-gray-800 hover:text-black p-2 rounded-full shadow-lg transition-all duration-300"
-                                    aria-label="Next slide"
-                                >
-                                    <div className="w-10 h-10 flex items-center justify-center">
-                                        <span className="text-2xl font-bold">&gt;</span>
-                                    </div>
-                                </button>
-
-                                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                                    {getVisibleMovies().map((movie, index) => (
-                                        <div key={index} className="relative group overflow-hidden rounded-lg">
-                                            <Image
-                                                src={movie.src}
-                                                alt={movie.alt}
-                                                width={400}
-                                                height={300}
-                                                className="w-full transition-transform duration-500 group-hover:scale-110"
-                                            />
-                                            <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center">
-                                                <h3 className="text-white text-xl font-bold mb-4">{movie.title}</h3>
-                                                <button 
-                                                    onClick={() => handleWatchNow(movie)}
-                                                    className="bg-[#E7B24B] text-black px-6 py-2 rounded-full font-semibold transform -translate-y-4 group-hover:translate-y-0 transition-all duration-300"
-                                                >
-                                                    Watch Now
-                                                </button>
+                                {shortMovies.length > 0 ? (
+                                    <>
+                                        {/* Previous button */}
+                                        <button 
+                                            onClick={() => setCurrentShortMovie((prev) => 
+                                                prev === 0 ? shortMovies.length - 1 : prev - 1
+                                            )}
+                                            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 bg-white/80 hover:bg-white text-gray-800 hover:text-black p-2 rounded-full shadow-lg transition-all duration-300"
+                                            aria-label="Previous slide"
+                                        >
+                                            <div className="w-10 h-10 flex items-center justify-center">
+                                                <span className="text-2xl font-bold">&lt;</span>
                                             </div>
-                                        </div>
-                                    ))}
-                                </div>
+                                        </button>
 
-                                {/* Navigation dots */}
-                                <div className="flex justify-center gap-3 mt-8">
-                                    {shortMovies.map((_, index) => (
-                                        <button
-                                            key={index}
-                                            onClick={() => setCurrentShortMovie(index)}
-                                            className={`h-3 w-3 rounded-full transition-all duration-300 ${
-                                                currentShortMovie === index 
-                                                    ? "bg-[#7A2631] w-6" 
-                                                    : "bg-gray-300 hover:bg-[#E7B24B]"
-                                            }`}
-                                            aria-label={`Go to slide ${index + 1}`}
-                                        />
-                                    ))}
-                                </div>
+                                        {/* Next button */}
+                                        <button 
+                                            onClick={() => setCurrentShortMovie((prev) => 
+                                                (prev + 1) % shortMovies.length
+                                            )}
+                                            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 bg-white/80 hover:bg-white text-gray-800 hover:text-black p-2 rounded-full shadow-lg transition-all duration-300"
+                                            aria-label="Next slide"
+                                        >
+                                            <div className="w-10 h-10 flex items-center justify-center">
+                                                <span className="text-2xl font-bold">&gt;</span>
+                                            </div>
+                                        </button>
+
+                                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                            {getVisibleMovies().map((movie, index) => (
+                                                <div key={index} className="relative group overflow-hidden rounded-lg">
+                                                    <Image
+                                                        src={movie.src}
+                                                        alt={movie.alt}
+                                                        width={400}
+                                                        height={300}
+                                                        className="w-full transition-transform duration-500 group-hover:scale-110"
+                                                    />
+                                                    <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center">
+                                                        <h3 className="text-white text-xl font-bold mb-4">{movie.title}</h3>
+                                                        <button 
+                                                            onClick={() => handleWatchNow(movie)}
+                                                            className="bg-[#E7B24B] text-black px-6 py-2 rounded-full font-semibold transform -translate-y-4 group-hover:translate-y-0 transition-all duration-300"
+                                                        >
+                                                            Watch Now
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+
+                                        <div className="flex justify-center gap-3 mt-8">
+                                            {shortMovies.map((_, index) => (
+                                                <button
+                                                    key={index}
+                                                    onClick={() => setCurrentShortMovie(index)}
+                                                    className={`h-3 w-3 rounded-full transition-all duration-300 ${
+                                                        currentShortMovie === index 
+                                                            ? "bg-[#7A2631] w-6" 
+                                                            : "bg-gray-300 hover:bg-[#E7B24B]"
+                                                    }`}
+                                                    aria-label={`Go to slide ${index + 1}`}
+                                                />
+                                            ))}
+                                        </div>
+                                    </>
+                                ) : (
+                                    <div className="flex flex-col items-center justify-center py-20 bg-[#7B7B7B] rounded-lg">
+                                        <h3 className="text-white text-2xl font-bold mb-2">Coming Soon</h3>
+                                        <p className="text-white/80">No short movies available at the moment</p>
+                                    </div>
+                                )}
                             </div>
                         </section>
                     </div>
