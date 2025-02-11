@@ -69,10 +69,8 @@ export function HeroSection3() {
         {/* Left Column: Title and Pattern Grid */}
         <div className={`space-y-6 transition-all duration-700 ${exitAnimation ? 'translate-x-[-100px] opacity-0' : 'translate-x-0 opacity-100'}`}>
           <h2 className="text-2xl md:text-3xl lg:text-4xl text-[#7A2631] font-bold relative top-[-5] mb-20">
-            {currentSection.title}
+            Jeevan Darshan
           </h2>
-
-
 
           {/* Pattern Grid */}
           <div className="relative w-full aspect-square max-w-[550px] mx-auto">
