@@ -172,7 +172,7 @@ export default function Careers() {
                                     required
                                     value={formData.name}
                                     onChange={(e) => setFormData({...formData, name: e.target.value})}
-                                    className="w-full p-2 border rounded-lg"
+                                    className="w-full p-2 border rounded-lg text-black"
                                 />
                             </div>
                             <div>
@@ -182,7 +182,7 @@ export default function Careers() {
                                     required
                                     value={formData.email}
                                     onChange={(e) => setFormData({...formData, email: e.target.value})}
-                                    className="w-full p-2 border rounded-lg"
+                                    className="w-full p-2 border rounded-lg text-black"
                                 />
                             </div>
                             <div>
@@ -192,7 +192,7 @@ export default function Careers() {
                                     required
                                     value={formData.phone}
                                     onChange={(e) => setFormData({...formData, phone: e.target.value})}
-                                    className="w-full p-2 border rounded-lg"
+                                    className="w-full p-2 border rounded-lg text-black"
                                 />
                             </div>
                             <div>
@@ -202,7 +202,7 @@ export default function Careers() {
                                     required
                                     accept=".pdf,.doc,.docx"
                                     onChange={(e) => setFormData({...formData, resume: e.target.files[0]})}
-                                    className="w-full p-2 border rounded-lg"
+                                    className="w-full p-2 border rounded-lg text-black"
                                 />
                             </div>
                             <button

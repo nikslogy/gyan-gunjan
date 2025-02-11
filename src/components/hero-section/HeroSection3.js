@@ -28,11 +28,11 @@ export function HeroSection3() {
 
   // Tile positions and styles
   const tileConfigurations = [
-    { position: "absolute right-[8%] bottom-[12%] w-[40%] rotate-[-7deg]", shape: "rounded-custom5" },
-    { position: "absolute right-[6%] top-[10%] w-[40%] rotate-[6deg]", shape: "rounded-custom4" },
-    { position: "absolute left-[39%] top-[2%] -translate-x-1/2 w-[40%] rotate-[25deg]", shape: "rounded-custom3" },
-    { position: "absolute left-[-3%] top-[25%] w-[40%] rotate-[-34deg]", shape: "rounded-custom7" },
-    { position: "absolute left-[19%] top-[55%] bottom-[4%] w-[40%] rotate-[-30deg]", shape: "rounded-custom6" }
+    { position: "absolute right-[8%] bottom-[12%] w-[40%] rotate-[-7deg]", shape: "rounded-custom5", titleRotation: "rotate-[8deg]" },
+    { position: "absolute right-[6%] top-[10%] w-[40%] rotate-[6deg]", shape: "rounded-custom4", titleRotation: "rotate-[-6deg]" },
+    { position: "absolute left-[39%] top-[2%] -translate-x-1/2 w-[40%] rotate-[25deg]", shape: "rounded-custom3", titleRotation: "rotate-[-25deg]" },
+    { position: "absolute left-[-3%] top-[25%] w-[40%] rotate-[-34deg]", shape: "rounded-custom7", titleRotation: "rotate-[34deg]" },
+    { position: "absolute left-[19%] top-[55%] bottom-[4%] w-[40%] rotate-[-30deg]", shape: "rounded-custom6", titleRotation: "rotate-[30deg]" }
   ]
 
   const handleTileClick = (index) => {
@@ -106,7 +106,7 @@ export function HeroSection3() {
                     )}
                     {/* Overlay */}
                     <div className={`absolute inset-0 bg-gradient-to-b from-black/20 to-black/50 flex flex-col justify-center items-center text-white p-4 text-center transition-opacity duration-300 ${currentTile === index ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}>
-                      <h3 className="text-lg font-semibold mb-2">
+                      <h3 className={`text-lg font-semibold mb-2 ${tileConfigurations[index].titleRotation}`}>
                         {section.title}
                       </h3>
                     </div>
