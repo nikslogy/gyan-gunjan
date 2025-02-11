@@ -228,7 +228,7 @@ export default function LandingResources() {
                 >
                   <div className="p-0">
                     <Image
-                      src="/images/default-flipbook.png" // Add default image
+                      src={item.cover_image} // Add default image
                       alt={item.title}
                       width={300}
                       height={400}
