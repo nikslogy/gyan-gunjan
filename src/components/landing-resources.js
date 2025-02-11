@@ -10,7 +10,7 @@ export default function LandingResources() {
   const [activeTab, setActiveTab] = useState('thematic');
   const [selectedState, setSelectedState] = useState('');
   const [selectedRegion, setSelectedRegion] = useState('');
-  
+
   // API Data States
   const [thematicData, setThematicData] = useState([]);
   const [coffeeData, setCoffeeData] = useState([]);
@@ -56,12 +56,12 @@ export default function LandingResources() {
         console.error('Error fetching data:', error);
       }
     };
-    
+
     fetchInitialData();
   }, []);
 
   // Filter regions based on selected state
-  const filteredRegions = regions.filter(region => 
+  const filteredRegions = regions.filter(region =>
     region.state.id.toString() === selectedState
   );
 
@@ -90,7 +90,7 @@ export default function LandingResources() {
         {/* Header remains exactly the same */}
         <div className="flex justify-between items-center mb-8">
           <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#7A2631]">Resources</h2>
-          <button 
+          <button
             onClick={() => router.push('/resources')}
             className="text-black hover:text-gray-900 text-sm sm:text-base border border-black px-4 py-2 rounded-custom2 hover:bg-gray-50 transition-colors"
           >
@@ -105,9 +105,8 @@ export default function LandingResources() {
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
-                className={`px-6 py-3 rounded-custom2 transition-colors ${
-                  activeTab === tab ? 'bg-[#E4A853] text-black' : 'text-gray-700 hover:bg-[#E4A853] hover:text-black'
-                }`} 
+                className={`px-6 py-3 rounded-custom2 transition-colors ${activeTab === tab ? 'bg-[#E4A853] text-black' : 'text-gray-700 hover:bg-[#E4A853] hover:text-black'
+                  }`}
               >
                 {tab === 'thematic' && <Notebook className="w-4 h-4 inline mr-2" />}
                 {tab === 'coffee' && <Book className="w-4 h-4 inline mr-2" />}
@@ -129,8 +128,8 @@ export default function LandingResources() {
                 onClick={() => {
                   router.push('/resources');
                   localStorage.setItem('selectedResourceType', 'Thematic Concept Notes');
-                  window.dispatchEvent(new CustomEvent('navResourceChange', { 
-                    detail: 'Thematic Concept Notes' 
+                  window.dispatchEvent(new CustomEvent('navResourceChange', {
+                    detail: 'Thematic Concept Notes'
                   }));
                 }}
                 className="group overflow-hidden border rounded-custom2 transition-transform duration-300 hover:scale-105 cursor-pointer"
@@ -158,8 +157,8 @@ export default function LandingResources() {
                 onClick={() => {
                   router.push('/resources');
                   localStorage.setItem('selectedResourceType', 'Coffee Table Books');
-                  window.dispatchEvent(new CustomEvent('navResourceChange', { 
-                    detail: 'Coffee Table Books' 
+                  window.dispatchEvent(new CustomEvent('navResourceChange', {
+                    detail: 'Coffee Table Books'
                   }));
                 }}
                 className="group overflow-hidden border rounded-custom4 transition-transform duration-300 hover:scale-105 cursor-pointer"
@@ -206,12 +205,12 @@ export default function LandingResources() {
                 </select>
               </div>
 
-              <button 
+              <button
                 onClick={() => {
                   router.push('/resources');
                   localStorage.setItem('selectedResourceType', 'Regional Flip Books');
-                  window.dispatchEvent(new CustomEvent('navResourceChange', { 
-                    detail: 'Regional Flip Books' 
+                  window.dispatchEvent(new CustomEvent('navResourceChange', {
+                    detail: 'Regional Flip Books'
                   }));
                 }}
                 className="text-gray-600 hover:text-gray-900 w-full sm:w-auto text-center sm:text-left"
@@ -246,24 +245,36 @@ export default function LandingResources() {
         {activeTab === 'movies' && (
           <>
             <div className="flex justify-end mb-4 sm:mb-6">
-              <button 
+              <button
                 onClick={() => {
                   router.push('/resources');
                   localStorage.setItem('selectedResourceType', 'Movies');
-                  window.dispatchEvent(new CustomEvent('navResourceChange', { 
-                    detail: 'Movies' 
+                  window.dispatchEvent(new CustomEvent('navResourceChange', {
+                    detail: 'Movies'
                   }));
                 }}
                 className="text-gray-600 hover:text-gray-900 text-sm sm:text-base"
               >
                 View All
-
               </button>
             </div>
-            <MovieSlider 
-              movies={transformedMovies} 
-              onPlayClick={handlePlayClick}
-            />
+
+            {transformedMovies.length > 0 ? (
+              <MovieSlider
+                movies={transformedMovies}
+                onPlayClick={handlePlayClick}
+              />
+            ) : (
+              <div className="flex flex-col items-center justify-center py-20 bg-[#f5f5f5] rounded-lg mt-8 space-y-4">
+                <h3 className="text-3xl font-bold text-[#7A2631]">Exciting Updates Ahead!</h3>
+                <p className="text-gray-600 text-lg">We're working on bringing you the latest movies. Stay tuned!</p>
+                <div className="animate-pulse">
+                  <svg className="w-20 h-20 text-[#E7B24B]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+              </div>
+            )}
           </>
         )}
       </div>

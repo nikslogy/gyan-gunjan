@@ -112,12 +112,17 @@ export function JeevanResources({ selectedCategory = 'Nature & Agriculture' }) {
                     <div className="bg-gray-50 rounded-lg p-8 max-w-md mx-auto">
                         <Book className="w-12 h-12 mx-auto text-gray-400 mb-4" />
                         <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                            Coming Soon
+                            Resources Coming Soon
                         </h3>
-
-                        <p className="text-gray-600">
-                            Resources for {selectedCategory} are currently being prepared and will be available soon.
+                        <p className="text-gray-600 mb-4">
+                            We are currently preparing resources for {selectedCategory}. Meanwhile, if you have valuable knowledge to share in this area, we'd love to hear from you!
                         </p>
+                        <a 
+                            href="/lets-collaborate" 
+                            className="inline-block px-6 py-3 bg-[#E4A853] text-black rounded-custom2 hover:bg-[#F6B352] transition-colors"
+                        >
+                            Share Your Knowledge →
+                        </a>
                     </div>
                 </div>
             )}

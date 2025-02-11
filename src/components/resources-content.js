@@ -64,7 +64,7 @@ export function ResourcesContent({ initialCategory = 'Coffee Table Books' }) {
 
         // Add event listener
         document.addEventListener('mousedown', handleClickOutside);
-        
+
         // Cleanup
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
@@ -112,7 +112,7 @@ export function ResourcesContent({ initialCategory = 'Coffee Table Books' }) {
                 fetch('http://127.0.0.1:8000/api/thematic/'),
                 fetch('http://127.0.0.1:8000/api/movies/')
             ]);
-            
+
             setStates(await statesRes.json());
             setCoffeeBooks(await coffeeRes.json());
             setThematics(await thematicRes.json());
@@ -131,11 +131,11 @@ export function ResourcesContent({ initialCategory = 'Coffee Table Books' }) {
             const params = new URLSearchParams();
             if (stateId) params.append('state', stateId);
             if (regionId) params.append('region', regionId);
-            
+
             if (stateId || regionId) {
                 url += `?${params.toString()}`;
             }
-            
+
             const res = await fetch(url);
             setFlipBooks(await res.json());
         } catch (err) {
@@ -188,7 +188,7 @@ export function ResourcesContent({ initialCategory = 'Coffee Table Books' }) {
     const handleBookSelect = (resource) => {
         const pdfUrl = resource.file || resource.book_pdf || resource.cover_image;
         const title = resource.title || resource.name || resource.coffee_table_book_name;
-        
+
         setSelectedPdf(pdfUrl);
         setSelectedTitle(title);
 
@@ -204,7 +204,7 @@ export function ResourcesContent({ initialCategory = 'Coffee Table Books' }) {
     };
 
     const getResourceData = () => {
-        switch(selectedCategory) {
+        switch (selectedCategory) {
             case 'Coffee Table Books':
                 return coffeeBooks;
             case 'Regional Flip Books':
@@ -227,24 +227,12 @@ export function ResourcesContent({ initialCategory = 'Coffee Table Books' }) {
 
     const getVisibleMovies = () => {
         if (!shortMovies || shortMovies.length === 0) return [];
-        const moviesList = [...shortMovies];
-        const result = [];
-        for (let i = 0; i < 3; i++) {
-            const index = (currentShortMovie + i) % shortMovies.length;
-            result.push(moviesList[index]);
-        }
-        return result;
+        return shortMovies.slice(currentShortMovie, currentShortMovie + Math.min(3, shortMovies.length));
     };
 
     const getVisibleRecommendedMovies = () => {
         if (!recommendedMovies || recommendedMovies.length === 0) return [];
-        const moviesList = [...recommendedMovies];
-        const result = [];
-        for (let i = 0; i < 3; i++) {
-            const index = (currentRecommendedMovie + i) % recommendedMovies.length;
-            result.push(moviesList[index]);
-        }
-        return result;
+        return recommendedMovies.slice(currentRecommendedMovie, currentRecommendedMovie + Math.min(3, recommendedMovies.length));
     };
 
     const handleWatchNow = (movie) => {
@@ -261,7 +249,7 @@ export function ResourcesContent({ initialCategory = 'Coffee Table Books' }) {
             <h1 className="text-3xl md:text-4xl font-bold text-[#7A2631] transition-all duration-700 delay-300">
                 Resources
             </h1>
-            
+
             {/* Category Dropdown - Add ref here */}
             <div className="w-full sm:w-[300px] mb-8 relative z-50">
                 <div className="relative" ref={dropdownRef}>
@@ -296,11 +284,23 @@ export function ResourcesContent({ initialCategory = 'Coffee Table Books' }) {
                 {selectedCategory === 'Movies' ? (
                     // Movies Content
                     <div className="space-y-12">
-                        {/* Movie Slider */}
-                        <MovieSlider
-                            movies={movieResources}
-                            onPlayClick={handleWatchNow}
-                        />
+                        {/* Movie Slider - Added conditional rendering */}
+                        {movieResources.length > 0 ? (
+                            <MovieSlider
+                                movies={movieResources}
+                                onPlayClick={handleWatchNow}
+                            />
+                        ) : (
+                            <div className="flex flex-col items-center justify-center py-20 bg-[#f5f5f5] rounded-lg mt-8 space-y-4">
+                                <h3 className="text-3xl font-bold text-[#7A2631]">Exciting Updates Ahead!</h3>
+                                <p className="text-gray-600 text-lg">We're working on bringing you the latest movies. Stay tuned!</p>
+                                <div className="animate-pulse">
+                                    <svg className="w-20 h-20 text-[#E7B24B]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                </div>
+                            </div>
+                        )}
 
                         {/* Recommended Movies Section */}
                         <section>
@@ -312,7 +312,7 @@ export function ResourcesContent({ initialCategory = 'Coffee Table Books' }) {
 
                             <div className="relative rounded-lg overflow-hidden mt-8">
                                 {/* Film strip border - top */}
-                                <div className="h-8 w-full bg-[#7B7B7B]" 
+                                <div className="h-8 w-full bg-[#7B7B7B]"
                                     style={{
                                         backgroundImage: 'repeating-linear-gradient(to right, transparent, transparent 20px, white 20px, white 48px)',
                                     }}
@@ -322,9 +322,9 @@ export function ResourcesContent({ initialCategory = 'Coffee Table Books' }) {
                                     {recommendedMovies.length > 0 ? (
                                         <>
                                             {/* Previous button */}
-                                            <button 
-                                                onClick={() => setCurrentRecommendedMovie((prev) => 
-                                                    prev === 0 ? recommendedMovies.length - 1 : prev - 1
+                                            <button
+                                                onClick={() => setCurrentRecommendedMovie((prev) =>
+                                                    prev === 0 ? 0 : prev - 1
                                                 )}
                                                 className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white/80 hover:bg-white text-gray-800 hover:text-black p-2 rounded-full shadow-lg transition-all duration-300 ml-4"
                                                 aria-label="Previous recommended movie"
@@ -335,9 +335,9 @@ export function ResourcesContent({ initialCategory = 'Coffee Table Books' }) {
                                             </button>
 
                                             {/* Next button */}
-                                            <button 
-                                                onClick={() => setCurrentRecommendedMovie((prev) => 
-                                                    (prev + 1) % recommendedMovies.length
+                                            <button
+                                                onClick={() => setCurrentRecommendedMovie((prev) =>
+                                                    prev + 3 >= recommendedMovies.length ? prev : prev + 1
                                                 )}
                                                 className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white/80 hover:bg-white text-gray-800 hover:text-black p-2 rounded-full shadow-lg transition-all duration-300 mr-4"
                                                 aria-label="Next recommended movie"
@@ -349,17 +349,17 @@ export function ResourcesContent({ initialCategory = 'Coffee Table Books' }) {
 
                                             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                                                 {getVisibleRecommendedMovies().map((movie, index) => (
-                                                    <div key={index} className="relative group overflow-hidden rounded-lg">
+                                                    <div key={index} className="relative group overflow-hidden rounded-lg aspect-video bg-gray-200">
                                                         <Image
                                                             src={movie.image}
                                                             alt={movie.title}
                                                             width={400}
                                                             height={300}
-                                                            className="w-full transition-transform duration-500 group-hover:scale-110"
+                                                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                                                         />
                                                         <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center">
                                                             <h3 className="text-white text-xl font-bold mb-4">{movie.title}</h3>
-                                                            <button 
+                                                            <button
                                                                 onClick={() => handleWatchNow(movie)}
                                                                 className="bg-[#E7B24B] text-black px-6 py-2 rounded-full font-semibold transform -translate-y-4 group-hover:translate-y-0 transition-all duration-300"
                                                             >
@@ -371,15 +371,20 @@ export function ResourcesContent({ initialCategory = 'Coffee Table Books' }) {
                                             </div>
                                         </>
                                     ) : (
-                                        <div className="flex flex-col items-center justify-center py-20">
-                                            <h3 className="text-white text-2xl font-bold mb-2">Coming Soon</h3>
-                                            <p className="text-white/80">No movies available at the moment</p>
+                                        <div className="flex flex-col items-center justify-center py-20 bg-[#E7B24B] rounded-lg space-y-2">
+                                            <h3 className="text-black text-2xl font-bold">Fresh Picks Coming Soon!</h3>
+                                            <p className="text-black/80">We're preparing new recommendations just for you.</p>
+                                            <div className="mt-4">
+                                                <svg className="w-12 h-12 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                </svg>
+                                            </div>
                                         </div>
                                     )}
                                 </div>
 
                                 {/* Film strip border - bottom */}
-                                <div className="h-8 w-full bg-[#7B7B7B]" 
+                                <div className="h-8 w-full bg-[#7B7B7B]"
                                     style={{
                                         backgroundImage: 'repeating-linear-gradient(to right, transparent, transparent 20px, white 20px, white 48px)',
                                     }}
@@ -391,11 +396,10 @@ export function ResourcesContent({ initialCategory = 'Coffee Table Books' }) {
                                             <button
                                                 key={index}
                                                 onClick={() => setCurrentRecommendedMovie(index)}
-                                                className={`h-3 w-3 rounded-full transition-all duration-300 ${
-                                                    currentRecommendedMovie === index 
-                                                        ? "bg-[#7A2631] w-6" 
+                                                className={`h-3 w-3 rounded-full transition-all duration-300 ${currentRecommendedMovie === index
+                                                        ? "bg-[#7A2631] w-6"
                                                         : "bg-gray-300 hover:bg-[#E7B24B]"
-                                                }`}
+                                                    }`}
                                                 aria-label={`Go to recommended slide ${index + 1}`}
                                             />
                                         ))}
@@ -416,9 +420,9 @@ export function ResourcesContent({ initialCategory = 'Coffee Table Books' }) {
                                 {shortMovies.length > 0 ? (
                                     <>
                                         {/* Previous button */}
-                                        <button 
-                                            onClick={() => setCurrentShortMovie((prev) => 
-                                                prev === 0 ? shortMovies.length - 1 : prev - 1
+                                        <button
+                                            onClick={() => setCurrentShortMovie((prev) =>
+                                                prev === 0 ? 0 : prev - 1
                                             )}
                                             className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 bg-white/80 hover:bg-white text-gray-800 hover:text-black p-2 rounded-full shadow-lg transition-all duration-300"
                                             aria-label="Previous slide"
@@ -429,9 +433,9 @@ export function ResourcesContent({ initialCategory = 'Coffee Table Books' }) {
                                         </button>
 
                                         {/* Next button */}
-                                        <button 
-                                            onClick={() => setCurrentShortMovie((prev) => 
-                                                (prev + 1) % shortMovies.length
+                                        <button
+                                            onClick={() => setCurrentShortMovie((prev) =>
+                                                prev + 3 >= shortMovies.length ? prev : prev + 1
                                             )}
                                             className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 bg-white/80 hover:bg-white text-gray-800 hover:text-black p-2 rounded-full shadow-lg transition-all duration-300"
                                             aria-label="Next slide"
@@ -441,19 +445,19 @@ export function ResourcesContent({ initialCategory = 'Coffee Table Books' }) {
                                             </div>
                                         </button>
 
-                                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 justify-items-center">
                                             {getVisibleMovies().map((movie, index) => (
-                                                <div key={index} className="relative group overflow-hidden rounded-lg">
+                                                <div key={index} className="relative group overflow-hidden rounded-lg h-[380px] w-[320px] aspect-video bg-gray-200 mx-auto">
                                                     <Image
                                                         src={movie.src}
                                                         alt={movie.alt}
                                                         width={400}
                                                         height={300}
-                                                        className="w-full transition-transform duration-500 group-hover:scale-110"
+                                                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                                                     />
                                                     <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center">
                                                         <h3 className="text-white text-xl font-bold mb-4">{movie.title}</h3>
-                                                        <button 
+                                                        <button
                                                             onClick={() => handleWatchNow(movie)}
                                                             className="bg-[#E7B24B] text-black px-6 py-2 rounded-full font-semibold transform -translate-y-4 group-hover:translate-y-0 transition-all duration-300"
                                                         >
@@ -469,20 +473,24 @@ export function ResourcesContent({ initialCategory = 'Coffee Table Books' }) {
                                                 <button
                                                     key={index}
                                                     onClick={() => setCurrentShortMovie(index)}
-                                                    className={`h-3 w-3 rounded-full transition-all duration-300 ${
-                                                        currentShortMovie === index 
-                                                            ? "bg-[#7A2631] w-6" 
+                                                    className={`h-3 w-3 rounded-full transition-all duration-300 ${currentShortMovie === index
+                                                            ? "bg-[#7A2631] w-6"
                                                             : "bg-gray-300 hover:bg-[#E7B24B]"
-                                                    }`}
+                                                        }`}
                                                     aria-label={`Go to slide ${index + 1}`}
                                                 />
                                             ))}
                                         </div>
                                     </>
                                 ) : (
-                                    <div className="flex flex-col items-center justify-center py-20 bg-[#7B7B7B] rounded-lg">
-                                        <h3 className="text-white text-2xl font-bold mb-2">Coming Soon</h3>
-                                        <p className="text-white/80">No short movies available at the moment</p>
+                                    <div className="flex flex-col items-center justify-center py-20 bg-[#7A2631] rounded-lg space-y-2">
+                                        <h3 className="text-white text-2xl font-bold">Short Films in Production!</h3>
+                                        <p className="text-white/80">Exciting new shorts will be here soon. Watch this space!</p>
+                                        <div className="mt-4">
+                                            <svg className="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                            </svg>
+                                        </div>
                                     </div>
                                 )}
                             </div>
@@ -528,24 +536,24 @@ export function ResourcesContent({ initialCategory = 'Coffee Table Books' }) {
                                 onClick={() => handleBookSelect(resource)}
                             >
                                 <div className="p-0"></div>
-                                    <Image
-                                        src={getImageSource(resource)}
-                                        alt={resource.title || resource.name || resource.coffee_table_book_name}
-                                        width={300}
-                                        height={400}
-                                        className="w-full h-auto object-cover transition-opacity duration-300 group-hover:opacity-90"
-                                        onError={(e) => {
-                                            e.target.src = "/images/default-thumbnail.jpg";
-                                        }}
-                                    />
-                                </div>
+                                <Image
+                                    src={getImageSource(resource)}
+                                    alt={resource.title || resource.name || resource.coffee_table_book_name}
+                                    width={300}
+                                    height={400}
+                                    className="w-full h-auto object-cover transition-opacity duration-300 group-hover:opacity-90"
+                                    onError={(e) => {
+                                        e.target.src = "/images/default-thumbnail.jpg";
+                                    }}
+                                />
+                            </div>
                         ))}
                     </div>
                 )
 
 
                 /* Video Modal */}
-                <VideoModal 
+                <VideoModal
                     isOpen={!!selectedVideo}
                     onClose={() => setSelectedVideo(null)}
                     videoSource={selectedVideo?.video}
