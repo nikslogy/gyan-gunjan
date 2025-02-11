@@ -190,6 +190,7 @@ export function JeevanResources({ selectedCategory = "Nature and Agriculture" })
               </div>
             </div>
           )}
+
         </div>
       ) : (
         <div className="text-center py-12 w-full">
