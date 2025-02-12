@@ -43,11 +43,13 @@ export function JeevanResources({ selectedCategory = "Nature and Agriculture" })
   };
 
   const handleResourceSelect = (resource) => {
+
     const pdf = activeTab === "coffee" ? resource.book_pdf : resource.book_pdf;
     const title = activeTab === "coffee" ? resource.coffee_table_book_name : resource.name;
     
     setSelectedPdf(pdf || null);
     setSelectedTitle(pdf ? title : "PDF not available");
+
 
     setTimeout(() => {
       document.getElementById("resource-section")?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -95,9 +97,11 @@ export function JeevanResources({ selectedCategory = "Nature and Agriculture" })
 
       {hasContent ? (
         <div className="w-full">
+
           <div id="resource-section">
             <Resources selectedPdf={selectedPdf} selectedTitle={selectedTitle} />
           </div>
+
         </div>
       ) : (
         <div className="text-center py-12 w-full">
