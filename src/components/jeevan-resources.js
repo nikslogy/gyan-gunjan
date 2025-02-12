@@ -58,13 +58,12 @@ export function JeevanResources({ selectedCategory = "Nature and Agriculture" })
   // When a resource is selected, update the PDF (if any) and title.
   const handleResourceSelect = (resource) => {
     if (activeTab === "coffee") {
-      // Use the book_pdf_url from the API response
+      // Use the book_pdf from the API response
       setSelectedPdf(resource.book_pdf);
       setSelectedTitle(resource.coffee_table_book_name);
-    }
-    else {
-      // For thematic items, no PDF is available.
-      setSelectedPdf(null);
+    } else {
+      // For thematic items, use the book_pdf from the API response
+      setSelectedPdf(resource.book_pdf);
       setSelectedTitle(resource.name);
     }
     // Scroll into view if desired
@@ -165,8 +164,12 @@ export function JeevanResources({ selectedCategory = "Nature and Agriculture" })
               </div>
             </div>
           ) : (
-            // Display a grid of Thematic cards
+            // Display the Resources component for Thematic Concept Notes
             <div id="resource-section">
+              <Resources
+                selectedPdf={selectedPdf}
+                selectedTitle={selectedTitle}
+              />
               <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
                 {filteredData.map((theme) => (
                   <div
@@ -190,7 +193,6 @@ export function JeevanResources({ selectedCategory = "Nature and Agriculture" })
               </div>
             </div>
           )}
-
         </div>
       ) : (
         <div className="text-center py-12 w-full">
