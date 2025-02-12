@@ -292,14 +292,17 @@ export function ResourcesContent({ initialCategory = 'Coffee Table Books' }) {
                             />
                         ) : (
                             <div className="flex flex-col items-center justify-center py-20 bg-[#f5f5f5] rounded-lg mt-8 space-y-4">
-                                <h3 className="text-3xl font-bold text-[#7A2631]">Exciting Updates Ahead!</h3>
-                                <p className="text-gray-600 text-lg">We're working on bringing you the latest movies. Stay tuned!</p>
-                                <div className="animate-pulse">
-                                    <svg className="w-20 h-20 text-[#E7B24B]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
-                                </div>
-                            </div>
+    <h3 className="text-3xl font-bold text-[#7A2631]">Movies Coming Soon!</h3>
+    <p className="text-gray-600 text-lg text-center max-w-lg">
+        We're preparing an exciting collection of movies. If you have interesting films to share about rural India's transformation, we'd love to feature them!
+    </p>
+    <a 
+        href="/lets-collaborate" 
+        className="mt-4 px-6 py-3 bg-[#E7B24B] text-black rounded-custom2 hover:bg-[#F6B352] transition-colors"
+    >
+        Share Your Films →
+    </a>
+</div>
                         )}
 
                         {/* Recommended Movies Section */}
@@ -371,15 +374,18 @@ export function ResourcesContent({ initialCategory = 'Coffee Table Books' }) {
                                             </div>
                                         </>
                                     ) : (
-                                        <div className="flex flex-col items-center justify-center py-20 bg-[#E7B24B] rounded-lg space-y-2">
-                                            <h3 className="text-black text-2xl font-bold">Fresh Picks Coming Soon!</h3>
-                                            <p className="text-black/80">We're preparing new recommendations just for you.</p>
-                                            <div className="mt-4">
-                                                <svg className="w-12 h-12 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                                </svg>
-                                            </div>
-                                        </div>
+                                        <div className="flex flex-col items-center justify-center py-20 bg-[#E7B24B] rounded-lg space-y-4">
+    <h3 className="text-black text-2xl font-bold">Fresh Picks Coming Soon!</h3>
+    <p className="text-black/80 text-center max-w-lg">
+        We're curating a collection of recommended movies. Have a film that showcases rural India's stories? We'd love to see it!
+    </p>
+    <a 
+        href="/lets-collaborate" 
+        className="mt-2 px-6 py-3 bg-white text-black rounded-custom2 hover:bg-gray-100 transition-colors"
+    >
+        Share Your Films →
+    </a>
+</div>
                                     )}
                                 </div>
 
@@ -483,15 +489,18 @@ export function ResourcesContent({ initialCategory = 'Coffee Table Books' }) {
                                         </div>
                                     </>
                                 ) : (
-                                    <div className="flex flex-col items-center justify-center py-20 bg-[#7A2631] rounded-lg space-y-2">
-                                        <h3 className="text-white text-2xl font-bold">Short Films in Production!</h3>
-                                        <p className="text-white/80">Exciting new shorts will be here soon. Watch this space!</p>
-                                        <div className="mt-4">
-                                            <svg className="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                            </svg>
-                                        </div>
-                                    </div>
+                                    <div className="flex flex-col items-center justify-center py-20 bg-[#7A2631] rounded-lg space-y-4">
+    <h3 className="text-white text-2xl font-bold">Short Films in Production!</h3>
+    <p className="text-white/80 text-center max-w-lg">
+        Our short film collection is growing. If you've created short films about rural India's culture and development, share them with our community!
+    </p>
+    <a 
+        href="/lets-collaborate" 
+        className="mt-2 px-6 py-3 bg-[#E7B24B] text-black rounded-custom2 hover:bg-[#F6B352] transition-colors"
+    >
+        Contribute Your Short Film →
+    </a>
+</div>
                                 )}
                             </div>
                         </section>

@@ -266,14 +266,17 @@ export default function LandingResources() {
               />
             ) : (
               <div className="flex flex-col items-center justify-center py-20 bg-[#f5f5f5] rounded-lg mt-8 space-y-4">
-                <h3 className="text-3xl font-bold text-[#7A2631]">Exciting Updates Ahead!</h3>
-                <p className="text-gray-600 text-lg">We're working on bringing you the latest movies. Stay tuned!</p>
-                <div className="animate-pulse">
-                  <svg className="w-20 h-20 text-[#E7B24B]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                </div>
-              </div>
+    <h3 className="text-3xl font-bold text-[#7A2631]">Movies Coming Soon!</h3>
+    <p className="text-gray-600 text-lg text-center max-w-lg">
+        We're preparing an exciting collection of movies. If you have interesting films to share about rural India's transformation, we'd love to feature them!
+    </p>
+    <a 
+        href="/lets-collaborate" 
+        className="mt-4 px-6 py-3 bg-[#E7B24B] text-black rounded-custom2 hover:bg-[#F6B352] transition-colors"
+    >
+        Share Your Films →
+    </a>
+</div>
             )}
           </>
         )}

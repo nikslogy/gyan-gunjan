@@ -7,11 +7,58 @@ export const Resources = ({ selectedPdf, selectedTitle }) => {
 
   useEffect(() => {
     if (typeof window !== 'undefined' && selectedPdf) {
-      // Wait for DOM to be ready
-      const initializeFlipbook = () => {
+      // Check WebGL support
+      const checkWebGLSupport = () => {
+        try {
+          const canvas = document.createElement('canvas');
+          const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+          return gl instanceof WebGLRenderingContext;
+        } catch (e) {
+          return false;
+        }
+      };
+
+      // Load PDF.js worker script
+      const loadPdfWorker = async () => {
+        try {
+          if (!window.pdfjsLib) {
+            const pdfjsLib = await import('pdfjs-dist');
+            window.pdfjsLib = pdfjsLib;
+            pdfjsLib.GlobalWorkerOptions.workerSrc = '/js/pdf.worker.js';
+          }
+          return true;
+        } catch (error) {
+          console.error('Error loading PDF.js:', error);
+          return false;
+        }
+      };
+
+      // Initialize flipbook
+      const initializeFlipbook = async () => {
+        // Check WebGL support first
+        if (!checkWebGLSupport()) {
+          const container = $('#flipbook-wrapper');
+          container.html('<div class="text-red-500 p-4">WebGL is not supported in your browser. Please try a different browser.</div>');
+          return;
+        }
+
+        const isPdfJsLoaded = await loadPdfWorker();
+        if (!isPdfJsLoaded) return;
+
+        // Ensure Three.js is properly initialized
+        if (window.THREE) {
+          window.THREE.Cache.enabled = true;
+        }
+
+        // Set default device pixel ratio if not available
+        if (!window.devicePixelRatio) {
+          window.devicePixelRatio = 1;
+        }
+
         window.PDFJS_LOCALE = {
           pdfJsWorker: '/js/pdf.worker.js',
-          pdfJsCMapUrl: '/cmaps'
+          pdfJsCMapUrl: '/cmaps/',
+          isOffscreenCanvasSupported: true
         };
 
         if (window.jQuery) {
@@ -19,29 +66,24 @@ export const Resources = ({ selectedPdf, selectedTitle }) => {
           const container = $('#flipbook-wrapper');
           
           if (container.length) {
-            // Clear existing content
             container.empty();
             $('<div class="solid-container"></div>').appendTo(container);
             
-            // Small delay to ensure container is ready
-            setTimeout(() => {
+            try {
+              // Initialize FlipBook with enhanced error handling
               $('.solid-container').FlipBook({
-                pdf: selectedPdf, // Use the selected PDF
+                pdf: selectedPdf,
                 template: {
                   html: '/templates/default-book-view.html',
-                  styles: [
-                    '/css/white-book-view.css'
-                  ],
-                  links: [
-                    {
-                      rel: 'stylesheet',
-                      href: '/css/font-awesome.min.css'
-                    }
-                  ],
+                  styles: ['/css/white-book-view.css'],
+                  links: [{
+                    rel: 'stylesheet',
+                    href: '/css/font-awesome.min.css'
+                  }],
                   script: '/js/default-book-view.js'
                 },
                 controlsProps: {
-                  downloadURL: selectedPdf, // Update download URL
+                  downloadURL: selectedPdf,
                   actions: {
                     cmdZoomIn: { enabled: true },
                     cmdZoomOut: { enabled: true },
@@ -49,24 +91,58 @@ export const Resources = ({ selectedPdf, selectedTitle }) => {
                     cmdBackward: { enabled: true },
                     cmdForward: { enabled: true },
                     cmdSave: { enabled: false },
-                    cmdPrint:{enabled: false}
+                    cmdPrint: { enabled: false }
                   }
                 },
                 scale: 1,
                 autoSize: true,
                 height: '100%',
                 width: '100%',
-                pageSize: 'contain'
+                pageSize: 'contain',
+                renderOnLoad: true,
+                webgl: {
+                  antialias: true,
+                  preserveDrawingBuffer: true
+                },
+                ready: function(scene) {
+                  if (!scene) {
+                    console.error('Scene failed to initialize');
+                    return;
+                  }
+                  // Ensure WebGL context is valid
+                  const renderer = scene.renderer;
+                  if (renderer && !renderer.getContext().isContextLost()) {
+                    renderer.setPixelRatio(window.devicePixelRatio);
+                  }
+                },
+                onLoadError: (error) => {
+                  console.error('Error loading PDF:', error);
+                  container.html('<div class="text-red-500 p-4">Error loading PDF. Please try again later.</div>');
+                }
               });
-            }, 100);
+            } catch (error) {
+              console.error('Error initializing FlipBook:', error);
+              container.html('<div class="text-red-500 p-4">Error initializing PDF viewer. Please try again later.</div>');
+            }
           }
         }
       };
 
-      // Run after a small delay to ensure DOM is ready
-      setTimeout(initializeFlipbook, 0);
+      // Initialize with a delay to ensure DOM and resources are ready
+      const timer = setTimeout(() => {
+        if (document.readyState === 'complete') {
+          initializeFlipbook();
+        } else {
+          window.addEventListener('load', initializeFlipbook);
+        }
+      }, 2000); // Increased delay to ensure everything is loaded
+
+      return () => {
+        clearTimeout(timer);
+        window.removeEventListener('load', initializeFlipbook);
+      };
     }
-  }, [selectedPdf]); // Add selectedPdf as dependency
+  }, [selectedPdf]);
 
   const handleDownload = (e) => {
     e.preventDefault();
