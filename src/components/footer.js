@@ -9,8 +9,8 @@ const Footer = () => {
       <div className="max-w-7xl mx-auto rounded-custom bg-[#c4deff] px-8 py-0">
         <div className="grid grid-cols-1 lg:grid-cols-[2fr_3fr] gap-8">
           {/* Left side - Logos */}
-          <div className="flex flex-col items-center gap-0">
-            <div className="flex items-center gap-0">
+          <div className="flex flex-col items-center">
+            <div className="flex items-center justify-center">
               <Image
                 src="/images/ministry-logo.png"
                 alt="Ministry of Education"
@@ -23,15 +23,15 @@ const Footer = () => {
                 alt="Gyan Gunjan"
                 width={150}
                 height={80}
-                className="object-contain"
+                className="object-contain -ml-8"
               />
             </div>
-            <div className="flex items-center -mt-10 gap-0">
+            <div className="flex items-center justify-center -mt-16">
               <Image
                 src="/images/flame-university.png"
                 alt="Flame University"
-                width={150}
-                height={40}
+                width={190}
+                height={80}
                 className="object-contain"
               />
               <Image
@@ -39,7 +39,7 @@ const Footer = () => {
                 alt="CKA Logo"
                 width={150}
                 height={40}
-                className="object-contain"
+                className="object-contain -ml-8"
               />
             </div>
           </div>
@@ -63,9 +63,6 @@ const Footer = () => {
 
             {/* Second Column */}
             <div className="flex flex-col gap-3 items-center">
-              {/* <Link href="/careers" className="text-[#1a365d] hover:text-gray-900">
-                Careers
-              </Link> */}
               <Link href="/contact" className="text-[#1a365d] hover:text-gray-900">
                 Contact Us
               </Link>

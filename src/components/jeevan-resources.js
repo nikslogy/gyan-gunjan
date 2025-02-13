@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { Book, NotebookText } from "lucide-react";
 import { Resources } from "@/components/resources";
 
-export function JeevanResources({ selectedCategory = "Nature and Agriculture" }) {
+export function JeevanResources({ selectedCategory = "Nature and Agriculture", disableAutoScroll = false }) {
   const [activeTab, setActiveTab] = useState("coffee");
   const [coffeeBooks, setCoffeeBooks] = useState([]);
   const [thematics, setThematics] = useState([]);
@@ -50,6 +50,11 @@ export function JeevanResources({ selectedCategory = "Nature and Agriculture" })
     setSelectedPdf(pdf || null);
     setSelectedTitle(pdf ? title : "PDF not available");
 
+    if (!disableAutoScroll) {
+      setTimeout(() => {
+        document.getElementById("resource-section")?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 100);
+    }
 
     setTimeout(() => {
       document.getElementById("resource-section")?.scrollIntoView({ behavior: "smooth", block: "start" });
