@@ -89,38 +89,21 @@ export function ResourcesContent({ initialCategory = 'Movies' }) {
     const fetchInitialData = async () => {
         try {
             setLoading(true);
-            const [statesRes, coffeeRes, thematicRes, movieRes] = await Promise.all([
+            const [statesRes, coffeeRes, thematicRes, movieRes, flipbookRes,regionRes] = await Promise.all([
                 fetch('http://127.0.0.1:8000/api/states/'),
                 fetch('http://127.0.0.1:8000/api/coffee-table-books/'),
                 fetch('http://127.0.0.1:8000/api/thematic/'),
-                fetch('http://127.0.0.1:8000/api/movies/')
+                fetch('http://127.0.0.1:8000/api/movies/'),
+                fetch('http://127.0.0.1:8000/api/flipbooks/'),
+                fetch('http://127.0.0.1:8000/api/regions/')
             ]);
 
             setStates(await statesRes.json());
             setCoffeeBooks(await coffeeRes.json());
             setThematics(await thematicRes.json());
             setMovies(await movieRes.json());
-        } catch (err) {
-            setError(err.message);
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    const fetchFlipBooks = async (stateId, regionId) => {
-        try {
-            setLoading(true);
-            let url = 'http://127.0.0.1:8000/api/flipbooks/';
-            const params = new URLSearchParams();
-            if (stateId) params.append('state', stateId);
-            if (regionId) params.append('region', regionId);
-
-            if (stateId || regionId) {
-                url += `?${params.toString()}`;
-            }
-
-            const res = await fetch(url);
-            setFlipBooks(await res.json());
+            setFlipBooks(await flipbookRes.json());
+            setRegions(await regionRes.json());
         } catch (err) {
             setError(err.message);
         } finally {
@@ -140,15 +123,31 @@ export function ResourcesContent({ initialCategory = 'Movies' }) {
 
     useEffect(() => {
         if (selectedCategory === 'Regional Flip Books') {
-            fetchFlipBooks(selectedState, selectedRegion);
+            fetchRegions(selectedState);
         }
-    }, [selectedState, selectedRegion]);
+    }, [selectedState, selectedCategory]);
 
-    // Replace handleCategoryChange and replace with handleTabChange
+    const handleStateChange = async (e) => {
+        const stateId = e.target.value;
+        setSelectedState(stateId);
+        setSelectedRegion('');
+        await fetchRegions(stateId);
+    };
+
+    const handleRegionChange = (e) => {
+        setSelectedRegion(e.target.value);
+    };
+
+    const filteredFlipbooks = flipBooks.filter(flipbook => {
+        const stateMatch = !selectedState || flipbook.state.id.toString() === selectedState;
+        const regionMatch = !selectedRegion || flipbook.region?.id.toString() === selectedRegion;
+        return stateMatch && regionMatch;
+    });
+
     const handleTabChange = (category) => {
         setSelectedCategory(category);
         if (category === 'Regional Flip Books') {
-            fetchFlipBooks();
+            fetchInitialData();
         }
         // Reset selected PDF and hide Resources component when switching to Movies
         if (category === 'Movies') {
@@ -158,13 +157,6 @@ export function ResourcesContent({ initialCategory = 'Movies' }) {
         } else {
             setShowResources(true);
         }
-    };
-
-    const handleStateChange = async (e) => {
-        const stateId = e.target.value;
-        setSelectedState(stateId);
-        setSelectedRegion('');
-        await fetchRegions(stateId);
     };
 
     const handleBookSelect = (resource) => {
@@ -190,7 +182,7 @@ export function ResourcesContent({ initialCategory = 'Movies' }) {
             case 'Coffee Table Books':
                 return coffeeBooks;
             case 'Regional Flip Books':
-                return flipBooks;
+                return filteredFlipbooks;
             case 'Thematic Concept Notes':
                 return thematics;
             case 'Movies':
@@ -503,7 +495,7 @@ export function ResourcesContent({ initialCategory = 'Movies' }) {
 
                                         <select
                                             value={selectedRegion}
-                                            onChange={(e) => setSelectedRegion(e.target.value)}
+                                            onChange={handleRegionChange}
                                             className="w-full sm:w-[200px] text-black bg-white border border-gray-300 rounded-md px-3 py-2"
                                         >
                                             <option value="">Choose Region</option>
@@ -516,25 +508,35 @@ export function ResourcesContent({ initialCategory = 'Movies' }) {
                             </div>
                         )}
 
-                        {getResourceData().map((resource, idx) => (
-                            <div
-                                key={idx}
-                                className="group overflow-hidden border rounded-custom2 transition-transform duration-300 hover:scale-105 cursor-pointer"
-                                onClick={() => handleBookSelect(resource)}
-                            >
-                                <div className="p-0"></div>
-                                <Image
-                                    src={getImageSource(resource)}
-                                    alt={resource.title || resource.name || resource.coffee_table_book_name}
-                                    width={300}
-                                    height={400}
-                                    className="w-full h-auto object-cover transition-opacity duration-300 group-hover:opacity-90"
-                                    onError={(e) => {
-                                        e.target.src = "/images/default-thumbnail.jpg";
-                                    }}
-                                />
-                            </div>
-                        ))}
+                        {getResourceData().map((resource, idx) => {
+                            const isPdfAvailable = resource.book_pdf !== null;
+                            return (
+                                <div
+                                    key={idx}
+                                    className="group overflow-hidden border rounded-custom2 transition-transform duration-300 hover:scale-105 cursor-pointer relative"
+                                    onClick={() => handleBookSelect(resource)}
+                                >
+                                    <div className="p-0"></div>
+                                    <Image
+                                        src={getImageSource(resource)}
+                                        alt={resource.title || resource.name || resource.coffee_table_book_name}
+                                        width={300}
+                                        height={400}
+                                        className={`w-full h-auto object-cover transition-opacity duration-300 group-hover:opacity-90 ${
+                                            !isPdfAvailable ? 'filter blur-sm' : ''
+                                        }`}
+                                        onError={(e) => {
+                                            e.target.src = "/images/default-thumbnail.jpg";
+                                        }}
+                                    />
+                                    {!isPdfAvailable && (
+                                        <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40">
+                                            <span className="text-white text-lg font-bold">Coming Soon</span>
+                                        </div>
+                                    )}
+                                </div>
+                            );
+                        })}
                     </div>
                 )
 
