@@ -512,25 +512,35 @@ export function ResourcesContent({ initialCategory = 'Movies' }) {
                             </div>
                         )}
 
-                        {getResourceData().map((resource, idx) => (
-                            <div
-                                key={idx}
-                                className="group overflow-hidden border rounded-custom2 transition-transform duration-300 hover:scale-105 cursor-pointer"
-                                onClick={() => handleBookSelect(resource)}
-                            >
-                                <div className="p-0"></div>
-                                <Image
-                                    src={getImageSource(resource)}
-                                    alt={resource.title || resource.name || resource.coffee_table_book_name}
-                                    width={300}
-                                    height={400}
-                                    className="w-full h-auto object-cover transition-opacity duration-300 group-hover:opacity-90"
-                                    onError={(e) => {
-                                        e.target.src = "/images/default-thumbnail.jpg";
-                                    }}
-                                />
-                            </div>
-                        ))}
+                        {getResourceData().map((resource, idx) => {
+                            const isPdfAvailable = resource.book_pdf !== null;
+                            return (
+                                <div
+                                    key={idx}
+                                    className="group overflow-hidden border rounded-custom2 transition-transform duration-300 hover:scale-105 cursor-pointer relative"
+                                    onClick={() => handleBookSelect(resource)}
+                                >
+                                    <div className="p-0"></div>
+                                    <Image
+                                        src={getImageSource(resource)}
+                                        alt={resource.title || resource.name || resource.coffee_table_book_name}
+                                        width={300}
+                                        height={400}
+                                        className={`w-full h-auto object-cover transition-opacity duration-300 group-hover:opacity-90 ${
+                                            !isPdfAvailable ? 'filter blur-sm' : ''
+                                        }`}
+                                        onError={(e) => {
+                                            e.target.src = "/images/default-thumbnail.jpg";
+                                        }}
+                                    />
+                                    {!isPdfAvailable && (
+                                        <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40">
+                                            <span className="text-white text-lg font-bold">Coming Soon</span>
+                                        </div>
+                                    )}
+                                </div>
+                            );
+                        })}
                     </div>
                 )
 
