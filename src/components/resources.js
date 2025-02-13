@@ -290,7 +290,7 @@ export const Resources = ({ selectedPdf, selectedTitle }) => {
         </>
       ) : (
         <div className="text-center text-gray-600 py-8">
-          Select a book to view its contents
+          {/* Select a book to view its contents */}
         </div>
       )}
     </>

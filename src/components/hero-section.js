@@ -14,10 +14,10 @@ export function HeroSection() {
       <HeroSection1 />
 
       {/* Second Section */}
-      <HeroSection2 />
+      <HeroSection3 />
 
       {/* Third Section */}
-      <HeroSection3 />
+      <HeroSection2 />
 
       {/* Landing Resources Section */}
       <section>

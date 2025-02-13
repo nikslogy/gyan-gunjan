@@ -55,8 +55,24 @@ export function HeroSection2() {
   return (
     <section className="py-8 md:py-12 lg:py-16">
       <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-start max-w-4xl mx-auto">
-        {/* Left Column: Image Slider */}
-        <div className="relative order-2 md:order-1 -ml-4 md:-ml-20">
+        {/* Left Column: Text Content */}
+        <div className="space-y-4 md:space-y-6 order-1">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl text-[#7A2631] font-bold relative top-[-5]">
+            {data.title}
+          </h2>
+          <p className="text-black leading-relaxed text-base md:text-lg max-w-s mt-10">
+            {data.long_description}
+          </p>
+          {/* <button
+            onClick={handleLearnMoreSec2}
+            className="bg-[#F8D89A] text-black px-4 md:px-6 py-2 rounded-custom2 hover:bg-[#f6a93d] transition-colors text-sm"
+          >
+            Learn More
+          </button> */}
+        </div>
+
+        {/* Right Column: Image Slider */}
+        <div className="relative order-2 -mr-4 md:-mr-20">
           <div className="w-full h-[400px] md:h-[500px] lg:h-[500px] relative">
             {data.images.map((image, index) => (
               <div
@@ -86,22 +102,6 @@ export function HeroSection2() {
               />
             ))}
           </div>
-        </div>
-
-        {/* Right Column: Text Content */}
-        <div className="space-y-4 md:space-y-6 order-1 md:order-2">
-          <h2 className="text-2xl md:text-3xl lg:text-4xl text-[#7A2631] font-bold relative top-[-5]">
-            {data.title}
-          </h2>
-          <p className="text-black leading-relaxed text-base md:text-lg max-w-s mt-10">
-            {data.long_description}
-          </p>
-          <button
-            onClick={handleLearnMoreSec2}
-            className="bg-[#F8D89A] text-black px-4 md:px-6 py-2 rounded-custom2 hover:bg-[#f6a93d] transition-colors text-sm"
-          >
-            Learn More
-          </button>
         </div>
       </div>
     </section>
