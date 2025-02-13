@@ -32,7 +32,7 @@ export default function AboutProject() {
         const response = await fetch('http://127.0.0.1:8000/api/about-project/')
         if (!response.ok) throw new Error('Failed to fetch data')
         const data = await response.json()
-        
+
         if (data.length > 0) {
           const firstItem = data[0]
           setAboutData({
@@ -72,39 +72,28 @@ export default function AboutProject() {
   if (!aboutData) return null
 
   return (
-    <main className={`min-h-screen bg-white transition-all duration-1000 ${
-      mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-[20px]'
-    }`}>
+    <main className={`min-h-screen bg-white transition-all duration-1000 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-[20px]'
+      }`}>
       <NavBar />
-      
+
       <div className="container mx-auto px-4 md:px-6 py-12">
         <div className="max-w-5xl mx-auto space-y-16">
-          
+
           {/* Page Title - Now Dynamic */}
-          <h1 className={`text-3xl md:text-4xl font-bold text-[#7A2631] transition-all duration-700 delay-300 ${
-            mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-[20px]'
-          }`}>
+          <h1 className={`text-3xl md:text-4xl font-bold text-[#7A2631] transition-all duration-700 delay-300 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-[20px]'
+            }`}>
             {aboutData.title || "About the Project"}
           </h1>
 
-          {/* Project Tag - Now Dynamic */}
-          <div className="inline-block w-full">
-            <span className="bg-[#E7B24B] text-black font-bold px-2 md:px-12 py-6 rounded-custom2 transition-colors text-2xl">
-              {aboutData.tag || "Iks Gyan Gunjan"}
-            </span>
-          </div>
-          
           {/* Image Slider - Now Dynamic */}
-          <div className={`transition-all duration-700 delay-500 ${
-            mounted ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
-          }`}>
+          <div className={`transition-all duration-700 delay-500 ${mounted ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
+            }`}>
             <div className="rounded-custom overflow-hidden relative h-[550px]">
               {aboutData.images.map((image, index) => (
                 <div
                   key={image.id}
-                  className={`absolute inset-0 transition-opacity duration-500 ${
-                    currentSlide === index ? "opacity-100" : "opacity-0"
-                  }`}
+                  className={`absolute inset-0 transition-opacity duration-500 ${currentSlide === index ? "opacity-100" : "opacity-0"
+                    }`}
                 >
                   <Image
                     src={image.image}
@@ -124,9 +113,8 @@ export default function AboutProject() {
                 <button
                   key={index}
                   onClick={() => setCurrentSlide(index)}
-                  className={`h-2 w-2 rounded-full transition-colors ${
-                    currentSlide === index ? "bg-[#9B2C2C]" : "bg-gray-300"
-                  }`}
+                  className={`h-2 w-2 rounded-full transition-colors ${currentSlide === index ? "bg-[#9B2C2C]" : "bg-gray-300"
+                    }`}
                   aria-label={`Go to slide ${index + 1}`}
                 />
               ))}
@@ -134,9 +122,8 @@ export default function AboutProject() {
           </div>
 
           {/* Content Section - Now Dynamic */}
-          <div className={`prose prose-lg mx-auto transition-all duration-700 delay-700 ${
-            mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-[20px]'
-          }`}>
+          <div className={`prose prose-lg mx-auto transition-all duration-700 delay-700 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-[20px]'
+            }`}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="text-black whitespace-pre-line">
                 <p>{aboutData.description_left}</p>
@@ -147,21 +134,107 @@ export default function AboutProject() {
             </div>
           </div>
 
-
           {/* Logo Section */}
           <div className="inline-block w-full">
             <span className="bg-[#E7B24B] text-black font-bold px-4 md:px-20 py-6 rounded-custom2 transition-colors text-2xl">
               Gyan Gunjan Logo Concept
             </span>
           </div>
-          <Image 
-  src={aboutData.logo_image} 
-  alt="Gyan Gunjan Logo Concept" 
-  width={800} 
-  height={400} 
-  className="object-contain w-full max-w-xl mx-auto"
-  sizes="(max-width: 768px) 100vw, 800px"
-/>
+          <Image
+            src={"/images/gyangunjannewlogo.png"}
+            alt="Gyan Gunjan Logo Concept"
+            width={800}
+            height={400}
+            className="object-contain w-full max-w-xl mx-auto"
+            sizes="(max-width: 768px) 100vw, 800px"
+          />
+
+          {/* Logo Description Section */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+            <div className="prose prose-lg text-black">
+              <p>{aboutData.logo_description || "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc. There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc."}</p>
+            </div>
+            <div className="relative aspect-[3/3] w-full">
+              <Image
+                src={aboutData.logo_detail_image || "/images/mulgyangunjan.png"}
+                alt="Logo Details"
+                fill
+                className="object-contain rounded-lg"
+                sizes="(max-width: 768px) 100vw, 50vw"
+              />
+            </div>
+          </div>
+          <p className="text-black">{aboutData.logo_description_2 || "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc."}</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+            <div className="relative aspect-[3/3] w-full">
+              <Image
+                src={aboutData.logo_detail_image || "/images/Nature Logo 1 Cover.png"}
+                alt="Logo Details"
+                fill
+                className="object-contain rounded-lg"
+                sizes="(max-width: 768px) 100vw, 50vw"
+              />
+            </div>
+            <div className="prose prose-lg text-black">
+              <p>{aboutData.logo_description || "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam"}</p>
+            </div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+            <div className="relative aspect-[3/3] w-full">
+              <Image
+                src={aboutData.logo_detail_image || "/images/Family.png"}
+                alt="Logo Details"
+                fill
+                className="object-contain rounded-lg"
+                sizes="(max-width: 768px) 100vw, 50vw"
+              />
+            </div>
+            <div className="prose prose-lg text-black">
+              <p>{aboutData.logo_description || "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam"}</p>
+            </div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+            <div className="relative aspect-[3/3] w-full">
+              <Image
+                src={aboutData.logo_detail_image || "/images/Knowledge & Learning.png"}
+                alt="Logo Details"
+                fill
+                className="object-contain rounded-lg"
+                sizes="(max-width: 768px) 100vw, 50vw"
+              />
+            </div>
+            <div className="prose prose-lg text-black">
+              <p>{aboutData.logo_description || "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam"}</p>
+            </div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+            <div className="relative aspect-[3/3] w-full">
+              <Image
+                src={aboutData.logo_detail_image || "/images/Art - Devi Black.png"}
+                alt="Logo Details"
+                fill
+                className="object-contain rounded-lg"
+                sizes="(max-width: 768px) 100vw, 50vw"
+              />
+            </div>
+            <div className="prose prose-lg text-black">
+              <p>{aboutData.logo_description || "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam"}</p>
+            </div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+            <div className="relative aspect-[3/3] w-full">
+              <Image
+                src={aboutData.logo_detail_image || "/images/Village Gov.png"}
+                alt="Logo Details"
+                fill
+                className="object-contain rounded-lg"
+                sizes="(max-width: 768px) 100vw, 50vw"
+              />
+            </div>
+            <div className="prose prose-lg text-black">
+              <p>{aboutData.logo_description || "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam"}</p>
+            </div>
+          </div>
         </div>
       </div>
       <Footer />
