@@ -229,19 +229,6 @@ export default function LetsColaborate() {
                                     />
                                 </div>
 
-                                <div className="flex items-center">
-                                    <input
-                                        type="checkbox"
-                                        id="newsletter"
-                                        checked={formData.newsletter}
-                                        onChange={(e) => setFormData({...formData, newsletter: e.target.checked})}
-                                        className="h-4 w-4 text-[#F6B352] focus:ring-[#F6B352] border-gray-300 rounded"
-                                    />
-                                    <label htmlFor="newsletter" className="ml-2 text-sm">
-                                        Subscribe to our newsletter
-                                    </label>
-                                </div>
-
                                 <button
                                     type="submit"
                                     disabled={loading}

@@ -1,13 +1,13 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { ChevronDown } from "lucide-react";
+import { Notebook, Book, BookOpen, Video } from "lucide-react";
 import Image from "next/image";
 import { Resources } from "@/components/resources";
 import MovieSlider from "@/components/movie-slider";
 import VideoModal from "@/components/video-modal";
 
-export function ResourcesContent({ initialCategory = 'Coffee Table Books' }) {
+export function ResourcesContent({ initialCategory = 'Movies' }) {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedCategory, setSelectedCategory] = useState(initialCategory);
     const [selectedState, setSelectedState] = useState('');
@@ -51,25 +51,8 @@ export function ResourcesContent({ initialCategory = 'Coffee Table Books' }) {
     // Add new state to control Resources component visibility
     const [showResources, setShowResources] = useState(true);
 
-    // Add ref for the dropdown
-    const dropdownRef = useRef(null);
-
-    // Add useEffect for click outside handling
-    useEffect(() => {
-        function handleClickOutside(event) {
-            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-                setIsOpen(false);
-            }
-        }
-
-        // Add event listener
-        document.addEventListener('mousedown', handleClickOutside);
-
-        // Cleanup
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
-    }, []);
+    // Replace dropdown-related state and ref
+    const [activeTab, setActiveTab] = useState('Thematic Concept Notes');
 
     useEffect(() => {
         // Handle category changes from navbar
@@ -97,10 +80,10 @@ export function ResourcesContent({ initialCategory = 'Coffee Table Books' }) {
     }, [initialCategory]);
 
     const resourceMenuItems = [
-        'Regional Flip Books',
-        'Movies',
         'Thematic Concept Notes',
-        'Coffee Table Books'
+        'Coffee Table Books',
+        'Regional Flip Books',
+        'Movies'
     ];
 
     const fetchInitialData = async () => {
@@ -161,10 +144,9 @@ export function ResourcesContent({ initialCategory = 'Coffee Table Books' }) {
         }
     }, [selectedState, selectedRegion]);
 
-    // Modify handleCategoryChange to handle Resources visibility
-    const handleCategoryChange = (category) => {
+    // Replace handleCategoryChange and replace with handleTabChange
+    const handleTabChange = (category) => {
         setSelectedCategory(category);
-        setIsOpen(false);
         if (category === 'Regional Flip Books') {
             fetchFlipBooks();
         }
@@ -239,8 +221,6 @@ export function ResourcesContent({ initialCategory = 'Coffee Table Books' }) {
         setSelectedVideo(movie);
     };
 
-    const dropdownItems = resourceMenuItems.filter(item => item !== selectedCategory);
-
     if (error) return <div className="text-red-500 p-4">Error loading resources: {error}</div>;
     if (loading) return <div className="p-4">Loading resources...</div>;
 
@@ -250,32 +230,26 @@ export function ResourcesContent({ initialCategory = 'Coffee Table Books' }) {
                 Resources
             </h1>
 
-            {/* Category Dropdown - Add ref here */}
-            <div className="w-full sm:w-[300px] mb-8 relative z-50">
-                <div className="relative" ref={dropdownRef}>
-                    <button
-                        onClick={() => setIsOpen(!isOpen)}
-                        className="inline-block w-full text-left font-bold bg-[#E7B24B] text-black px-4 md:px-8 py-6 rounded-custom2 text-base md:text-xl flex items-center justify-between transition-all duration-300 hover:bg-[#f4a93d]"
-                    >
-                        <span>{selectedCategory}</span>
-                        <div className={`transform transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}>
-                            <ChevronDown className="h-4 w-4 md:h-5 md:w-5" />
-                        </div>
-                    </button>
-
-                    <div className={`absolute top-full left-0 w-full overflow-hidden text-black bg-[#F6B352] rounded-b-lg mt-1 transition-all duration-300 ease-in-out ${isOpen ? "max-h-[400px] opacity-100" : "max-h-0 opacity-0"}`}>
-                        <div className="py-2">
-                            {dropdownItems.map((item) => (
-                                <button
-                                    key={item}
-                                    onClick={() => handleCategoryChange(item)}
-                                    className="w-full text-left px-4 md:px-8 py-2 font-philosopher md:py-3 hover:bg-[#f4a93d] text-base md:text-xl transition-colors"
-                                >
-                                    {item}
-                                </button>
-                            ))}
-                        </div>
-                    </div>
+            {/* Replace dropdown with tabs */}
+            <div className="mb-8">
+                <div className="flex flex-wrap gap-2 bg-[#FAF3E0] p-1 rounded-custom2">
+                    {resourceMenuItems.map((tab) => (
+                        <button
+                            key={tab}
+                            onClick={() => handleTabChange(tab)}
+                            className={`px-6 py-3 rounded-custom2 transition-colors ${
+                                selectedCategory === tab 
+                                    ? 'bg-[#E4A853] text-black' 
+                                    : 'text-gray-700 hover:bg-[#E4A853] hover:text-black'
+                            }`}
+                        >
+                            {tab === 'Thematic Concept Notes' && <Notebook className="w-4 h-4 inline mr-2" />}
+                            {tab === 'Coffee Table Books' && <Book className="w-4 h-4 inline mr-2" />}
+                            {tab === 'Regional Flip Books' && <BookOpen className="w-4 h-4 inline mr-2" />}
+                            {tab === 'Movies' && <Video className="w-4 h-4 inline mr-2" />}
+                            {tab}
+                        </button>
+                    ))}
                 </div>
             </div>
 
@@ -292,17 +266,17 @@ export function ResourcesContent({ initialCategory = 'Coffee Table Books' }) {
                             />
                         ) : (
                             <div className="flex flex-col items-center justify-center py-20 bg-[#f5f5f5] rounded-lg mt-8 space-y-4">
-    <h3 className="text-3xl font-bold text-[#7A2631]">Movies Coming Soon!</h3>
-    <p className="text-gray-600 text-lg text-center max-w-lg">
-        We're preparing an exciting collection of movies. If you have interesting films to share about rural India's transformation, we'd love to feature them!
-    </p>
-    <a 
-        href="/lets-collaborate" 
-        className="mt-4 px-6 py-3 bg-[#E7B24B] text-black rounded-custom2 hover:bg-[#F6B352] transition-colors"
-    >
-        Share Your Films →
-    </a>
-</div>
+                                <h3 className="text-3xl font-bold text-[#7A2631]">Movies Coming Soon!</h3>
+                                <p className="text-gray-600 text-lg text-center max-w-lg">
+                                    We're preparing an exciting collection of movies. If you have interesting films to share about rural India's transformation, we'd love to feature them!
+                                </p>
+                                <a
+                                    href="/lets-collaborate"
+                                    className="mt-4 px-6 py-3 bg-[#E7B24B] text-black rounded-custom2 hover:bg-[#F6B352] transition-colors"
+                                >
+                                    Share Your Films →
+                                </a>
+                            </div>
                         )}
 
                         {/* Recommended Movies Section */}
@@ -375,17 +349,17 @@ export function ResourcesContent({ initialCategory = 'Coffee Table Books' }) {
                                         </>
                                     ) : (
                                         <div className="flex flex-col items-center justify-center py-20 bg-[#E7B24B] rounded-lg space-y-4">
-    <h3 className="text-black text-2xl font-bold">Fresh Picks Coming Soon!</h3>
-    <p className="text-black/80 text-center max-w-lg">
-        We're curating a collection of recommended movies. Have a film that showcases rural India's stories? We'd love to see it!
-    </p>
-    <a 
-        href="/lets-collaborate" 
-        className="mt-2 px-6 py-3 bg-white text-black rounded-custom2 hover:bg-gray-100 transition-colors"
-    >
-        Share Your Films →
-    </a>
-</div>
+                                            <h3 className="text-black text-2xl font-bold">Fresh Picks Coming Soon!</h3>
+                                            <p className="text-black/80 text-center max-w-lg">
+                                                We're curating a collection of recommended movies. Have a film that showcases rural India's stories? We'd love to see it!
+                                            </p>
+                                            <a
+                                                href="/lets-collaborate"
+                                                className="mt-2 px-6 py-3 bg-white text-black rounded-custom2 hover:bg-gray-100 transition-colors"
+                                            >
+                                                Share Your Films →
+                                            </a>
+                                        </div>
                                     )}
                                 </div>
 
@@ -403,8 +377,8 @@ export function ResourcesContent({ initialCategory = 'Coffee Table Books' }) {
                                                 key={index}
                                                 onClick={() => setCurrentRecommendedMovie(index)}
                                                 className={`h-3 w-3 rounded-full transition-all duration-300 ${currentRecommendedMovie === index
-                                                        ? "bg-[#7A2631] w-6"
-                                                        : "bg-gray-300 hover:bg-[#E7B24B]"
+                                                    ? "bg-[#7A2631] w-6"
+                                                    : "bg-gray-300 hover:bg-[#E7B24B]"
                                                     }`}
                                                 aria-label={`Go to recommended slide ${index + 1}`}
                                             />
@@ -480,8 +454,8 @@ export function ResourcesContent({ initialCategory = 'Coffee Table Books' }) {
                                                     key={index}
                                                     onClick={() => setCurrentShortMovie(index)}
                                                     className={`h-3 w-3 rounded-full transition-all duration-300 ${currentShortMovie === index
-                                                            ? "bg-[#7A2631] w-6"
-                                                            : "bg-gray-300 hover:bg-[#E7B24B]"
+                                                        ? "bg-[#7A2631] w-6"
+                                                        : "bg-gray-300 hover:bg-[#E7B24B]"
                                                         }`}
                                                     aria-label={`Go to slide ${index + 1}`}
                                                 />
@@ -490,17 +464,17 @@ export function ResourcesContent({ initialCategory = 'Coffee Table Books' }) {
                                     </>
                                 ) : (
                                     <div className="flex flex-col items-center justify-center py-20 bg-[#7A2631] rounded-lg space-y-4">
-    <h3 className="text-white text-2xl font-bold">Short Films in Production!</h3>
-    <p className="text-white/80 text-center max-w-lg">
-        Our short film collection is growing. If you've created short films about rural India's culture and development, share them with our community!
-    </p>
-    <a 
-        href="/lets-collaborate" 
-        className="mt-2 px-6 py-3 bg-[#E7B24B] text-black rounded-custom2 hover:bg-[#F6B352] transition-colors"
-    >
-        Contribute Your Short Film →
-    </a>
-</div>
+                                        <h3 className="text-white text-2xl font-bold">Short Films in Production!</h3>
+                                        <p className="text-white/80 text-center max-w-lg">
+                                            Our short film collection is growing. If you've created short films about rural India's culture and development, share them with our community!
+                                        </p>
+                                        <a
+                                            href="/lets-collaborate"
+                                            className="mt-2 px-6 py-3 bg-[#E7B24B] text-black rounded-custom2 hover:bg-[#F6B352] transition-colors"
+                                        >
+                                            Contribute Your Short Film →
+                                        </a>
+                                    </div>
                                 )}
                             </div>
                         </section>

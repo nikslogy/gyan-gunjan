@@ -63,9 +63,9 @@ const Footer = () => {
 
             {/* Second Column */}
             <div className="flex flex-col gap-3 items-center">
-              <Link href="/careers" className="text-[#1a365d] hover:text-gray-900">
+              {/* <Link href="/careers" className="text-[#1a365d] hover:text-gray-900">
                 Careers
-              </Link>
+              </Link> */}
               <Link href="/contact" className="text-[#1a365d] hover:text-gray-900">
                 Contact Us
               </Link>

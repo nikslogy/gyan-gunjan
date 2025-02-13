@@ -148,20 +148,20 @@ export default function AboutProject() {
           </div>
 
 
-          {/* Logo Section - Now Dynamic */}
+          {/* Logo Section */}
           <div className="inline-block w-full">
             <span className="bg-[#E7B24B] text-black font-bold px-4 md:px-20 py-6 rounded-custom2 transition-colors text-2xl">
               Gyan Gunjan Logo Concept
             </span>
           </div>
           <Image 
-            src={aboutData.logo_image} 
-            alt="Gyan Gunjan Logo Concept" 
-            width={800} 
-            height={400} 
-            className="object-contain w-full"
-            sizes="(max-width: 768px) 100vw, 800px"
-          />
+  src={aboutData.logo_image} 
+  alt="Gyan Gunjan Logo Concept" 
+  width={800} 
+  height={400} 
+  className="object-contain w-full max-w-xl mx-auto"
+  sizes="(max-width: 768px) 100vw, 800px"
+/>
         </div>
       </div>
       <Footer />
