@@ -85,7 +85,7 @@ export default function LandingResources() {
   };
 
   return (
-    <section className="py-8 md:py-12 lg:py-16 bg-white">
+    <section className="py-8 md:py-12 lg:py-16 bg-white resources-content">
       <div className="container mx-auto px-4">
         {/* Header remains exactly the same */}
         <div className="flex justify-between items-center mb-8">
@@ -119,117 +119,26 @@ export default function LandingResources() {
           </div>
         </div>
 
-        {/* Thematic Section with API Data */}
-        {activeTab === 'thematic' && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
-            {thematicData.map((item) => (
-              <div
-                key={item.id}
-                onClick={() => {
-                  router.push('/resources');
-                  localStorage.setItem('selectedResourceType', 'Thematic Concept Notes');
-                  window.dispatchEvent(new CustomEvent('navResourceChange', {
-                    detail: 'Thematic Concept Notes'
-                  }));
-                }}
-                className="group overflow-hidden border rounded-custom2 transition-transform duration-300 hover:scale-105 cursor-pointer"
-              >
-                <div className="p-0">
-                  <Image
-                    src={item.cover_picture}
-                    alt={item.headline}
-                    width={300}
-                    height={400}
-                    className="w-full h-auto object-cover transition-opacity duration-300 group-hover:opacity-90"
-                  />
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-
-        {/* Coffee Table Books Section with API Data */}
-        {activeTab === 'coffee' && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
-            {coffeeData.map((item) => (
-              <div
-                key={item.id}
-                onClick={() => {
-                  router.push('/resources');
-                  localStorage.setItem('selectedResourceType', 'Coffee Table Books');
-                  window.dispatchEvent(new CustomEvent('navResourceChange', {
-                    detail: 'Coffee Table Books'
-                  }));
-                }}
-                className="group overflow-hidden border rounded-custom4 transition-transform duration-300 hover:scale-105 cursor-pointer"
-              >
-                <div className="p-0">
-                  <Image
-                    src={item.cover_image}
-                    alt={item.coffee_table_book_name}
-                    width={200}
-                    height={300}
-                    className="w-full h-auto object-cover transition-opacity duration-300 group-hover:opacity-90"
-                  />
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-
-        {/* Regional Flipbooks Section with API Data */}
-        {activeTab === 'regional' && (
-          <>
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
-              <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
-                <select
-                  value={selectedState}
-                  onChange={(e) => setSelectedState(e.target.value)}
-                  className="w-full sm:w-[200px] text-black bg-white border border-gray-300 rounded-md px-3 py-2"
-                >
-                  <option value="">Choose State</option>
-                  {states.map(state => (
-                    <option key={state.id} value={state.id}>{state.name}</option>
-                  ))}
-                </select>
-
-                <select
-                  value={selectedRegion}
-                  onChange={(e) => setSelectedRegion(e.target.value)}
-                  className="w-full sm:w-[200px] text-black bg-white border border-gray-300 rounded-md px-3 py-2"
-                >
-                  <option value="">Choose Region</option>
-                  {filteredRegions.map(region => (
-                    <option key={region.id} value={region.id}>{region.name}</option>
-                  ))}
-                </select>
-              </div>
-
-              <button
-                onClick={() => {
-                  router.push('/resources');
-                  localStorage.setItem('selectedResourceType', 'Regional Flip Books');
-                  window.dispatchEvent(new CustomEvent('navResourceChange', {
-                    detail: 'Regional Flip Books'
-                  }));
-                }}
-                className="text-gray-600 hover:text-gray-900 w-full sm:w-auto text-center sm:text-left"
-              >
-                View All
-
-              </button>
-            </div>
-
+        <div className="min-h-[400px]">
+          {/* Thematic Section with API Data */}
+          {activeTab === 'thematic' && (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
-              {filteredFlipbooks.map((item) => (
+              {thematicData.map((item) => (
                 <div
                   key={item.id}
-                  className="group overflow-hidden border rounded-lg transition-transform duration-300 hover:scale-105 cursor-pointer"
+                  onClick={() => {
+                    router.push('/resources');
+                    localStorage.setItem('selectedResourceType', 'Thematic Concept Notes');
+                    window.dispatchEvent(new CustomEvent('navResourceChange', {
+                      detail: 'Thematic Concept Notes'
+                    }));
+                  }}
+                  className="group overflow-hidden border rounded-custom2 transition-transform duration-300 hover:scale-105 cursor-pointer"
                 >
                   <div className="p-0">
                     <Image
-                      src={item.cover_image} // Add default image
-                      alt={item.title}
+                      src={item.cover_picture}
+                      alt={item.headline}
                       width={300}
                       height={400}
                       className="w-full h-auto object-cover transition-opacity duration-300 group-hover:opacity-90"
@@ -238,48 +147,141 @@ export default function LandingResources() {
                 </div>
               ))}
             </div>
-          </>
-        )}
+          )}
 
-        {/* Movies Section with API Data */}
-        {activeTab === 'movies' && (
-          <>
-            <div className="flex justify-end mb-4 sm:mb-6">
-              <button
-                onClick={() => {
-                  router.push('/resources');
-                  localStorage.setItem('selectedResourceType', 'Movies');
-                  window.dispatchEvent(new CustomEvent('navResourceChange', {
-                    detail: 'Movies'
-                  }));
-                }}
-                className="text-gray-600 hover:text-gray-900 text-sm sm:text-base"
-              >
-                View All
-              </button>
+          {/* Coffee Table Books Section with API Data */}
+          {activeTab === 'coffee' && (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+              {coffeeData.map((item) => (
+                <div
+                  key={item.id}
+                  onClick={() => {
+                    router.push('/resources');
+                    localStorage.setItem('selectedResourceType', 'Coffee Table Books');
+                    window.dispatchEvent(new CustomEvent('navResourceChange', {
+                      detail: 'Coffee Table Books'
+                    }));
+                  }}
+                  className="group overflow-hidden border rounded-custom4 transition-transform duration-300 hover:scale-105 cursor-pointer"
+                >
+                  <div className="p-0">
+                    <Image
+                      src={item.cover_image}
+                      alt={item.coffee_table_book_name}
+                      width={200}
+                      height={300}
+                      className="w-full h-auto object-cover transition-opacity duration-300 group-hover:opacity-90"
+                    />
+                  </div>
+                </div>
+              ))}
             </div>
+          )}
 
-            {transformedMovies.length > 0 ? (
-              <MovieSlider
-                movies={transformedMovies}
-                onPlayClick={handlePlayClick}
-              />
-            ) : (
-              <div className="flex flex-col items-center justify-center py-20 bg-[#f5f5f5] rounded-lg mt-8 space-y-4">
-    <h3 className="text-3xl font-bold text-[#7A2631]">Movies Coming Soon!</h3>
-    <p className="text-gray-600 text-lg text-center max-w-lg">
-        We're preparing an exciting collection of movies. If you have interesting films to share about rural India's transformation, we'd love to feature them!
-    </p>
-    <a 
-        href="/lets-collaborate" 
-        className="mt-4 px-6 py-3 bg-[#E7B24B] text-black rounded-custom2 hover:bg-[#F6B352] transition-colors"
-    >
-        Share Your Films →
-    </a>
-</div>
-            )}
-          </>
-        )}
+          {/* Regional Flipbooks Section with API Data */}
+          {activeTab === 'regional' && (
+            <>
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+                <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+                  <select
+                    value={selectedState}
+                    onChange={(e) => setSelectedState(e.target.value)}
+                    className="w-full sm:w-[200px] text-black bg-white border border-gray-300 rounded-md px-3 py-2"
+                  >
+                    <option value="">Choose State</option>
+                    {states.map(state => (
+                      <option key={state.id} value={state.id}>{state.name}</option>
+                    ))}
+                  </select>
+
+                  <select
+                    value={selectedRegion}
+                    onChange={(e) => setSelectedRegion(e.target.value)}
+                    className="w-full sm:w-[200px] text-black bg-white border border-gray-300 rounded-md px-3 py-2"
+                  >
+                    <option value="">Choose Region</option>
+                    {filteredRegions.map(region => (
+                      <option key={region.id} value={region.id}>{region.name}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <button
+                  onClick={() => {
+                    router.push('/resources');
+                    localStorage.setItem('selectedResourceType', 'Regional Flip Books');
+                    window.dispatchEvent(new CustomEvent('navResourceChange', {
+                      detail: 'Regional Flip Books'
+                    }));
+                  }}
+                  className="text-gray-600 hover:text-gray-900 w-full sm:w-auto text-center sm:text-left"
+                >
+                  View All
+
+                </button>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+                {filteredFlipbooks.map((item) => (
+                  <div
+                    key={item.id}
+                    className="group overflow-hidden border rounded-lg transition-transform duration-300 hover:scale-105 cursor-pointer"
+                  >
+                    <div className="p-0">
+                      <Image
+                        src={item.cover_image} // Add default image
+                        alt={item.title}
+                        width={300}
+                        height={400}
+                        className="w-full h-auto object-cover transition-opacity duration-300 group-hover:opacity-90"
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
+
+          {/* Movies Section with API Data */}
+          {activeTab === 'movies' && (
+            <>
+              <div className="flex justify-end mb-4 sm:mb-6">
+                <button
+                  onClick={() => {
+                    router.push('/resources');
+                    localStorage.setItem('selectedResourceType', 'Movies');
+                    window.dispatchEvent(new CustomEvent('navResourceChange', {
+                      detail: 'Movies'
+                    }));
+                  }}
+                  className="text-gray-600 hover:text-gray-900 text-sm sm:text-base"
+                >
+                  View All
+                </button>
+              </div>
+
+              {transformedMovies.length > 0 ? (
+                <MovieSlider
+                  movies={transformedMovies}
+                  onPlayClick={handlePlayClick}
+                />
+              ) : (
+                <div className="flex flex-col items-center justify-center py-20 bg-[#f5f5f5] rounded-lg mt-8 space-y-4">
+          <h3 className="text-3xl font-bold text-[#7A2631]">Movies Coming Soon!</h3>
+          <p className="text-gray-600 text-lg text-center max-w-lg">
+              We're preparing an exciting collection of movies. If you have interesting films to share about rural India's transformation, we'd love to feature them!
+          </p>
+          <a 
+              href="/lets-collaborate" 
+              className="mt-4 px-6 py-3 bg-[#E7B24B] text-black rounded-custom2 hover:bg-[#F6B352] transition-colors"
+          >
+              Share Your Films →
+          </a>
+      </div>
+              )}
+            </>
+          )}
+        </div>
       </div>
     </section>
   );

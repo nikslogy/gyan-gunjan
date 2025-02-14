@@ -5,11 +5,13 @@ import { Footer } from '@/components/footer';
 
 const Home = () => {
   return (
-    <main className="min-h-screen bg-white">
+    <div className="page-wrapper">
       <NavBar />
-      <HeroSection />
-      <Footer/>
-    </main>
+      <main className="content-wrapper">
+        <HeroSection />
+      </main>
+      <Footer />
+    </div>
   );
 };
 

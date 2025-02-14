@@ -218,7 +218,7 @@ export function ResourcesContent({ initialCategory = 'Movies' }) {
 
     return (
         <div className="max-w-5xl mx-auto space-y-10">
-            <h1 className="text-3xl md:text-4xl font-bold text-[#7A2631] transition-all duration-700 delay-300">
+            <h1 className="mt-10 text-3xl md:text-4xl font-bold text-[#7A2631] transition-all duration-700 delay-300">
                 Resources
             </h1>
 

@@ -25,7 +25,7 @@ export default function Contact() {
             <NavBar />
             
             <div className="text-center py-8">
-                <h1 className="text-4xl md:text-5xl font-serif">Contact Us</h1>
+                <h1 className="mt-20 text-4xl md:text-5xl font-serif">Contact Us</h1>
                 <hr className="my-4 border-black mx-auto w-3/4" />
             </div>
 

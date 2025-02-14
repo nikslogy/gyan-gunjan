@@ -5,7 +5,6 @@ import Image from "next/image"
 
 export function HeroSection2() {
   const [data, setData] = useState(null); // State to store API data
-  const [currentSlide, setCurrentSlide] = useState(0); // State for slider
   const router = useRouter(); // Next.js router for navigation
   const [exitAnimation, setExitAnimation] = useState(false); // State for exit animation
 
@@ -37,16 +36,6 @@ export function HeroSection2() {
     fetchData();
   }, []);
 
-  // Slider logic
-  useEffect(() => {
-    if (data?.images) {
-      const timer = setInterval(() => {
-        setCurrentSlide((prev) => (prev === data.images.length - 1 ? 0 : prev + 1));
-      }, 3000); // Change slide every 3 seconds
-      return () => clearInterval(timer); // Cleanup on unmount
-    }
-  }, [data?.images?.length]);
-
   // Show loading state while data is being fetched
   if (!data) {
     return <div className="text-center py-10">Loading...</div>;
@@ -71,36 +60,19 @@ export function HeroSection2() {
           </button> */}
         </div>
 
-        {/* Right Column: Image Slider */}
+        {/* Right Column: Single Image */}
         <div className="relative order-2 -mr-4 md:-mr-20">
           <div className="w-full h-[400px] md:h-[500px] lg:h-[500px] relative">
-            {data.images.map((image, index) => (
-              <div
-                key={index}
-                className={`absolute inset-0 transition-opacity duration-500 ${currentSlide === index ? "opacity-100" : "opacity-0"}`}
-              >
-                <Image
-                  src={image.image} // Ensure this is a full URL (e.g., http://127.0.0.1:8000/media/...)
-                  alt={image.caption || 'Section image'}
-                  fill
-                  className="object-contain"
-                  priority={index === 0} // Prioritize loading the first image
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" // Add responsive sizes
-                />
-              </div>
-            ))}
-          </div>
-
-          {/* Slider Navigation Dots */}
-          <div className="flex justify-center gap-3 mt-6">
-            {data.images.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => setCurrentSlide(index)}
-                className={`h-2 w-2 rounded-full transition-colors ${currentSlide === index ? "bg-[#7A2631]" : "bg-gray-300"}`}
-                aria-label={`Go to slide ${index + 1}`}
+            {data.images[0] && (
+              <Image
+                src={data.images[0].image}
+                alt={data.images[0].caption || 'Section image'}
+                fill
+                className="object-contain"
+                priority
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
-            ))}
+            )}
           </div>
         </div>
       </div>
