@@ -4,7 +4,6 @@ import { Book, BookOpen, Notebook, Video } from 'lucide-react';
 import MovieSlider from './movie-slider';
 import { useRouter } from 'next/navigation';
 
-
 export default function LandingResources() {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState('thematic');
@@ -123,58 +122,82 @@ export default function LandingResources() {
           {/* Thematic Section with API Data */}
           {activeTab === 'thematic' && (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
-              {thematicData.map((item) => (
-                <div
-                  key={item.id}
-                  onClick={() => {
-                    router.push('/resources');
-                    localStorage.setItem('selectedResourceType', 'Thematic Concept Notes');
-                    window.dispatchEvent(new CustomEvent('navResourceChange', {
-                      detail: 'Thematic Concept Notes'
-                    }));
-                  }}
-                  className="group overflow-hidden border rounded-custom2 transition-transform duration-300 hover:scale-105 cursor-pointer"
-                >
-                  <div className="p-0">
-                    <Image
-                      src={item.cover_picture}
-                      alt={item.headline}
-                      width={300}
-                      height={400}
-                      className="w-full h-auto object-cover transition-opacity duration-300 group-hover:opacity-90"
-                    />
+              {thematicData.map((item) => {
+                const isPdfAvailable = item.book_pdf !== null;
+                return (
+                  <div
+                    key={item.id}
+                    onClick={() => {
+                      if (isPdfAvailable) {
+                        router.push('/resources');
+                        localStorage.setItem('selectedResourceType', 'Thematic Concept Notes');
+                        window.dispatchEvent(new CustomEvent('navResourceChange', {
+                          detail: 'Thematic Concept Notes'
+                        }));
+                      }
+                    }}
+                    className="group overflow-hidden border rounded-custom2 transition-transform duration-300 hover:scale-105 cursor-pointer relative"
+                  >
+                    <div className="p-0">
+                      <Image
+                        src={item.cover_picture}
+                        alt={item.headline}
+                        width={300}
+                        height={400}
+                        className={`w-full h-auto object-cover transition-opacity duration-300 group-hover:opacity-90 ${
+                          !isPdfAvailable ? 'filter blur-sm' : ''
+                        }`}
+                      />
+                    </div>
+                    {!isPdfAvailable && (
+                      <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40">
+                        <span className="text-white text-lg font-bold">Coming Soon</span>
+                      </div>
+                    )}
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           )}
 
           {/* Coffee Table Books Section with API Data */}
           {activeTab === 'coffee' && (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
-              {coffeeData.map((item) => (
-                <div
-                  key={item.id}
-                  onClick={() => {
-                    router.push('/resources');
-                    localStorage.setItem('selectedResourceType', 'Coffee Table Books');
-                    window.dispatchEvent(new CustomEvent('navResourceChange', {
-                      detail: 'Coffee Table Books'
-                    }));
-                  }}
-                  className="group overflow-hidden border rounded-custom4 transition-transform duration-300 hover:scale-105 cursor-pointer"
-                >
-                  <div className="p-0">
-                    <Image
-                      src={item.cover_image}
-                      alt={item.coffee_table_book_name}
-                      width={200}
-                      height={300}
-                      className="w-full h-auto object-cover transition-opacity duration-300 group-hover:opacity-90"
-                    />
+              {coffeeData.map((item) => {
+                const isPdfAvailable = item.book_pdf !== null;
+                return (
+                  <div
+                    key={item.id}
+                    onClick={() => {
+                      if (isPdfAvailable) {
+                        router.push('/resources');
+                        localStorage.setItem('selectedResourceType', 'Coffee Table Books');
+                        window.dispatchEvent(new CustomEvent('navResourceChange', {
+                          detail: 'Coffee Table Books'
+                        }));
+                      }
+                    }}
+                    className="group overflow-hidden border rounded-custom4 transition-transform duration-300 hover:scale-105 cursor-pointer relative"
+                  >
+                    <div className="p-0">
+                      <Image
+                        src={item.cover_image}
+                        alt={item.coffee_table_book_name}
+                        width={200}
+                        height={300}
+                        className={`w-full h-auto object-cover transition-opacity duration-300 group-hover:opacity-90 ${
+                          !isPdfAvailable ? 'filter blur-sm' : ''
+                        }`}
+                      />
+                    </div>
+                    {!isPdfAvailable && (
+                      <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40">
+                        <span className="text-white text-lg font-bold">Coming Soon</span>
+                      </div>
+                    )}
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           )}
 
@@ -217,27 +240,45 @@ export default function LandingResources() {
                   className="text-gray-600 hover:text-gray-900 w-full sm:w-auto text-center sm:text-left"
                 >
                   View All
-
                 </button>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
-                {filteredFlipbooks.map((item) => (
-                  <div
-                    key={item.id}
-                    className="group overflow-hidden border rounded-lg transition-transform duration-300 hover:scale-105 cursor-pointer"
-                  >
-                    <div className="p-0">
-                      <Image
-                        src={item.cover_image} // Add default image
-                        alt={item.title}
-                        width={300}
-                        height={400}
-                        className="w-full h-auto object-cover transition-opacity duration-300 group-hover:opacity-90"
-                      />
+                {filteredFlipbooks.map((item) => {
+                  const isPdfAvailable = item.book_pdf !== null;
+                  return (
+                    <div
+                      key={item.id}
+                      onClick={() => {
+                        if (isPdfAvailable) {
+                          router.push('/resources');
+                          localStorage.setItem('selectedResourceType', 'Regional Flip Books');
+                          window.dispatchEvent(new CustomEvent('navResourceChange', {
+                            detail: 'Regional Flip Books'
+                          }));
+                        }
+                      }}
+                      className="group overflow-hidden border rounded-lg transition-transform duration-300 hover:scale-105 cursor-pointer relative"
+                    >
+                      <div className="p-0">
+                        <Image
+                          src={item.cover_image} // Add default image
+                          alt={item.title}
+                          width={300}
+                          height={400}
+                          className={`w-full h-auto object-cover transition-opacity duration-300 group-hover:opacity-90 ${
+                            !isPdfAvailable ? 'filter blur-sm' : ''
+                          }`}
+                        />
+                      </div>
+                      {!isPdfAvailable && (
+                        <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40">
+                          <span className="text-white text-lg font-bold">Coming Soon</span>
+                        </div>
+                      )}
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </>
           )}
@@ -267,17 +308,17 @@ export default function LandingResources() {
                 />
               ) : (
                 <div className="flex flex-col items-center justify-center py-20 bg-[#f5f5f5] rounded-lg mt-8 space-y-4">
-          <h3 className="text-3xl font-bold text-[#7A2631]">Movies Coming Soon!</h3>
-          <p className="text-gray-600 text-lg text-center max-w-lg">
-              We're preparing an exciting collection of movies. If you have interesting films to share about rural India's transformation, we'd love to feature them!
-          </p>
-          <a 
-              href="/lets-collaborate" 
-              className="mt-4 px-6 py-3 bg-[#E7B24B] text-black rounded-custom2 hover:bg-[#F6B352] transition-colors"
-          >
-              Share Your Films →
-          </a>
-      </div>
+                  <h3 className="text-3xl font-bold text-[#7A2631]">Movies Coming Soon!</h3>
+                  <p className="text-gray-600 text-lg text-center max-w-lg">
+                      We're preparing an exciting collection of movies. If you have interesting films to share about rural India's transformation, we'd love to feature them!
+                  </p>
+                  <a 
+                      href="/lets-collaborate" 
+                      className="mt-4 px-6 py-3 bg-[#E7B24B] text-black rounded-custom2 hover:bg-[#F6B352] transition-colors"
+                  >
+                      Share Your Films →
+                  </a>
+                </div>
               )}
             </>
           )}
