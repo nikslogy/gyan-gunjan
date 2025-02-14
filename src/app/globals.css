@@ -19,7 +19,7 @@ body {
   padding: 0;
   min-height: 100vh;
   color: var(--foreground);
-  background: var(--background);
+  background: white !important; /* Force white background */
   font-family: Arial, Helvetica, sans-serif;
   position: relative;
 }
@@ -193,9 +193,19 @@ body {
 
 /* Add these styles for layout management */
 .page-wrapper {
-  display: flex;
-  flex-direction: column;
+  background: white;
   min-height: 100vh;
+  opacity: 0;
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .content-wrapper {
@@ -231,7 +241,7 @@ main {
   left: 0;
   right: 0;
   z-index: 50;
-  background: transparent;
+  background: white;
   width: 100%;
 }
 

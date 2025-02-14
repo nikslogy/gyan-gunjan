@@ -46,12 +46,33 @@ export function NavBar() {
     console.log("Searching for:", searchQuery)
   }
 
+  const handleNavigation = (e) => {
+    // Prevent the black flash during navigation
+    document.body.style.backgroundColor = 'white';
+  };
+
+  useEffect(() => {
+    // Add navigation event listeners
+    const links = document.querySelectorAll('a');
+    links.forEach(link => {
+      link.addEventListener('click', handleNavigation);
+    });
+
+    return () => {
+      links.forEach(link => {
+        link.removeEventListener('click', handleNavigation);
+      });
+    };
+  }, []);
+
   return (
-    <div className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300`}>
-      <nav className={`max-w-7xl mx-auto rounded-custom bg-[#c4deff] transition-all duration-300 ${
+    <div className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      isScrolled ? 'nav-scrolled' : ''
+    }`}>
+      <nav className={`max-w-7xl mx-auto rounded-custom transition-all duration-300 ${
         isScrolled 
-          ? 'bg-opacity-90 hover:bg-opacity-100 px-4 py-0 mt-2 mx-4 shadow-md' 
-          : 'bg-opacity-100 px-4 py-0 mt-4 mx-4'
+          ? 'bg-[#c4deff]/80 hover:bg-[#c4deff] px-4 py-0 mt-2 mx-4 shadow-md' 
+          : 'bg-[#c4deff] px-4 py-0 mt-4 mx-4'
       }`}>
         <div className="flex items-center justify-between">
           <Link href="/" className="flex flex-col items-start md:items-center gap-0.5 mr-auto md:w-auto">
