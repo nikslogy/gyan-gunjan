@@ -11,9 +11,23 @@ export function NavBar() {
   const [isLangOpen, setIsLangOpen] = useState(false)
   const [isSearchOpen, setIsSearchOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState("")
+  const [isScrolled, setIsScrolled] = useState(false)
   const router = useRouter()
   
   const langRef = useRef(null)
+
+  useEffect(() => {
+    function handleScroll() {
+      if (window.scrollY > 0) {
+        setIsScrolled(true)
+      } else {
+        setIsScrolled(false)
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -33,11 +47,17 @@ export function NavBar() {
   }
 
   return (
-    <div className="px-4 py-6">
-      <nav className="max-w-7xl mx-auto rounded-custom bg-[#c4deff] px-4 md:px-6 py-3">
+    <div className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300`}>
+      <nav className={`max-w-7xl mx-auto rounded-custom bg-[#c4deff] transition-all duration-300 ${
+        isScrolled 
+          ? 'bg-opacity-90 hover:bg-opacity-100 px-4 py-0 mt-2 mx-4 shadow-md' 
+          : 'bg-opacity-100 px-4 py-0 mt-4 mx-4'
+      }`}>
         <div className="flex items-center justify-between">
           <Link href="/" className="flex flex-col items-start md:items-center gap-0.5 mr-auto md:w-auto">
-            <div className="w-40 md:w-56 h-32 relative">
+            <div className={`relative transition-all duration-300 ${
+              isScrolled ? 'w-32 md:w-40 h-24' : 'w-48 md:w-64 h-36'
+            }`}>
               <Image
                 src="/images/GyanGunjan-Logo.png"
                 alt="Gyan Gunjan Logo"

@@ -15,10 +15,22 @@
 }
 
 body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
+  position: relative;
 }
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
 .dropdown-menu {
   position: absolute;
   z-index: 1000;
@@ -177,4 +189,72 @@ body {
 
 .animate-float-delayed {
   animation: float-delayed 10s ease-in-out infinite;
+}
+
+/* Add these styles for layout management */
+.page-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.content-wrapper {
+  flex: 1 0 auto;
+  min-height: 0; /* This helps prevent content from pushing footer down */
+}
+
+/* Update main element styles */
+main {
+  flex: 1;
+  background: white;
+  padding-top: 100px !important;
+  width: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+/* Add minimum height for resource sections */
+.resources-content {
+  min-height: 600px; /* Minimum height for resources content */
+}
+
+@media (max-width: 768px) {
+  .content-wrapper {
+    min-height: calc(100vh - 120px - 200px);
+  }
+}
+
+/* Navbar specific styles */
+.navbar-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  background: transparent;
+  width: 100%;
+}
+
+/* Add smooth scrolling to the whole page */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Footer styles */
+footer {
+  flex-shrink: 0; /* Prevents footer from shrinking */
+}
+
+/* Resources viewer container styles */
+.resources-viewer-container {
+  min-height: 800px; /* Adjust this value based on your needs */
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Ensure flipbook wrapper maintains consistent height */
+#flipbook-wrapper {
+  min-height: 700px; /* Match the height in your component */
 }

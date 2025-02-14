@@ -29,12 +29,20 @@ export default function ResourcePage() {
     }, []);
 
     return (
-        <main className={`min-h-screen bg-white transition-all duration-1000 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-[20px]"}`}>
-            <NavBar />
-            <div className="container mx-auto px-4 md:px-6 py-12">
-                <ResourcesContent initialCategory={initialCategory} />
+        <div className="page-wrapper min-h-screen flex flex-col">
+            <div className="navbar-wrapper">
+                <NavBar />
             </div>
-            <Footer />
-        </main>
+            <main className={`flex-grow content-wrapper bg-white transition-all duration-1000 ${
+                mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-[20px]"
+            }`}>
+                <div className="container mx-auto px-4 md:px-6 py-12">
+                    <ResourcesContent initialCategory={initialCategory} />
+                </div>
+            </main>
+            <div className="mt-auto">
+                <Footer />
+            </div>
+        </div>
     );
 }

@@ -161,14 +161,13 @@ export const Resources = ({ selectedPdf, selectedTitle }) => {
   };
 
   return (
-    <>
+    <div className="resources-viewer-container min-h-[800px]">
       {selectedPdf ? (
         <>
           <h2 className="text-2xl font-bold text-[#7A2631] mb-4 mt-20">{selectedTitle}</h2>
           <div className="w-full flex justify-center items-center p-4">
             <div
               id="flipbook-wrapper"
-
               className="relative w-[1600px] h-[700px] bg-gray-100 rounded-custom6 shadow-lg"
             >
               {/* FlipBook will be initialized here */}
@@ -289,10 +288,10 @@ export const Resources = ({ selectedPdf, selectedTitle }) => {
           )}
         </>
       ) : (
-        <div className="text-center text-gray-600 py-8">
+        <div className="text-center text-gray-600 py-8 min-h-[800px] flex items-center justify-center">
           {/* Select a book to view its contents */}
         </div>
       )}
-    </>
+    </div>
   );
 };

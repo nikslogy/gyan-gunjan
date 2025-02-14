@@ -75,96 +75,101 @@ export default function JeevanDarshan() {
     if (loading || !currentCategory) return <div className="p-4">Loading categories...</div>;
 
     return (
-        <main className={`min-h-screen bg-white transition-all duration-1000 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-[20px]"}`}>
-            <NavBar />
-
-            <div className="container mx-auto px-4 md:px-6 py-12">
-                <div className="max-w-7xl mx-auto space-y-10">
-                    <div>
-                        <h1 className={`text-3xl md:text-4xl font-bold text-[#7A2631] transition-all duration-700 delay-300 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-[20px]"}`}>
-                            Jeevan Darshan
-                        </h1>
-                        <p className="mt-4 text-black">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        </p>
-                    </div>
-
-                    <div className="mb-8">
-                        <div className="flex flex-wrap gap-2 bg-[#FAF3E0] p-1 rounded-custom2 w-fit">
-                            {categories.map((category) => (
-                                <button
-                                    key={category.title}
-                                    onClick={() => handleCategoryChange(category.title)}
-                                    className={`px-6 py-3 rounded-custom2 transition-colors ${
-                                        selectedCategory === category.title 
-                                            ? 'bg-[#E4A853] text-black' 
-                                            : 'text-gray-700 hover:bg-[#E4A853] hover:text-black'
-                                    }`}
-                                >
-                                    {category.title}
-                                </button>
-                            ))}
-                        </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-                        <div className="prose prose-lg max-w-full">
-                                <p className="text-black leading-relaxed">
-                                    {currentCategory.left_description}
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem ipsum.
-                                </p>
-
+        <div className="page-wrapper">
+            <div className="navbar-wrapper">
+                <NavBar />
+            </div>
+            <main className={`content-wrapper bg-white transition-all duration-1000 ${
+                mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-[20px]"
+            }`}>
+                <div className="container mx-auto px-4 md:px-6 py-12">
+                    <div className="max-w-7xl mx-auto space-y-10">
+                        <div>
+                            <h1 className={`mt-10 text-3xl md:text-4xl font-bold text-[#7A2631] transition-all duration-700 delay-300 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-[20px]"}`}>
+                                Jeevan Darshan
+                            </h1>
+                            <p className="mt-4 text-black">
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                            </p>
                         </div>
 
-                        <div className={`transition-all duration-700 delay-500 ${mounted ? "opacity-100 scale-100" : "opacity-0 scale-95"}`}>
-                            <div className="max-w-[500px] mx-auto">
-                                <div className="rounded-custom4 overflow-hidden relative aspect-[4/3] w-full">
-                                    {currentCategory.images.map((image, index) => (
-                                        <div
-                                            key={index}
-                                            className={`absolute inset-0 transition-opacity duration-500 ${currentSlide === index ? "opacity-100" : "opacity-0"}`}
-                                        >
-                                            <Image
-                                                src={image.image_url}
-                                                alt={image.title}
-                                                fill
-                                                className="object-cover"
-                                                priority={index === 0}
+                        <div className="mb-8">
+                            <div className="flex flex-wrap gap-2 bg-[#FAF3E0] p-1 rounded-custom2 w-fit">
+                                {categories.map((category) => (
+                                    <button
+                                        key={category.title}
+                                        onClick={() => handleCategoryChange(category.title)}
+                                        className={`px-6 py-3 rounded-custom2 transition-colors ${
+                                            selectedCategory === category.title 
+                                                ? 'bg-[#E4A853] text-black' 
+                                                : 'text-gray-700 hover:bg-[#E4A853] hover:text-black'
+                                        }`}
+                                    >
+                                        {category.title}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+                            <div className="prose prose-lg max-w-full">
+                                    <p className="text-black leading-relaxed">
+                                        {currentCategory.left_description}
+                                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem ipsum.
+                                    </p>
+
+                            </div>
+
+                            <div className={`transition-all duration-700 delay-500 ${mounted ? "opacity-100 scale-100" : "opacity-0 scale-95"}`}>
+                                <div className="max-w-[500px] mx-auto">
+                                    <div className="rounded-custom4 overflow-hidden relative aspect-[4/3] w-full">
+                                        {currentCategory.images.map((image, index) => (
+                                            <div
+                                                key={index}
+                                                className={`absolute inset-0 transition-opacity duration-500 ${currentSlide === index ? "opacity-100" : "opacity-0"}`}
+                                            >
+                                                <Image
+                                                    src={image.image_url}
+                                                    alt={image.title}
+                                                    fill
+                                                    className="object-cover"
+                                                    priority={index === 0}
+                                                />
+                                            </div>
+                                        ))}
+                                    </div>
+
+                                    <div className="flex justify-center gap-3 mt-4">
+                                        {currentCategory.images.map((_, index) => (
+                                            <button
+                                                key={index}
+                                                onClick={() => setCurrentSlide(index)}
+                                                className={`h-2 w-2 rounded-full transition-colors ${
+                                                    currentSlide === index 
+                                                        ? "bg-[#9B2C2C]" 
+                                                        : "bg-gray-300"
+                                                }`}
+                                                aria-label={`Go to slide ${index + 1}`}
                                             />
-                                        </div>
-                                    ))}
-                                </div>
-
-                                <div className="flex justify-center gap-3 mt-4">
-                                    {currentCategory.images.map((_, index) => (
-                                        <button
-                                            key={index}
-                                            onClick={() => setCurrentSlide(index)}
-                                            className={`h-2 w-2 rounded-full transition-colors ${
-                                                currentSlide === index 
-                                                    ? "bg-[#9B2C2C]" 
-                                                    : "bg-gray-300"
-                                            }`}
-                                            aria-label={`Go to slide ${index + 1}`}
-                                        />
-                                    ))}
+                                        ))}
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div className="flex justify-center">
-                        <button
-                            onClick={() => router.push('/resources')}
-                            className="px-6 py-3 bg-[#E4A853] text-black rounded-custom2 hover:bg-[#F6B352] transition-colors"
-                        >
-                            View All Resources
-                        </button>
+                        <div className="flex justify-center">
+                            <button
+                                onClick={() => router.push('/resources')}
+                                className="px-6 py-3 bg-[#E4A853] text-black rounded-custom2 hover:bg-[#F6B352] transition-colors"
+                            >
+                                View All Resources
+                            </button>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </main>
             <Footer />
-        </main>
+        </div>
     );
 }
