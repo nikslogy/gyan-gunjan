@@ -29,11 +29,11 @@ export default function ResourcePage() {
     }, []);
 
     return (
-        <div className="page-wrapper min-h-screen flex flex-col">
+        <div className="page-wrapper">
             <div className="navbar-wrapper">
                 <NavBar />
             </div>
-            <main className={`flex-grow content-wrapper bg-white transition-all duration-1000 ${
+            <main className={`content-wrapper bg-white transition-all duration-1000 ${
                 mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-[20px]"
             }`}>
                 <div className="container mx-auto px-4 md:px-6 py-12">
