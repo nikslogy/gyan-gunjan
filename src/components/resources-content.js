@@ -80,8 +80,8 @@ export function ResourcesContent({ initialCategory = 'Movies' }) {
     }, [initialCategory]);
 
     const resourceMenuItems = [
-        'Coffee Table Books',
         'Thematic Concept Notes',
+        'Coffee Table Books',
         'Regional Flip Books',
         'Movies'
     ];
@@ -89,7 +89,7 @@ export function ResourcesContent({ initialCategory = 'Movies' }) {
     const fetchInitialData = async () => {
         try {
             setLoading(true);
-            const [statesRes, coffeeRes, thematicRes, movieRes, flipbookRes,regionRes] = await Promise.all([
+            const [statesRes, coffeeRes, thematicRes, movieRes, flipbookRes, regionRes] = await Promise.all([
                 fetch('http://127.0.0.1:8000/api/states/'),
                 fetch('http://127.0.0.1:8000/api/coffee-table-books/'),
                 fetch('http://127.0.0.1:8000/api/thematic/'),
@@ -111,11 +111,18 @@ export function ResourcesContent({ initialCategory = 'Movies' }) {
         }
     };
 
+    // Filter regions based on selected state
+    const filteredRegions = regions.filter(region =>
+        region.state.id.toString() === selectedState
+    );
+
+    // Fetch regions based on selected state
     const fetchRegions = async (stateId) => {
         if (!stateId) return;
         try {
             const res = await fetch(`http://127.0.0.1:8000/api/regions/?state=${stateId}`);
-            setRegions(await res.json());
+            const data = await res.json();
+            setRegions(data);
         } catch (err) {
             setError(err.message);
         }
@@ -218,17 +225,13 @@ export function ResourcesContent({ initialCategory = 'Movies' }) {
 
     return (
         <div className="max-w-5xl mx-auto space-y-10">
-            <h1 className="mt-10 text-3xl md:text-4xl font-bold text-[#7A2631] transition-all duration-700 delay-300">
+            <h1 className="text-3xl md:text-4xl font-bold text-[#7A2631] transition-all duration-700 delay-300">
                 Resources
             </h1>
 
-            <p className="text-gray-700 text-lg leading-relaxed">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            </p>
-
             {/* Replace dropdown with tabs */}
             <div className="mb-8">
-                <div className="flex flex-wrap gap-2 bg-[#FAF3E0] p-1 rounded-custom2 w-fit">
+                <div className="flex flex-wrap gap-2 bg-[#FAF3E0] p-1 rounded-custom2">
                     {resourceMenuItems.map((tab) => (
                         <button
                             key={tab}
@@ -264,7 +267,7 @@ export function ResourcesContent({ initialCategory = 'Movies' }) {
                             <div className="flex flex-col items-center justify-center py-20 bg-[#f5f5f5] rounded-lg mt-8 space-y-4">
                                 <h3 className="text-3xl font-bold text-[#7A2631]">Movies Coming Soon!</h3>
                                 <p className="text-gray-600 text-lg text-center max-w-lg">
-                                    We're preparing an exciting collection of movies. If you have interesting films to share about India's transformation, we'd love to feature them!
+                                    We're preparing an exciting collection of movies. If you have interesting films to share about rural India's transformation, we'd love to feature them!
                                 </p>
                                 <a
                                     href="/lets-collaborate"
@@ -347,7 +350,7 @@ export function ResourcesContent({ initialCategory = 'Movies' }) {
                                         <div className="flex flex-col items-center justify-center py-20 bg-[#E7B24B] rounded-lg space-y-4">
                                             <h3 className="text-black text-2xl font-bold">Fresh Picks Coming Soon!</h3>
                                             <p className="text-black/80 text-center max-w-lg">
-                                                We're curating a collection of recommended movies. Have a film that showcases India's stories? We'd love to see it!
+                                                We're curating a collection of recommended movies. Have a film that showcases rural India's stories? We'd love to see it!
                                             </p>
                                             <a
                                                 href="/lets-collaborate"
@@ -462,7 +465,7 @@ export function ResourcesContent({ initialCategory = 'Movies' }) {
                                     <div className="flex flex-col items-center justify-center py-20 bg-[#7A2631] rounded-lg space-y-4">
                                         <h3 className="text-white text-2xl font-bold">Short Films in Production!</h3>
                                         <p className="text-white/80 text-center max-w-lg">
-                                            Our short film collection is growing. If you've created short films about India's culture and development, share them with our community!
+                                            Our short film collection is growing. If you've created short films about rural India's culture and development, share them with our community!
                                         </p>
                                         <a
                                             href="/lets-collaborate"
@@ -499,7 +502,7 @@ export function ResourcesContent({ initialCategory = 'Movies' }) {
                                             className="w-full sm:w-[200px] text-black bg-white border border-gray-300 rounded-md px-3 py-2"
                                         >
                                             <option value="">Choose Region</option>
-                                            {regions.map(region => (
+                                            {filteredRegions.map(region => (
                                                 <option key={region.id} value={region.id}>{region.name}</option>
                                             ))}
                                         </select>
@@ -538,17 +541,14 @@ export function ResourcesContent({ initialCategory = 'Movies' }) {
                             );
                         })}
                     </div>
-                )
+                )}
 
-
-                /* Video Modal */}
+                {/* Video Modal */}
                 <VideoModal
                     isOpen={!!selectedVideo}
                     onClose={() => setSelectedVideo(null)}
                     videoSource={selectedVideo?.video}
                     title={selectedVideo?.title}
-
-
                 />
 
                 {/* Conditionally render Resources component */}
