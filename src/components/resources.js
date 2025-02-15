@@ -1,148 +1,178 @@
+"use client";
+
 import { useEffect, useState } from 'react';
+import dynamic from 'next/dynamic';
+
+// Move PDF.js initialization to a separate function
+const initPdfJs = async () => {
+  if (typeof window === 'undefined') return null;
+  
+  try {
+    const pdfjs = await import('pdfjs-dist');
+    const worker = await import('pdfjs-dist/build/pdf.worker.entry');
+    pdfjs.GlobalWorkerOptions.workerSrc = worker;
+    return pdfjs;
+  } catch (error) {
+    console.error('Error initializing PDF.js:', error);
+    return null;
+  }
+};
 
 export const Resources = ({ selectedPdf, selectedTitle }) => {
   const [showDownloadModal, setShowDownloadModal] = useState(false);
   const [downloadForm, setDownloadForm] = useState({ purpose: '', name: '', mobile: '', email: '' });
   const [formError, setFormError] = useState('');
+  const [pdfInitialized, setPdfInitialized] = useState(false);
 
   useEffect(() => {
-    if (typeof window !== 'undefined' && selectedPdf) {
-      // Check WebGL support
-      const checkWebGLSupport = () => {
-        try {
-          const canvas = document.createElement('canvas');
-          const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
-          return gl instanceof WebGLRenderingContext;
-        } catch (e) {
-          return false;
+    // Initialize PDF.js only on client side
+    const setupPdf = async () => {
+      if (typeof window !== 'undefined') {
+        await initPdfJs();
+        setPdfInitialized(true);
+      }
+    };
+    setupPdf();
+  }, []);
+
+  useEffect(() => {
+    if (!pdfInitialized || !selectedPdf) return;
+    
+    // Check WebGL support
+    const checkWebGLSupport = () => {
+      try {
+        const canvas = document.createElement('canvas');
+        const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+        return gl instanceof WebGLRenderingContext;
+      } catch (e) {
+        return false;
+      }
+    };
+
+    // Load PDF.js worker script
+    const loadPdfWorker = async () => {
+      try {
+        if (!window.pdfjsLib) {
+          const pdfjsLib = await import('pdfjs-dist');
+          window.pdfjsLib = pdfjsLib;
+          pdfjsLib.GlobalWorkerOptions.workerSrc = '/js/pdf.worker.js';
         }
+        return true;
+      } catch (error) {
+        console.error('Error loading PDF.js:', error);
+        return false;
+      }
+    };
+
+    // Initialize flipbook
+    const initializeFlipbook = async () => {
+      // Check WebGL support first
+      if (!checkWebGLSupport()) {
+        const container = $('#flipbook-wrapper');
+        container.html('<div class="text-red-500 p-4">WebGL is not supported in your browser. Please try a different browser.</div>');
+        return;
+      }
+
+      const isPdfJsLoaded = await loadPdfWorker();
+      if (!isPdfJsLoaded) return;
+
+      // Ensure Three.js is properly initialized
+      if (window.THREE) {
+        window.THREE.Cache.enabled = true;
+      }
+
+      // Set default device pixel ratio if not available
+      if (!window.devicePixelRatio) {
+        window.devicePixelRatio = 1;
+      }
+
+      window.PDFJS_LOCALE = {
+        pdfJsWorker: '/js/pdf.worker.js',
+        pdfJsCMapUrl: '/cmaps/',
+        isOffscreenCanvasSupported: true
       };
 
-      // Load PDF.js worker script
-      const loadPdfWorker = async () => {
-        try {
-          if (!window.pdfjsLib) {
-            const pdfjsLib = await import('pdfjs-dist');
-            window.pdfjsLib = pdfjsLib;
-            pdfjsLib.GlobalWorkerOptions.workerSrc = '/js/pdf.worker.js';
-          }
-          return true;
-        } catch (error) {
-          console.error('Error loading PDF.js:', error);
-          return false;
-        }
-      };
-
-      // Initialize flipbook
-      const initializeFlipbook = async () => {
-        // Check WebGL support first
-        if (!checkWebGLSupport()) {
-          const container = $('#flipbook-wrapper');
-          container.html('<div class="text-red-500 p-4">WebGL is not supported in your browser. Please try a different browser.</div>');
-          return;
-        }
-
-        const isPdfJsLoaded = await loadPdfWorker();
-        if (!isPdfJsLoaded) return;
-
-        // Ensure Three.js is properly initialized
-        if (window.THREE) {
-          window.THREE.Cache.enabled = true;
-        }
-
-        // Set default device pixel ratio if not available
-        if (!window.devicePixelRatio) {
-          window.devicePixelRatio = 1;
-        }
-
-        window.PDFJS_LOCALE = {
-          pdfJsWorker: '/js/pdf.worker.js',
-          pdfJsCMapUrl: '/cmaps/',
-          isOffscreenCanvasSupported: true
-        };
-
-        if (window.jQuery) {
-          const $ = window.jQuery;
-          const container = $('#flipbook-wrapper');
+      if (window.jQuery) {
+        const $ = window.jQuery;
+        const container = $('#flipbook-wrapper');
+        
+        if (container.length) {
+          container.empty();
+          $('<div class="solid-container"></div>').appendTo(container);
           
-          if (container.length) {
-            container.empty();
-            $('<div class="solid-container"></div>').appendTo(container);
-            
-            try {
-              // Initialize FlipBook with enhanced error handling
-              $('.solid-container').FlipBook({
-                pdf: selectedPdf,
-                template: {
-                  html: '/templates/default-book-view.html',
-                  styles: ['/css/white-book-view.css'],
-                  links: [{
-                    rel: 'stylesheet',
-                    href: '/css/font-awesome.min.css'
-                  }],
-                  script: '/js/default-book-view.js'
-                },
-                controlsProps: {
-                  downloadURL: selectedPdf,
-                  actions: {
-                    cmdZoomIn: { enabled: true },
-                    cmdZoomOut: { enabled: true },
-                    cmdToc: { enabled: true },
-                    cmdBackward: { enabled: true },
-                    cmdForward: { enabled: true },
-                    cmdSave: { enabled: false },
-                    cmdPrint: { enabled: false }
-                  }
-                },
-                scale: 1,
-                autoSize: true,
-                height: '100%',
-                width: '100%',
-                pageSize: 'contain',
-                renderOnLoad: true,
-                webgl: {
-                  antialias: true,
-                  preserveDrawingBuffer: true
-                },
-                ready: function(scene) {
-                  if (!scene) {
-                    console.error('Scene failed to initialize');
-                    return;
-                  }
-                  // Ensure WebGL context is valid
-                  const renderer = scene.renderer;
-                  if (renderer && !renderer.getContext().isContextLost()) {
-                    renderer.setPixelRatio(window.devicePixelRatio);
-                  }
-                },
-                onLoadError: (error) => {
-                  console.error('Error loading PDF:', error);
-                  container.html('<div class="text-red-500 p-4">Error loading PDF. Please try again later.</div>');
+          try {
+            // Initialize FlipBook with enhanced error handling
+            $('.solid-container').FlipBook({
+              pdf: selectedPdf,
+              template: {
+                html: '/templates/default-book-view.html',
+                styles: ['/css/white-book-view.css'],
+                links: [{
+                  rel: 'stylesheet',
+                  href: '/css/font-awesome.min.css'
+                }],
+                script: '/js/default-book-view.js'
+              },
+              controlsProps: {
+                downloadURL: selectedPdf,
+                actions: {
+                  cmdZoomIn: { enabled: true },
+                  cmdZoomOut: { enabled: true },
+                  cmdToc: { enabled: true },
+                  cmdBackward: { enabled: true },
+                  cmdForward: { enabled: true },
+                  cmdSave: { enabled: false },
+                  cmdPrint: { enabled: false }
                 }
-              });
-            } catch (error) {
-              console.error('Error initializing FlipBook:', error);
-              container.html('<div class="text-red-500 p-4">Error initializing PDF viewer. Please try again later.</div>');
-            }
+              },
+              scale: 1,
+              autoSize: true,
+              height: '100%',
+              width: '100%',
+              pageSize: 'contain',
+              renderOnLoad: true,
+              webgl: {
+                antialias: true,
+                preserveDrawingBuffer: true
+              },
+              ready: function(scene) {
+                if (!scene) {
+                  console.error('Scene failed to initialize');
+                  return;
+                }
+                // Ensure WebGL context is valid
+                const renderer = scene.renderer;
+                if (renderer && !renderer.getContext().isContextLost()) {
+                  renderer.setPixelRatio(window.devicePixelRatio);
+                }
+              },
+              onLoadError: (error) => {
+                console.error('Error loading PDF:', error);
+                container.html('<div class="text-red-500 p-4">Error loading PDF. Please try again later.</div>');
+              }
+            });
+          } catch (error) {
+            console.error('Error initializing FlipBook:', error);
+            container.html('<div class="text-red-500 p-4">Error initializing PDF viewer. Please try again later.</div>');
           }
         }
-      };
+      }
+    };
 
-      // Initialize with a delay to ensure DOM and resources are ready
-      const timer = setTimeout(() => {
-        if (document.readyState === 'complete') {
-          initializeFlipbook();
-        } else {
-          window.addEventListener('load', initializeFlipbook);
-        }
-      }, 2000); // Increased delay to ensure everything is loaded
+    // Initialize with a delay to ensure DOM and resources are ready
+    const timer = setTimeout(() => {
+      if (document.readyState === 'complete') {
+        initializeFlipbook();
+      } else {
+        window.addEventListener('load', initializeFlipbook);
+      }
+    }, 2000); // Increased delay to ensure everything is loaded
 
-      return () => {
-        clearTimeout(timer);
-        window.removeEventListener('load', initializeFlipbook);
-      };
-    }
-  }, [selectedPdf]);
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('load', initializeFlipbook);
+    };
+  }, [selectedPdf, pdfInitialized]);
 
   const handleDownload = (e) => {
     e.preventDefault();

@@ -6,6 +6,12 @@ import { Footer } from "@/components/footer"
 import MovieSlider from "@/components/movie-slider"
 import Image from 'next/image'
 import VideoModal from "@/components/video-modal"
+import dynamic from 'next/dynamic'
+
+// Dynamically import components that need window object
+const DynamicVideoModal = dynamic(() => import('@/components/video-modal'), {
+  ssr: false
+})
 
 export default function MoviesPage() {
   const [mounted, setMounted] = useState(false)
@@ -32,12 +38,15 @@ export default function MoviesPage() {
   ]
 
   useEffect(() => {
-    setMounted(true)
-    // Auto-rotate short movies
-    const timer = setInterval(() => {
-      setCurrentShortMovie((prev) => (prev + 1) % shortMovies.length)
-    }, 4000)
-    return () => clearInterval(timer)
+    // Only run client-side code after mounting
+    if (typeof window !== 'undefined') {
+      setMounted(true)
+      // Auto-rotate short movies
+      const timer = setInterval(() => {
+        setCurrentShortMovie((prev) => (prev + 1) % shortMovies.length)
+      }, 4000)
+      return () => clearInterval(timer)
+    }
   }, [])
 
   // Calculate visible movies for the slider
@@ -106,6 +115,11 @@ export default function MoviesPage() {
   const handleWatchNow = (movie) => {
     setSelectedVideo(movie);
   };
+
+  // Don't render anything until mounted
+  if (!mounted) {
+    return null
+  }
 
   return (
     <main className={`min-h-screen bg-white transition-all duration-1000 ${
@@ -301,12 +315,14 @@ export default function MoviesPage() {
         </div>
       </div>
       <Footer />
-      <VideoModal 
-        isOpen={!!selectedVideo}
-        onClose={() => setSelectedVideo(null)}
-        videoSource={selectedVideo?.video}
-        title={selectedVideo?.title}
-      />
+      {mounted && (
+        <DynamicVideoModal 
+          isOpen={!!selectedVideo}
+          onClose={() => setSelectedVideo(null)}
+          videoSource={selectedVideo?.video}
+          title={selectedVideo?.title}
+        />
+      )}
     </main>
   )
 }
