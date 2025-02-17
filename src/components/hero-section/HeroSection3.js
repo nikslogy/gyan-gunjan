@@ -142,7 +142,7 @@ export function HeroSection3() {
 
         {/* Right Column: Section Description */}
         <div className="space-y-6 md:mt-48">
-          <p className="text-black leading-relaxed text-base md:text-lg max-w-lg">
+          <p className="text-black leading-relaxed text-base md:text-lg max-w-lg whitespace-pre-line">
             {currentSection.short_description}
 
           </p>
