@@ -13,7 +13,7 @@ const nextConfig = {
   },
   experimental: {
     optimizeCss: true,
-    workerThreads: false,  // Let's disable this temporarily
+    workerThreads: false,
   },
   webpack: (config, { isServer }) => {
     // Add fallbacks for node modules
