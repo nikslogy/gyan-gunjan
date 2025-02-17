@@ -13,10 +13,9 @@ const nextConfig = {
   },
   experimental: {
     optimizeCss: true,
-    workerThreads: false,  // Let's disable this temporarily
+    workerThreads: false,
   },
   webpack: (config, { isServer }) => {
-    // Add fallbacks for node modules
     config.resolve.fallback = {
       ...config.resolve.fallback,
       canvas: false,
@@ -37,7 +36,15 @@ const nextConfig = {
     }
 
     return config;
-  }
+  },
+  async rewrites() {
+    return [
+      {
+        source: '/api/:path*',
+        destination: 'http://143.244.132.118/api/:path*',
+      },
+    ];
+  },
 };
 
 export default nextConfig;
