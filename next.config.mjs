@@ -37,7 +37,15 @@ const nextConfig = {
     }
 
     return config;
-  }
+  },
+  async rewrites() {
+    return [
+      {
+        source: '/api/:path*',
+        destination: 'http://143.244.132.118/api/:path*',
+      },
+    ];
+  },
 };
 
 export default nextConfig;
