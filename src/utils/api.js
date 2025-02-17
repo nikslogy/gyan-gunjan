@@ -1,4 +1,4 @@
-export const API_BASE_URL = '/api';
+export const API_BASE_URL = '';
 export const FULL_API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export const getImageUrl = (path) => {
