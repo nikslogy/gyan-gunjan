@@ -1,7 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ['143.244.132.118'],
+    remotePatterns: [
+      {
+        protocol: 'http',
+        hostname: '143.244.132.118',
+        port: '',
+        pathname: '/media/**',
+      },
+    ],
   },
   experimental: {
     optimizeCss: true,
