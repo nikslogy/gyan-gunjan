@@ -2,14 +2,6 @@
 const nextConfig = {
   images: {
     domains: ['143.244.132.118', 'gyan-gunjan.vercel.app'],
-    remotePatterns: [
-      {
-        protocol: 'http',
-        hostname: '143.244.132.118',
-        port: '',
-        pathname: '/media/**',
-      },
-    ],
   },
   experimental: {
     optimizeCss: true,
@@ -42,6 +34,7 @@ const nextConfig = {
       {
         source: '/api/:path*',
         destination: 'http://143.244.132.118/api/:path*',
+        basePath: false
       },
     ];
   },
