@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ['127.0.0.1'],
+    domains: ['143.244.132.118'],
   },
   experimental: {
     optimizeCss: true,

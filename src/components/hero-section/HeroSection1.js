@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import Image from "next/image"
+import { API_BASE_URL } from '@/utils/api'
 
 export function HeroSection1() {
   const [data, setData] = useState(null); // State to store API data
@@ -24,7 +25,7 @@ export function HeroSection1() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://127.0.0.1:8000/api/landing-sections/hero1/');
+        const response = await fetch(`${API_BASE_URL}/api/landing-sections/hero1/`);
         if (!response.ok) {
           throw new Error('Failed to fetch data');
         }

@@ -3,6 +3,8 @@ import Image from 'next/image';
 import { Book, BookOpen, Notebook, Video } from 'lucide-react';
 import MovieSlider from './movie-slider';
 import { useRouter } from 'next/navigation';
+import { API_BASE_URL, getImageUrl } from '@/utils/api';
+import { Resources } from './resources';
 
 export default function LandingResources() {
   const router = useRouter();
@@ -18,37 +20,38 @@ export default function LandingResources() {
   const [states, setStates] = useState([]);
   const [regions, setRegions] = useState([]);
 
+  // Add new state for modal
+  const [showPdfModal, setShowPdfModal] = useState(false);
+  const [selectedPdfData, setSelectedPdfData] = useState(null);
+
   // Fetch API Data
   useEffect(() => {
-    const fetchInitialData = async () => {
+    const fetchData = async () => {
       try {
-        // Fetch Thematic Data
-        const thematicRes = await fetch('http://127.0.0.1:8000/api/thematic/');
+        const [thematicRes, coffeeRes, movieRes, statesRes, regionsRes, flipbooksRes] = await Promise.all([
+          fetch(`${API_BASE_URL}/api/thematic/`),
+          fetch(`${API_BASE_URL}/api/coffee-table-books/`),
+          fetch(`${API_BASE_URL}/api/movies/`),
+          fetch(`${API_BASE_URL}/api/states/`),
+          fetch(`${API_BASE_URL}/api/regions/`),
+          fetch(`${API_BASE_URL}/api/flipbooks/`)
+        ]);
+
         const thematicJson = await thematicRes.json();
         setThematicData(thematicJson);
 
-        // Fetch Coffee Table Books
-        const coffeeRes = await fetch('http://127.0.0.1:8000/api/coffee-table-books/');
         const coffeeJson = await coffeeRes.json();
         setCoffeeData(coffeeJson);
 
-        // Fetch Flipbooks
-        const flipbookRes = await fetch('http://127.0.0.1:8000/api/flipbooks/');
-        const flipbookJson = await flipbookRes.json();
+        const flipbookJson = await flipbooksRes.json();
         setRegionalData(flipbookJson);
 
-        // Fetch States
-        const stateRes = await fetch('http://127.0.0.1:8000/api/states/');
-        const stateJson = await stateRes.json();
+        const stateJson = await statesRes.json();
         setStates(stateJson);
 
-        // Fetch All Regions
-        const regionRes = await fetch('http://127.0.0.1:8000/api/regions/');
-        const regionJson = await regionRes.json();
+        const regionJson = await regionsRes.json();
         setRegions(regionJson);
 
-        // Fetch Movies
-        const movieRes = await fetch('http://127.0.0.1:8000/api/movies/');
         const movieJson = await movieRes.json();
         setMovieData(movieJson);
       } catch (error) {
@@ -56,7 +59,7 @@ export default function LandingResources() {
       }
     };
 
-    fetchInitialData();
+    fetchData();
   }, []);
 
   // Filter regions based on selected state
@@ -83,187 +86,107 @@ export default function LandingResources() {
     // video playing logic here
   };
 
+  // Add fullscreen handler
+  const handleFullscreen = (element) => {
+    if (element.requestFullscreen) {
+      element.requestFullscreen();
+    } else if (element.webkitRequestFullscreen) { /* Safari */
+      element.webkitRequestFullscreen();
+    } else if (element.msRequestFullscreen) { /* IE11 */
+      element.msRequestFullscreen();
+    }
+  };
+
+  // Add exit fullscreen handler
+  const exitFullscreen = () => {
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    } else if (document.webkitExitFullscreen) { /* Safari */
+      document.webkitExitFullscreen();
+    } else if (document.msExitFullscreen) { /* IE11 */
+      document.msExitFullscreen();
+    }
+  };
+
+  // Update the book click handler
+  const handleBookClick = (item, type) => {
+    if (item.book_pdf) {
+      setSelectedPdfData({
+        pdf: item.book_pdf,
+        title: type === 'thematic' ? item.headline : 
+               type === 'coffee' ? item.coffee_table_book_name : 
+               item.title
+      });
+      setShowPdfModal(true);
+      // Request fullscreen after a short delay to ensure modal is rendered
+      setTimeout(() => {
+        const pdfContainer = document.getElementById('pdf-fullscreen-container');
+        if (pdfContainer) {
+          handleFullscreen(pdfContainer);
+        }
+      }, 100);
+    }
+  };
+
+  // Update the close handler
+  const handleCloseModal = () => {
+    exitFullscreen();
+    setShowPdfModal(false);
+    setSelectedPdfData(null);
+  };
+
   return (
-    <section className="py-8 md:py-12 lg:py-16 bg-white resources-content">
-      <div className="container mx-auto px-4">
-        {/* Header remains exactly the same */}
-        <div className="flex justify-between items-center mb-8">
-          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#7A2631]">Resources</h2>
-          <button
-            onClick={() => router.push('/resources')}
-            className="text-black hover:text-gray-900 text-sm sm:text-base border border-black px-4 py-2 rounded-custom2 hover:bg-gray-50 transition-colors"
-          >
-            View All
-          </button>
-        </div>
-
-        {/* Tab navigation remains exactly the same */}
-        <div className="mb-8">
-          <div className="flex flex-wrap gap-2 bg-[#FAF3E0] p-1 rounded-custom2">
-            {['thematic', 'coffee', 'regional', 'movies'].map((tab) => (
-              <button
-                key={tab}
-                onClick={() => setActiveTab(tab)}
-                className={`px-6 py-3 rounded-custom2 transition-colors ${activeTab === tab ? 'bg-[#E4A853] text-black' : 'text-gray-700 hover:bg-[#E4A853] hover:text-black'
-                  }`}
-              >
-                {tab === 'thematic' && <Notebook className="w-4 h-4 inline mr-2" />}
-                {tab === 'coffee' && <Book className="w-4 h-4 inline mr-2" />}
-                {tab === 'regional' && <BookOpen className="w-4 h-4 inline mr-2" />}
-                {tab === 'movies' && <Video className="w-4 h-4 inline mr-2" />}
-                {tab.charAt(0).toUpperCase() + tab.slice(1)}{' '}
-                {tab === 'thematic' ? 'Concept Notes' : tab === 'coffee' ? 'Table Books' : tab === 'regional' ? 'Flip Books' : ''}
-              </button>
-            ))}
+    <>
+      <section className="py-8 md:py-12 lg:py-16 bg-white resources-content">
+        <div className="container mx-auto px-4">
+          {/* Header remains exactly the same */}
+          <div className="flex justify-between items-center mb-8">
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#7A2631]">Resources</h2>
+            <button
+              onClick={() => router.push('/resources')}
+              className="text-black hover:text-gray-900 text-sm sm:text-base border border-black px-4 py-2 rounded-custom2 hover:bg-gray-50 transition-colors"
+            >
+              View All
+            </button>
           </div>
-        </div>
 
-        <div className="min-h-[400px]">
-          {/* Thematic Section with API Data */}
-          {activeTab === 'thematic' && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
-              {thematicData.map((item) => {
-                const isPdfAvailable = item.book_pdf !== null;
-                return (
-                  <div
-                    key={item.id}
-                    onClick={() => {
-                      if (isPdfAvailable) {
-                        router.push('/resources');
-                        localStorage.setItem('selectedResourceType', 'Thematic Concept Notes');
-                        window.dispatchEvent(new CustomEvent('navResourceChange', {
-                          detail: 'Thematic Concept Notes'
-                        }));
-                      }
-                    }}
-                    className="group overflow-hidden border rounded-custom2 transition-transform duration-300 hover:scale-105 cursor-pointer relative"
-                  >
-                    <div className="p-0">
-                      <Image
-                        src={item.cover_picture}
-                        alt={item.headline}
-                        width={300}
-                        height={400}
-                        className={`w-full h-auto object-cover transition-opacity duration-300 group-hover:opacity-90 ${
-                          !isPdfAvailable ? 'filter blur-sm' : ''
-                        }`}
-                      />
-                    </div>
-                    {!isPdfAvailable && (
-                      <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40">
-                        <span className="text-white text-lg font-bold">Coming Soon</span>
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-          )}
-
-          {/* Coffee Table Books Section with API Data */}
-          {activeTab === 'coffee' && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
-              {coffeeData.map((item) => {
-                const isPdfAvailable = item.book_pdf !== null;
-                return (
-                  <div
-                    key={item.id}
-                    onClick={() => {
-                      if (isPdfAvailable) {
-                        router.push('/resources');
-                        localStorage.setItem('selectedResourceType', 'Coffee Table Books');
-                        window.dispatchEvent(new CustomEvent('navResourceChange', {
-                          detail: 'Coffee Table Books'
-                        }));
-                      }
-                    }}
-                    className="group overflow-hidden border rounded-custom4 transition-transform duration-300 hover:scale-105 cursor-pointer relative"
-                  >
-                    <div className="p-0">
-                      <Image
-                        src={item.cover_image}
-                        alt={item.coffee_table_book_name}
-                        width={200}
-                        height={300}
-                        className={`w-full h-auto object-cover transition-opacity duration-300 group-hover:opacity-90 ${
-                          !isPdfAvailable ? 'filter blur-sm' : ''
-                        }`}
-                      />
-                    </div>
-                    {!isPdfAvailable && (
-                      <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40">
-                        <span className="text-white text-lg font-bold">Coming Soon</span>
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-          )}
-
-          {/* Regional Flipbooks Section with API Data */}
-          {activeTab === 'regional' && (
-            <>
-              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
-                <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
-                  <select
-                    value={selectedState}
-                    onChange={(e) => setSelectedState(e.target.value)}
-                    className="w-full sm:w-[200px] text-black bg-white border border-gray-300 rounded-md px-3 py-2"
-                  >
-                    <option value="">Choose State</option>
-                    {states.map(state => (
-                      <option key={state.id} value={state.id}>{state.name}</option>
-                    ))}
-                  </select>
-
-                  <select
-                    value={selectedRegion}
-                    onChange={(e) => setSelectedRegion(e.target.value)}
-                    className="w-full sm:w-[200px] text-black bg-white border border-gray-300 rounded-md px-3 py-2"
-                  >
-                    <option value="">Choose Region</option>
-                    {filteredRegions.map(region => (
-                      <option key={region.id} value={region.id}>{region.name}</option>
-                    ))}
-                  </select>
-                </div>
-
+          {/* Tab navigation remains exactly the same */}
+          <div className="mb-8">
+            <div className="flex flex-wrap gap-2 bg-[#FAF3E0] p-1 rounded-custom2">
+              {['thematic', 'coffee', 'regional', 'movies'].map((tab) => (
                 <button
-                  onClick={() => {
-                    router.push('/resources');
-                    localStorage.setItem('selectedResourceType', 'Regional Flip Books');
-                    window.dispatchEvent(new CustomEvent('navResourceChange', {
-                      detail: 'Regional Flip Books'
-                    }));
-                  }}
-                  className="text-gray-600 hover:text-gray-900 w-full sm:w-auto text-center sm:text-left"
+                  key={tab}
+                  onClick={() => setActiveTab(tab)}
+                  className={`px-6 py-3 rounded-custom2 transition-colors ${activeTab === tab ? 'bg-[#E4A853] text-black' : 'text-gray-700 hover:bg-[#E4A853] hover:text-black'
+                    }`}
                 >
-                  View All
+                  {tab === 'thematic' && <Notebook className="w-4 h-4 inline mr-2" />}
+                  {tab === 'coffee' && <Book className="w-4 h-4 inline mr-2" />}
+                  {tab === 'regional' && <BookOpen className="w-4 h-4 inline mr-2" />}
+                  {tab === 'movies' && <Video className="w-4 h-4 inline mr-2" />}
+                  {tab.charAt(0).toUpperCase() + tab.slice(1)}{' '}
+                  {tab === 'thematic' ? 'Concept Notes' : tab === 'coffee' ? 'Table Books' : tab === 'regional' ? 'Flip Books' : ''}
                 </button>
-              </div>
+              ))}
+            </div>
+          </div>
 
+          <div className="min-h-[400px]">
+            {/* Thematic Section with API Data */}
+            {activeTab === 'thematic' && (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
-                {filteredFlipbooks.map((item) => {
+                {thematicData.map((item) => {
                   const isPdfAvailable = item.book_pdf !== null;
                   return (
                     <div
                       key={item.id}
-                      onClick={() => {
-                        if (isPdfAvailable) {
-                          router.push('/resources');
-                          localStorage.setItem('selectedResourceType', 'Regional Flip Books');
-                          window.dispatchEvent(new CustomEvent('navResourceChange', {
-                            detail: 'Regional Flip Books'
-                          }));
-                        }
-                      }}
-                      className="group overflow-hidden border rounded-lg transition-transform duration-300 hover:scale-105 cursor-pointer relative"
+                      onClick={() => isPdfAvailable && handleBookClick(item, 'thematic')}
+                      className="group overflow-hidden border rounded-custom2 transition-transform duration-300 hover:scale-105 cursor-pointer relative"
                     >
                       <div className="p-0">
                         <Image
-                          src={item.cover_image} // Add default image
-                          alt={item.title}
+                          src={item.cover_picture}
+                          alt={item.headline}
                           width={300}
                           height={400}
                           className={`w-full h-auto object-cover transition-opacity duration-300 group-hover:opacity-90 ${
@@ -280,50 +203,190 @@ export default function LandingResources() {
                   );
                 })}
               </div>
-            </>
-          )}
+            )}
 
-          {/* Movies Section with API Data */}
-          {activeTab === 'movies' && (
-            <>
-              <div className="flex justify-end mb-4 sm:mb-6">
-                <button
-                  onClick={() => {
-                    router.push('/resources');
-                    localStorage.setItem('selectedResourceType', 'Movies');
-                    window.dispatchEvent(new CustomEvent('navResourceChange', {
-                      detail: 'Movies'
-                    }));
-                  }}
-                  className="text-gray-600 hover:text-gray-900 text-sm sm:text-base"
-                >
-                  View All
-                </button>
+            {/* Coffee Table Books Section with API Data */}
+            {activeTab === 'coffee' && (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+                {coffeeData.map((item) => {
+                  const isPdfAvailable = item.book_pdf !== null;
+                  return (
+                    <div
+                      key={item.id}
+                      onClick={() => isPdfAvailable && handleBookClick(item, 'coffee')}
+                      className="group overflow-hidden border rounded-custom4 transition-transform duration-300 hover:scale-105 cursor-pointer relative"
+                    >
+                      <div className="p-0">
+                        <Image
+                          src={item.cover_image}
+                          alt={item.coffee_table_book_name}
+                          width={200}
+                          height={300}
+                          className={`w-full h-auto object-cover transition-opacity duration-300 group-hover:opacity-90 ${
+                            !isPdfAvailable ? 'filter blur-sm' : ''
+                          }`}
+                        />
+                      </div>
+                      {!isPdfAvailable && (
+                        <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40">
+                          <span className="text-white text-lg font-bold">Coming Soon</span>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
+            )}
 
-              {transformedMovies.length > 0 ? (
-                <MovieSlider
-                  movies={transformedMovies}
-                  onPlayClick={handlePlayClick}
-                />
-              ) : (
-                <div className="flex flex-col items-center justify-center py-20 bg-[#f5f5f5] rounded-lg mt-8 space-y-4">
-                  <h3 className="text-3xl font-bold text-[#7A2631]">Movies Coming Soon!</h3>
-                  <p className="text-gray-600 text-lg text-center max-w-lg">
-                      We're preparing an exciting collection of movies. If you have interesting films to share about rural India's transformation, we'd love to feature them!
-                  </p>
-                  <a 
-                      href="/lets-collaborate" 
-                      className="mt-4 px-6 py-3 bg-[#E7B24B] text-black rounded-custom2 hover:bg-[#F6B352] transition-colors"
+            {/* Regional Flipbooks Section with API Data */}
+            {activeTab === 'regional' && (
+              <>
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+                  <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+                    <select
+                      value={selectedState}
+                      onChange={(e) => setSelectedState(e.target.value)}
+                      className="w-full sm:w-[200px] text-black bg-white border border-gray-300 rounded-md px-3 py-2"
+                    >
+                      <option value="">Choose State</option>
+                      {states.map(state => (
+                        <option key={state.id} value={state.id}>{state.name}</option>
+                      ))}
+                    </select>
+
+                    <select
+                      value={selectedRegion}
+                      onChange={(e) => setSelectedRegion(e.target.value)}
+                      className="w-full sm:w-[200px] text-black bg-white border border-gray-300 rounded-md px-3 py-2"
+                    >
+                      <option value="">Choose Region</option>
+                      {filteredRegions.map(region => (
+                        <option key={region.id} value={region.id}>{region.name}</option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <button
+                    onClick={() => {
+                      router.push('/resources');
+                      localStorage.setItem('selectedResourceType', 'Regional Flip Books');
+                      window.dispatchEvent(new CustomEvent('navResourceChange', {
+                        detail: 'Regional Flip Books'
+                      }));
+                    }}
+                    className="text-gray-600 hover:text-gray-900 w-full sm:w-auto text-center sm:text-left"
                   >
-                      Share Your Films →
-                  </a>
+                    View All
+                  </button>
                 </div>
-              )}
-            </>
-          )}
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+                  {filteredFlipbooks.map((item) => {
+                    const isPdfAvailable = item.book_pdf !== null;
+                    return (
+                      <div
+                        key={item.id}
+                        onClick={() => isPdfAvailable && handleBookClick(item, 'regional')}
+                        className="group overflow-hidden border rounded-lg transition-transform duration-300 hover:scale-105 cursor-pointer relative"
+                      >
+                        <div className="p-0">
+                          <Image
+                            src={item.cover_image} // Add default image
+                            alt={item.title}
+                            width={300}
+                            height={400}
+                            className={`w-full h-auto object-cover transition-opacity duration-300 group-hover:opacity-90 ${
+                              !isPdfAvailable ? 'filter blur-sm' : ''
+                            }`}
+                          />
+                        </div>
+                        {!isPdfAvailable && (
+                          <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40">
+                            <span className="text-white text-lg font-bold">Coming Soon</span>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              </>
+            )}
+
+            {/* Movies Section with API Data */}
+            {activeTab === 'movies' && (
+              <>
+                <div className="flex justify-end mb-4 sm:mb-6">
+                  <button
+                    onClick={() => {
+                      router.push('/resources');
+                      localStorage.setItem('selectedResourceType', 'Movies');
+                      window.dispatchEvent(new CustomEvent('navResourceChange', {
+                        detail: 'Movies'
+                      }));
+                    }}
+                    className="text-gray-600 hover:text-gray-900 text-sm sm:text-base"
+                  >
+                    View All
+                  </button>
+                </div>
+
+                {transformedMovies.length > 0 ? (
+                  <MovieSlider
+                    movies={transformedMovies}
+                    onPlayClick={handlePlayClick}
+                  />
+                ) : (
+                  <div className="flex flex-col items-center justify-center py-20 bg-[#f5f5f5] rounded-lg mt-8 space-y-4">
+                    <h3 className="text-3xl font-bold text-[#7A2631]">Movies Coming Soon!</h3>
+                    <p className="text-gray-600 text-lg text-center max-w-lg">
+                        We're preparing an exciting collection of movies. If you have interesting films to share about rural India's transformation, we'd love to feature them!
+                    </p>
+                    <a 
+                        href="/lets-collaborate" 
+                        className="mt-4 px-6 py-3 bg-[#E7B24B] text-black rounded-custom2 hover:bg-[#F6B352] transition-colors"
+                    >
+                        Share Your Films →
+                    </a>
+                  </div>
+                )}
+              </>
+            )}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+
+      {/* Update Modal */}
+      {showPdfModal && (
+        <div 
+          id="pdf-fullscreen-container"
+          className="bg-white w-full h-full overflow-y-auto"
+        >
+          <div className="min-h-screen relative">
+            <Resources
+              selectedPdf={selectedPdfData?.pdf}
+              selectedTitle={selectedPdfData?.title}
+            />
+          </div>
+
+          {/* Add styles to ensure download modal appears properly */}
+          <style jsx global>{`
+            .download-modal {
+              position: fixed !important;
+              top: 50% !important;
+              left: 50% !important;
+              transform: translate(-50%, -50%) !important;
+              z-index: 100000 !important;
+              max-height: 90vh !important;
+              overflow-y: auto !important;
+            }
+            
+            /* Style for the modal overlay */
+            .download-modal-overlay {
+              z-index: 99999 !important;
+            }
+          `}</style>
+        </div>
+      )}
+    </>
   );
 }

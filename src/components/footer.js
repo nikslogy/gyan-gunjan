@@ -51,7 +51,7 @@ const Footer = () => {
                 About the Project
               </Link>
               <Link href="/jeevan-darshan" className="text-[#1a365d] hover:text-gray-900">
-                Jeevan Darshana
+                Jeevan Darshan
               </Link>
               <Link href="/resources" className="text-[#1a365d] hover:text-gray-900">
                 Resources
@@ -66,10 +66,10 @@ const Footer = () => {
               <Link href="/contact" className="text-[#1a365d] hover:text-gray-900">
                 Contact Us
               </Link>
-              <Link href="https://iksindia.org/about.php" className="text-[#1a365d] hover:text-gray-900">
+              <Link href="https://iksindia.org/about.php" className="text-[#1a365d] hover:text-gray-900" target="_blank" rel="noopener noreferrer">
                 About IKS Division
               </Link>
-              <Link href="https://www.flame.edu.in/cka/about-the-centre.php" className="text-[#1a365d] hover:text-gray-900">
+              <Link href="https://www.flame.edu.in/cka/about-the-centre.php" className="text-[#1a365d] hover:text-gray-900" target="_blank" rel="noopener noreferrer">
                 About CKA
               </Link>
             </div>
@@ -79,7 +79,7 @@ const Footer = () => {
               <Link href="#" className="text-[#1a365d] hover:text-gray-900">
                 Terms of Use
               </Link>
-              <Link href="#" className="text-[#1a365d] hover:text-gray-900">
+              <Link href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer" className="text-[#1a365d] hover:text-gray-900">
                 Creative Commons 4.0
               </Link>
             </div>

@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import Image from "next/image"
+import { API_BASE_URL } from '@/utils/api'
 
 export function HeroSection2() {
   const [data, setData] = useState(null); // State to store API data
@@ -23,7 +24,7 @@ export function HeroSection2() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://127.0.0.1:8000/api/landing-sections/hero2/');
+        const response = await fetch(`${API_BASE_URL}/api/landing-sections/hero2/`);
         if (!response.ok) {
           throw new Error('Failed to fetch data');
         }
@@ -42,14 +43,14 @@ export function HeroSection2() {
   }
 
   return (
-    <section className="py-8 md:py-12 lg:py-16">
-      <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-start max-w-4xl mx-auto">
+    <section className="py-2 md:py-6 lg:py-6 mt-12">
+      <div className="grid md:grid-cols-2 gap-10 md:gap-18 items-start max-w-5xl mx-auto">
         {/* Left Column: Text Content */}
-        <div className="space-y-4 md:space-y-6 order-1">
-          <h2 className="text-2xl md:text-3xl lg:text-4xl text-[#7A2631] font-bold relative top-[-5]">
+        <div className="space-y-6">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl text-[#7A2631] font-bold relative top-[-5] mb-8">
             {data.title}
           </h2>
-          <p className="text-black leading-relaxed text-base md:text-lg max-w-s mt-10 whitespace-pre-line">
+          <p className="text-black leading-relaxed text-base md:text-lg max-w-lg whitespace-pre-line">
             {data.short_description}
           </p>
           {/* <button
@@ -61,7 +62,7 @@ export function HeroSection2() {
         </div>
 
         {/* Right Column: Single Image */}
-        <div className="relative order-2 -mr-4 md:-mr-20">
+        <div className="relative">
           <div className="w-full h-[400px] md:h-[500px] lg:h-[500px] relative">
             {data.images[0] && (
               <Image
