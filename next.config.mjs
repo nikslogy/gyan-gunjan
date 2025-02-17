@@ -16,7 +16,6 @@ const nextConfig = {
     workerThreads: false,
   },
   webpack: (config, { isServer }) => {
-    // Add fallbacks for node modules
     config.resolve.fallback = {
       ...config.resolve.fallback,
       canvas: false,
