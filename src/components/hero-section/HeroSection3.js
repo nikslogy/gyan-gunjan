@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import Image from "next/image"
+import { API_BASE_URL } from '@/utils/api'
 
 export function HeroSection3() {
   const router = useRouter()
@@ -14,7 +15,7 @@ export function HeroSection3() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://127.0.0.1:8000/api/jeevan-darshan/')
+        const response = await fetch(`${API_BASE_URL}/api/jeevan-darshan/`)
         const data = await response.json()
         setSections(data)
       } catch (error) {

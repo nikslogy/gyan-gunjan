@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { Menu, Search, X, ChevronDown } from 'lucide-react'
-import { useRouter } from 'next/navigation'
+import { useRouter, usePathname } from 'next/navigation'
 
 export function NavBar() {
   const [isOpen, setIsOpen] = useState(false)
@@ -13,6 +13,7 @@ export function NavBar() {
   const [searchQuery, setSearchQuery] = useState("")
   const [isScrolled, setIsScrolled] = useState(false)
   const router = useRouter()
+  const pathname = usePathname()
   
   const langRef = useRef(null)
 
@@ -65,6 +66,11 @@ export function NavBar() {
     };
   }, []);
 
+  // Function to check if a path is active
+  const isActivePath = (path) => {
+    return pathname === path
+  }
+
   return (
     <div className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
       isScrolled ? 'nav-scrolled' : ''
@@ -91,13 +97,28 @@ export function NavBar() {
 
           {/* Desktop*/}
           <div className="hidden md:flex items-center gap-6 justify-center w-full">
-            <Link href="/about-project" className="font-inter text-[#1a365d] hover:text-gray-900">
+            <Link 
+              href="/about-project" 
+              className={`font-inter text-[#1a365d] hover:text-gray-900 relative ${
+                isActivePath('/about-project') ? 'after:content-[""] after:absolute after:left-0 after:bottom-[-4px] after:w-full after:h-0.5 after:bg-[#1a365d]' : ''
+              }`}
+            >
               About the Project
             </Link>
-            <Link href="/jeevan-darshan" className="text-[#1a365d] hover:text-gray-900">
+            <Link 
+              href="/jeevan-darshan" 
+              className={`text-[#1a365d] hover:text-gray-900 relative ${
+                isActivePath('/jeevan-darshan') ? 'after:content-[""] after:absolute after:left-0 after:bottom-[-4px] after:w-full after:h-0.5 after:bg-[#1a365d]' : ''
+              }`}
+            >
               Jeevan Darshan
             </Link>
-            <Link href="/resources" className="text-[#1a365d] hover:text-gray-900">
+            <Link 
+              href="/resources" 
+              className={`text-[#1a365d] hover:text-gray-900 relative ${
+                isActivePath('/resources') ? 'after:content-[""] after:absolute after:left-0 after:bottom-[-4px] after:w-full after:h-0.5 after:bg-[#1a365d]' : ''
+              }`}
+            >
               Resources
             </Link>
             <Link href="/lets-collaborate">
@@ -209,21 +230,27 @@ export function NavBar() {
             <div className="flex flex-col gap-4">
               <Link
                 href="/about-project"
-                className="text-[#1a365d] text-lg hover:text-gray-900"
+                className={`text-[#1a365d] text-lg hover:text-gray-900 ${
+                  isActivePath('/about-project') ? 'font-semibold border-b-2 border-[#1a365d]' : ''
+                }`}
                 onClick={() => setIsOpen(false)}
               >
                 About the Project
               </Link>
               <Link
                 href="/jeevan-darshan"
-                className="text-[#1a365d] text-lg hover:text-gray-900"
+                className={`text-[#1a365d] text-lg hover:text-gray-900 ${
+                  isActivePath('/jeevan-darshan') ? 'font-semibold border-b-2 border-[#1a365d]' : ''
+                }`}
                 onClick={() => setIsOpen(false)}
               >
                 Jeevan Darshan
               </Link>
               <Link
                 href="/resources"
-                className="text-[#1a365d] text-lg hover:text-gray-900"
+                className={`text-[#1a365d] text-lg hover:text-gray-900 ${
+                  isActivePath('/resources') ? 'font-semibold border-b-2 border-[#1a365d]' : ''
+                }`}
                 onClick={() => setIsOpen(false)}
               >
                 Resources

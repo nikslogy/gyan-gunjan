@@ -21,56 +21,70 @@ export default function AdminLogin() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <div className="max-w-md w-full space-y-8 p-8 bg-white rounded-lg shadow-lg">
-        <div className="text-center">
-          <h2 className="text-3xl font-bold text-[#7A2631]">Admin Login</h2>
-          <p className="mt-2 text-gray-600">Please sign in to continue</p>
-        </div>
+    <div className="min-h-screen flex">
+      {/* Left side - Image */}
+      <div className="hidden lg:block lg:w-2/4 relative">
+        <Image
+          src="/images/login_image.png"
+          alt="Rice field landscape"
+          fill
+          sizes="(max-width: 1024px) 0vw, 66vw"
+          className="object-cover object-center"
+          style={{ objectPosition: 'center center' }}
+          priority
+        />
+      </div>
 
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          <div className="rounded-md shadow-sm space-y-4">
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                Email address
-              </label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                required
-                className="mt-1 block w-full text-black px-3 py-2 border border-gray-300 rounded-md"
-                value={credentials.email}
-                onChange={(e) => setCredentials({...credentials, email: e.target.value})}
-              />
-            </div>
-            <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-                Password
-              </label>
-              <input
-                id="password"
-                name="password"
-                type="password"
-                required
-                className="mt-1 block w-full px-3 py-2 text-black border border-gray-300 rounded-md"
-                value={credentials.password}
-                onChange={(e) => setCredentials({...credentials, password: e.target.value})}
-              />
-            </div>
+      {/* Right side - Login Form */}
+      <div className="w-full lg:w-1/3 flex items-center justify-center px-8">
+        <div className="max-w-md w-full space-y-8">
+          <div>
+            <h2 className="text-3xl text-black font-bold font-inter">Sign In</h2>
           </div>
 
-          {error && (
-            <div className="text-red-500 text-sm text-center">{error}</div>
-          )}
+          <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+            <div className="space-y-6">
+              <div>
+                <label className="block text-sm font-medium font-inter text-gray-700">
+                  Username
+                </label>
+                <input
+                  type="text"
+                  required
+                  className="mt-1 block w-full px-3 py-2 border font-inter border-gray-300 rounded-custom2 text-gray-900 placeholder-gray-400"
+                  placeholder="Enter your username"
+                  value={credentials.email}
+                  onChange={(e) => setCredentials({...credentials, email: e.target.value})}
+                />
+              </div>
 
-          <button
-            type="submit"
-            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#7A2631] hover:bg-[#9B2C2C]"
-          >
-            Sign in
-          </button>
-        </form>
+              <div>
+                <label className="block text-sm font-medium font-inter text-gray-700">
+                  Password
+                </label>
+                <input
+                  type="password"
+                  required
+                  className="mt-1 block w-full px-3 py-2 border font-inter border-gray-300 rounded-custom2 text-gray-900 placeholder-gray-400"
+                  placeholder="Please enter your password"
+                  value={credentials.password}
+                  onChange={(e) => setCredentials({...credentials, password: e.target.value})}
+                />
+              </div>
+            </div>
+
+            {error && (
+              <div className="text-red-500 text-sm text-center">{error}</div>
+            )}
+
+            <button
+              type="submit"
+              className="w-full flex justify-center py-2 px-4 border font-inter border-transparent rounded-custom2 shadow-sm text-sm font-medium text-white bg-[#0A4392] hover:bg-[#0B4392]"
+            >
+              Sign in
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   )

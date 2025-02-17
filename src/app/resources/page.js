@@ -13,7 +13,7 @@ const PdfInitializer = dynamic(() => import('@/components/pdf-initializer'), {
 
 export default function ResourcePage() {
     const [mounted, setMounted] = useState(false);
-    const [initialCategory, setInitialCategory] = useState('Coffee Table Books');
+    const [initialCategory, setInitialCategory] = useState('Thematic Concept Notes');
 
     useEffect(() => {
         setMounted(true);
