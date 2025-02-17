@@ -49,8 +49,8 @@ export function HeroSection2() {
           <h2 className="text-2xl md:text-3xl lg:text-4xl text-[#7A2631] font-bold relative top-[-5]">
             {data.title}
           </h2>
-          <p className="text-black leading-relaxed text-base md:text-lg max-w-s mt-10">
-            {data.long_description}
+          <p className="text-black leading-relaxed text-base md:text-lg max-w-s mt-10 whitespace-pre-line">
+            {data.short_description}
           </p>
           {/* <button
             onClick={handleLearnMoreSec2}
