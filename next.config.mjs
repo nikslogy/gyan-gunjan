@@ -1,7 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ['143.244.132.118', 'gyan-gunjan.vercel.app'],
+    remotePatterns: [
+      {
+        protocol: 'http',
+        hostname: '143.244.132.118',
+      },
+    ],
   },
   experimental: {
     optimizeCss: true,
@@ -31,10 +36,22 @@ const nextConfig = {
   },
   async rewrites() {
     return [
+      // Handle API requests
       {
         source: '/api/:path*',
         destination: 'http://143.244.132.118/api/:path*',
-        basePath: false
+      },
+      // Handle direct requests to the base URL
+      {
+        source: '/:path*',
+        destination: 'http://143.244.132.118/:path*',
+        has: [
+          {
+            type: 'header',
+            key: 'accept',
+            value: 'image/*',
+          },
+        ],
       },
     ];
   },

@@ -1,8 +1,11 @@
-export const API_BASE_URL = '';
-export const FULL_API_URL = process.env.NEXT_PUBLIC_API_URL;
+export const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000';
 
 export const getImageUrl = (path) => {
   if (!path) return '';
-  if (path.startsWith('http')) return path;
-  return `${process.env.NEXT_PUBLIC_API_URL}${path}`;
+  try {
+    new URL(path);
+    return path;
+  } catch {
+    return `${API_BASE_URL}${path.startsWith('/') ? path : `/${path}`}`;
+  }
 };
