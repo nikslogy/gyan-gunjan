@@ -83,7 +83,7 @@ export function NavBar() {
         <div className="flex items-center justify-between">
           <Link href="/" className="flex flex-col items-start md:items-center gap-0.5 mr-auto md:w-auto">
             <div className={`relative transition-all duration-300 ${
-              isScrolled ? 'w-32 md:w-40 h-24' : 'w-48 md:w-64 h-36'
+              isScrolled ? 'w-32 md:w-40 h-24' : 'w-32 md:w-40 h-28'
             }`}>
               <Image
                 src="/images/GyanGunjan-Logo.png"

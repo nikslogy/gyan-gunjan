@@ -128,11 +128,67 @@ export default function LandingResources() {
     }
   };
 
+  useEffect(() => {
+    // Handle ESC key press
+    const handleEscKey = (event) => {
+      if (event.key === 'Escape' && showPdfModal) {
+        handleCloseModal();
+      }
+    };
+
+    // Handle fullscreen change
+    const handleFullscreenChange = () => {
+      if (!document.fullscreenElement && 
+          !document.webkitFullscreenElement && 
+          !document.msFullscreenElement && 
+          showPdfModal) {
+        handleCloseModal();
+      }
+    };
+
+    // Add event listeners
+    document.addEventListener('keydown', handleEscKey);
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+    document.addEventListener('msfullscreenchange', handleFullscreenChange);
+
+    // Cleanup event listeners
+    return () => {
+      document.removeEventListener('keydown', handleEscKey);
+      document.removeEventListener('fullscreenchange', handleFullscreenChange);
+      document.removeEventListener('webkitfullscreenchange', handleFullscreenChange);
+      document.removeEventListener('msfullscreenchange', handleFullscreenChange);
+    };
+  }, [showPdfModal]); // Add showPdfModal to dependency array
+
   // Update the close handler
   const handleCloseModal = () => {
-    exitFullscreen();
+    // First exit fullscreen if we're in fullscreen mode
+    if (document.fullscreenElement || 
+        document.webkitFullscreenElement || 
+        document.msFullscreenElement) {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      } else if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen();
+      } else if (document.msExitFullscreen) {
+        document.msExitFullscreen();
+      }
+    }
+
+    // Clear the PDF container
+    const container = document.querySelector('#flipbook-wrapper');
+    if (container) {
+      container.innerHTML = '';
+    }
+
+    // Reset states
     setShowPdfModal(false);
     setSelectedPdfData(null);
+
+    // Force cleanup of any remaining PDF resources
+    const pdfElements = document.querySelectorAll('.solid-container');
+    pdfElements.forEach(element => element.remove());
   };
 
   return (
@@ -359,17 +415,30 @@ export default function LandingResources() {
       {showPdfModal && (
         <div 
           id="pdf-fullscreen-container"
-          className="bg-white w-full h-full overflow-y-auto"
+          className="fixed inset-0 bg-white w-full h-full overflow-y-auto z-50"
         >
+          <button
+            onClick={handleCloseModal}
+            className="fixed top-4 right-4 z-50 bg-gray-800 text-white p-2 rounded-full hover:bg-gray-700"
+            aria-label="Close PDF viewer"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+          
           <div className="min-h-screen relative">
             <Resources
               selectedPdf={selectedPdfData?.pdf}
               selectedTitle={selectedPdfData?.title}
+              onClose={handleCloseModal}  // Pass close handler to Resources component
             />
           </div>
 
-          {/* Add styles to ensure download modal appears properly */}
           <style jsx global>{`
+            body {
+              overflow: ${showPdfModal ? 'hidden' : 'auto'};
+            }
             .download-modal {
               position: fixed !important;
               top: 50% !important;
@@ -379,8 +448,6 @@ export default function LandingResources() {
               max-height: 90vh !important;
               overflow-y: auto !important;
             }
-            
-            /* Style for the modal overlay */
             .download-modal-overlay {
               z-index: 99999 !important;
             }

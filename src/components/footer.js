@@ -44,9 +44,10 @@ const Footer = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center justify-items-center">
+          {/* Right side - Links */}
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-8 items-center justify-items-center">
             {/* First Column */}
-            <div className="flex flex-col gap-3 items-center">
+            <div className="flex flex-col gap-2 md:gap-3 items-center">
               <Link href="/about-project" className="text-[#1a365d] hover:text-gray-900">
                 About the Project
               </Link>
@@ -59,10 +60,13 @@ const Footer = () => {
               <Link href="/lets-collaborate" className="text-[#1a365d] hover:text-gray-900">
                 Lets Collaborate
               </Link>
+              <Link href="#" className="text-[#1a365d] hover:text-gray-900">
+                Terms of Use
+              </Link>
             </div>
 
             {/* Second Column */}
-            <div className="flex flex-col gap-3 items-center">
+            <div className="flex flex-col gap-2 md:gap-3 items-center">
               <Link href="/contact" className="text-[#1a365d] hover:text-gray-900">
                 Contact Us
               </Link>
@@ -72,10 +76,13 @@ const Footer = () => {
               <Link href="https://www.flame.edu.in/cka/about-the-centre.php" className="text-[#1a365d] hover:text-gray-900" target="_blank" rel="noopener noreferrer">
                 About CKA
               </Link>
+              <Link href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer" className="text-[#1a365d] hover:text-gray-900">
+                Creative Commons 4.0
+              </Link>
             </div>
 
-            {/* Third Column */}
-            <div className="flex flex-col gap-3 items-center">
+            {/* Third Column - Only visible on desktop */}
+            <div className="hidden md:flex flex-col gap-2 md:gap-3 items-center">
               <Link href="#" className="text-[#1a365d] hover:text-gray-900">
                 Terms of Use
               </Link>

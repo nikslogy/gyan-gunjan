@@ -54,7 +54,7 @@ export function HeroSection1() {
   }
 
   return (
-    <section className="py-2 md:py-6 lg:py-6">
+    <section className="py-0 md:py-2 lg:py-0">
       <div className="grid md:grid-cols-2 gap-10 md:gap-18 items-start max-w-5xl mx-auto">
         {/* Left Column: Text Content */}
         <div className={`space-y-6 transition-all duration-700 ${exitAnimation ? 'translate-x-[-100px] opacity-0' : 'translate-x-0 opacity-100'}`}>
