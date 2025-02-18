@@ -12,7 +12,6 @@ export function HeroSection3() {
   const [loading, setLoading] = useState(true)
   const API_BASE_URL = 'http://143.244.132.118';
 
-
   // Fetch data from Django API
   useEffect(() => {
     const fetchData = async () => {
@@ -68,15 +67,15 @@ export function HeroSection3() {
 
   return (
     <section className="py-2 md:py-10 lg:py-10">
-      <div className="grid md:grid-cols-2 gap-10 md:gap-18 items-start max-w-5xl mx-auto">
+      <div className="grid md:grid-cols-2 gap-10 md:gap-18 items-start max-w-4xl sm:max-w-5xl mx-auto">
         {/* Left Column: Title and Pattern Grid */}
         <div className={`space-y-6 transition-all duration-700 ${exitAnimation ? 'translate-x-[-100px] opacity-0' : 'translate-x-0 opacity-100'}`}>
           <h2 className="text-2xl md:text-3xl lg:text-4xl text-[#7A2631] font-bold relative top-[-5] mb-20">
             Jeevan Darshan
           </h2>
 
-          {/* Pattern Grid */}
-          <div className="relative w-full aspect-square max-w-[550px] mx-auto">
+          {/* Pattern Grid - Added max-md:max-w-[300px] for mobile sizing */}
+          <div className="relative w-full aspect-square max-w-[550px] max-md:max-w-[300px] mx-auto">
             <div className="relative h-full w-full">
               {sections.map((section, index) => (
                 <div

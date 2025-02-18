@@ -84,8 +84,7 @@ export function JeevanResources({ selectedCategory = "Nature and Agriculture", d
   }, [selectedCategory, activeTab, coffeeBooks, thematics]);
 
   if (error) return <div className="text-red-500 p-4">Error loading resources: {error}</div>;
-  if (loading) return <div className="p-4">Loading resources...</div>;
-
+  
   const filteredData = getCurrentData();
   const hasContent = filteredData.length > 0 && filteredData[0].book_pdf;
 

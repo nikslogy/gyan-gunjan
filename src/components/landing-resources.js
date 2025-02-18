@@ -396,7 +396,7 @@ export default function LandingResources() {
                   <div className="flex flex-col items-center justify-center py-20 bg-[#f5f5f5] rounded-lg mt-8 space-y-4">
                     <h3 className="text-3xl font-bold text-[#7A2631]">Movies Coming Soon!</h3>
                     <p className="text-gray-600 text-lg text-center max-w-lg">
-                        We're preparing an exciting collection of movies. If you have interesting films to share about rural India's transformation, we'd love to feature them!
+                        We're preparing an exciting collection of movies. If you have interesting films to share about India's transformation, we'd love to feature them!
                     </p>
                     <a 
                         href="/lets-collaborate" 
