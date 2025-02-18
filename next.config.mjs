@@ -43,12 +43,12 @@ const nextConfig = {
       // Handle API requests
       {
         source: '/api/:path*',
-        destination: 'http://143.244.132.118/api/:path*',
+        destination: 'http://127.0.0.1:8000/api/:path*',
       },
       // Handle direct requests to the base URL
       {
         source: '/:path*',
-        destination: 'http://143.244.132.118/:path*',
+        destination: 'http://127.0.0.1:8000/:path*',
         has: [
           {
             type: 'header',

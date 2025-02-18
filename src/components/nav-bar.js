@@ -88,7 +88,7 @@ export function NavBar() {
               isScrolled ? 'w-32 md:w-40 h-24' : 'w-32 md:w-40 h-28'
             }`}>
               <Image
-                src="/images/GyanGunjan-Logo.png"
+                src="/images/only_GG_Logo_Blue.png"
                 alt="Gyan Gunjan Logo"
                 fill
                 priority

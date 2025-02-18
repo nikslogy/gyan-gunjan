@@ -9,6 +9,11 @@ export function HeroSection1() {
   const [currentSlide, setCurrentSlide] = useState(0); // State for slider
   const router = useRouter(); // Next.js router for navigation
   const [exitAnimation, setExitAnimation] = useState(false); // State for exit animation
+  const [touchStart, setTouchStart] = useState(null);
+  const [touchEnd, setTouchEnd] = useState(null);
+
+  // Minimum swipe distance (in pixels)
+  const minSwipeDistance = 50;
   const API_BASE_URL = 'http://143.244.132.118';
 
 
@@ -21,6 +26,32 @@ export function HeroSection1() {
     setTimeout(() => {
       router.push('/about-project');
     }, 200);
+  };
+
+  const onTouchStart = (e) => {
+    setTouchEnd(null);
+    setTouchStart(e.touches[0].clientX);
+  };
+
+  const onTouchMove = (e) => {
+    setTouchEnd(e.touches[0].clientX);
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+
+    if (isLeftSwipe) {
+      // Swipe left - show next image
+      setCurrentSlide((prev) => (prev === data?.images?.length - 1 ? 0 : prev + 1));
+    }
+    if (isRightSwipe) {
+      // Swipe right - show previous image
+      setCurrentSlide((prev) => (prev === 0 ? data?.images?.length - 1 : prev - 1));
+    }
   };
 
   // Fetch data from Django API
@@ -76,7 +107,10 @@ export function HeroSection1() {
 
         {/* Right Column: Image Slider */}
         <div className={`transition-all duration-700 ${exitAnimation ? 'translate-x-[100px] opacity-0' : 'translate-x-0 opacity-100'}`}>
-          <div className="relative h-[350px] md:h-[400px] lg:h-[350px] w-full">
+          <div className="relative h-[350px] md:h-[400px] lg:h-[350px] w-full"
+               onTouchStart={onTouchStart}
+               onTouchMove={onTouchMove}
+               onTouchEnd={onTouchEnd}>
             <div className="rounded-custom overflow-hidden relative h-full">
               {data.images.map((image, index) => (
                 <div
