@@ -165,7 +165,7 @@ function AboutProjectContent() {
             {[
               { img: "/images/Nature Logo 1 Cover.png", desc: aboutData.second_description },
               { img: "/images/Family.png", desc: aboutData.third_description },
-              { img: "/images/Knowledge & Learning.png", desc: aboutData.fourth_description },
+              { img: "/images/Knowledge_Learning.png", desc: aboutData.fourth_description },
               { img: "/images/Art - Devi Black.png", desc: aboutData.fifth_description },
               { img: "/images/Village Gov.png", desc: aboutData.sixth_description }
             ].map((section, index) => (
