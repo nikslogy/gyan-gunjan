@@ -34,19 +34,6 @@ const nextConfig = {
 
     return config;
   },
-  async headers() {
-    return [
-      {
-        source: '/:path*',
-        headers: [
-          {
-            key: 'Content-Security-Policy',
-            value: "upgrade-insecure-requests"
-          }
-        ],
-      }
-    ]
-  },
   async rewrites() {
     return [
       // Handle API requests
@@ -54,7 +41,7 @@ const nextConfig = {
         source: '/api/:path*',
         destination: 'http://143.244.132.118/api/:path*',
       },
-      // Handle all other paths (for images, etc)
+      // Handle direct requests to the base URL
       {
         source: '/:path*',
         destination: 'http://143.244.132.118/:path*',
@@ -62,7 +49,7 @@ const nextConfig = {
           {
             type: 'header',
             key: 'accept',
-            value: '(image|video|audio|application).*',
+            value: 'image/*',
           },
         ],
       },
