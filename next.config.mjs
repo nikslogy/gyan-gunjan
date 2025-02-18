@@ -4,7 +4,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'http',
-        hostname: '127.0.0.1',
+        hostname: '143.244.132.118',
       },
     ],
   },
@@ -44,7 +44,7 @@ const nextConfig = {
       // Handle direct requests to the base URL
       {
         source: '/:path*',
-        destination: 'http://127.0.0.1:8000/:path*',
+        destination: 'http://143.244.132.118/:path*',
         has: [
           {
             type: 'header',
