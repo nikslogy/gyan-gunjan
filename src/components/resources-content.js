@@ -6,6 +6,7 @@ import Image from "next/image";
 import { Resources } from "@/components/resources";
 import MovieSlider from "@/components/movie-slider";
 import VideoModal from "@/components/video-modal";
+import { API_BASE_URL, getImageUrl } from '@/utils/api';
 
 export function ResourcesContent({ initialCategory = 'Movies' }) {
     const [isOpen, setIsOpen] = useState(false);
@@ -90,12 +91,12 @@ export function ResourcesContent({ initialCategory = 'Movies' }) {
         try {
             setLoading(true);
             const [statesRes, coffeeRes, thematicRes, movieRes, flipbookRes, regionRes] = await Promise.all([
-                fetch('http://127.0.0.1:8000/api/states/'),
-                fetch('http://127.0.0.1:8000/api/coffee-table-books/'),
-                fetch('http://127.0.0.1:8000/api/thematic/'),
-                fetch('http://127.0.0.1:8000/api/movies/'),
-                fetch('http://127.0.0.1:8000/api/flipbooks/'),
-                fetch('http://127.0.0.1:8000/api/regions/')
+                fetch(`${API_BASE_URL}/api/states/`),
+                fetch(`${API_BASE_URL}/api/coffee-table-books/`),
+                fetch(`${API_BASE_URL}/api/thematic/`),
+                fetch(`${API_BASE_URL}/api/movies/`),
+                fetch(`${API_BASE_URL}/api/flipbooks/`),
+                fetch(`${API_BASE_URL}/api/regions/`)
             ]);
 
             setStates(await statesRes.json());
@@ -120,7 +121,7 @@ export function ResourcesContent({ initialCategory = 'Movies' }) {
     const fetchRegions = async (stateId) => {
         if (!stateId) return;
         try {
-            const res = await fetch(`http://127.0.0.1:8000/api/regions/?state=${stateId}`);
+            const res = await fetch(`${API_BASE_URL}/api/regions/?state=${stateId}`);
             const data = await res.json();
             setRegions(data);
         } catch (err) {
@@ -167,6 +168,10 @@ export function ResourcesContent({ initialCategory = 'Movies' }) {
     };
 
     const handleBookSelect = (resource) => {
+        if (!resource.book_pdf) {
+            return;
+        }
+
         const pdfUrl = resource.file || resource.book_pdf || resource.cover_image;
         const title = resource.title || resource.name || resource.coffee_table_book_name;
 
@@ -535,6 +540,7 @@ export function ResourcesContent({ initialCategory = 'Movies' }) {
                                     {!isPdfAvailable && (
                                         <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40">
                                             <span className="text-white text-lg font-bold">Coming Soon</span>
+                                            
                                         </div>
                                     )}
                                 </div>

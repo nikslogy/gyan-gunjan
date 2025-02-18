@@ -226,7 +226,17 @@ export const Resources = ({ selectedPdf, selectedTitle }) => {
             </button>
           </div>
           {showDownloadModal && (
-            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 overflow-y-auto">
+            <div 
+              className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 overflow-y-auto"
+              onClick={(e) => {
+                // Close modal if clicking the overlay (not the modal itself)
+                if (e.target === e.currentTarget) {
+                  setShowDownloadModal(false);
+                  setDownloadForm({ purpose: '', name: '', mobile: '', email: '' });
+                  setFormError('');
+                }
+              }}
+            >
               <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/7 bg-white rounded-lg p-6 max-w-md w-full download-modal">
                 <h2 className="text-2xl font-bold text-[#9B2C2C] mb-4">Download PDF</h2>
                 <form onSubmit={handleDownload} className="space-y-4">

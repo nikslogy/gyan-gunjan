@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import Image from "next/image"
+import { API_BASE_URL } from '@/utils/api'
 
 export function HeroSection3() {
   const router = useRouter()
@@ -14,7 +15,7 @@ export function HeroSection3() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://127.0.0.1:8000/api/jeevan-darshan/')
+        const response = await fetch(`${API_BASE_URL}/api/jeevan-darshan/`)
         const data = await response.json()
         setSections(data)
       } catch (error) {
@@ -64,7 +65,7 @@ export function HeroSection3() {
   const currentSection = sections[currentTile]
 
   return (
-    <section className="py-2 md:py-6 lg:py-6">
+    <section className="py-2 md:py-10 lg:py-10">
       <div className="grid md:grid-cols-2 gap-10 md:gap-18 items-start max-w-5xl mx-auto">
         {/* Left Column: Title and Pattern Grid */}
         <div className={`space-y-6 transition-all duration-700 ${exitAnimation ? 'translate-x-[-100px] opacity-0' : 'translate-x-0 opacity-100'}`}>

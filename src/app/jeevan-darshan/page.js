@@ -6,6 +6,7 @@ import { NavBar } from "@/components/nav-bar";
 import Image from "next/image";
 import { Footer } from "@/components/footer";
 import { Share2, ChevronDown } from "lucide-react";
+import { API_BASE_URL, getImageUrl } from '@/utils/api';
 
 export default function JeevanDarshan() {
     const router = useRouter();
@@ -21,13 +22,22 @@ export default function JeevanDarshan() {
         const fetchJeevanDarshanData = async () => {
             try {
                 setLoading(true);
-                const response = await fetch("http://127.0.0.1:8000/api/jeevan-darshan/");
+                const response = await fetch(`${API_BASE_URL}/api/jeevan-darshan/`);
                 if (!response.ok) throw new Error("Failed to fetch Jeevan Darshan data");
                 const data = await response.json();
-                setCategories(data);
-                // Set initial category to first item if available
-                if (data.length > 0) {
-                    setSelectedCategory(data[0].title);
+                
+                // Transform the data to include full image URLs
+                const transformedData = data.map(category => ({
+                    ...category,
+                    images: category.images.map(img => ({
+                        ...img,
+                        image_url: getImageUrl(img.image_url)
+                    }))
+                }));
+                
+                setCategories(transformedData);
+                if (transformedData.length > 0) {
+                    setSelectedCategory(transformedData[0].title);
                 }
             } catch (err) {
                 setError(err.message);

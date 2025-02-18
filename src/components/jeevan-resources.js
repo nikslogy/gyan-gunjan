@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { Book, NotebookText } from "lucide-react";
 import { Resources } from "@/components/resources";
+import { API_BASE_URL, getImageUrl } from '@/utils/api';
 
 export function JeevanResources({ selectedCategory = "Nature and Agriculture", disableAutoScroll = false }) {
   const [activeTab, setActiveTab] = useState("coffee");
@@ -16,7 +17,7 @@ export function JeevanResources({ selectedCategory = "Nature and Agriculture", d
   const fetchInitialData = async () => {
     try {
       setLoading(true);
-      const jeevanResponse = await fetch("http://127.0.0.1:8000/api/jeevan-darshan/");
+      const jeevanResponse = await fetch(`${API_BASE_URL}/api/jeevan-darshan/`);
       
       if (!jeevanResponse.ok) {
         throw new Error("Failed to fetch Jeevan Darshan data");
@@ -26,8 +27,18 @@ export function JeevanResources({ selectedCategory = "Nature and Agriculture", d
       const categoryData = jeevanData.find(item => item.title === selectedCategory);
 
       if (categoryData) {
-        setCoffeeBooks(categoryData.coffee_table_book ? [categoryData.coffee_table_book] : []);
-        setThematics(categoryData.thematic ? [categoryData.thematic] : []);
+        const transformedCoffeeBooks = categoryData.coffee_table_book ? [{
+          ...categoryData.coffee_table_book,
+          book_pdf: getImageUrl(categoryData.coffee_table_book.book_pdf)
+        }] : [];
+        
+        const transformedThematics = categoryData.thematic ? [{
+          ...categoryData.thematic,
+          book_pdf: getImageUrl(categoryData.thematic.book_pdf)
+        }] : [];
+
+        setCoffeeBooks(transformedCoffeeBooks);
+        setThematics(transformedThematics);
       }
     } catch (err) {
       setError(err.message);
