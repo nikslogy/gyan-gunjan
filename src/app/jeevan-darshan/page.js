@@ -16,6 +16,8 @@ export default function JeevanDarshan() {
     const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const API_BASE_URL = 'http://143.244.132.118';
+
 
     // Fetch Jeevan Darshan data from the API
     useEffect(() => {

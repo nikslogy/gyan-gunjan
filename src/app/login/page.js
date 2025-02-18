@@ -8,6 +8,8 @@ export default function AdminLogin() {
   const [credentials, setCredentials] = useState({ email: '', password: '' })
   const [error, setError] = useState('')
   const router = useRouter()
+  const API_BASE_URL = 'http://143.244.132.118';
+
 
   const handleSubmit = async (e) => {
     e.preventDefault()

@@ -23,6 +23,7 @@ export default function LandingResources() {
   // Add new state for modal
   const [showPdfModal, setShowPdfModal] = useState(false);
   const [selectedPdfData, setSelectedPdfData] = useState(null);
+  const API_BASE_URL = 'http://143.244.132.118';
 
   // Fetch API Data
   useEffect(() => {
