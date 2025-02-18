@@ -1,14 +1,18 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ['143.244.132.118'],
+    remotePatterns: [
+      {
+        protocol: 'http',
+        hostname: '127.0.0.1',
+      },
+    ],
   },
   experimental: {
     optimizeCss: true,
-    workerThreads: false,  // Let's disable this temporarily
+    workerThreads: false,
   },
   webpack: (config, { isServer }) => {
-    // Add fallbacks for node modules
     config.resolve.fallback = {
       ...config.resolve.fallback,
       canvas: false,
@@ -29,7 +33,28 @@ const nextConfig = {
     }
 
     return config;
-  }
+  },
+  async rewrites() {
+    return [
+      // Handle API requests
+      {
+        source: '/api/:path*',
+        destination: 'http://127.0.0.1:8000/api/:path*',
+      },
+      // Handle direct requests to the base URL
+      {
+        source: '/:path*',
+        destination: 'http://127.0.0.1:8000/:path*',
+        has: [
+          {
+            type: 'header',
+            key: 'accept',
+            value: 'image/*',
+          },
+        ],
+      },
+    ];
+  },
 };
 
 export default nextConfig;
