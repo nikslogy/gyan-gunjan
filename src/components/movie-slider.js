@@ -9,6 +9,8 @@ export default function MovieSlider({ movies }) {
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const [selectedVideo, setSelectedVideo] = useState(null);
   const modalRef = useRef(null);
+  const API_BASE_URL = 'http://143.244.132.118';
+
 
   useEffect(() => {
     const handleResize = () => setScreenWidth(window.innerWidth);

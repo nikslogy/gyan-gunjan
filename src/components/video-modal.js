@@ -17,6 +17,8 @@ export default function VideoModal({ isOpen, onClose, videoSource, title }) {
   const [isLoading, setIsLoading] = useState(true);
   const [showSpeedMenu, setShowSpeedMenu] = useState(false);
   const isYouTubeVideo = videoSource?.includes('youtube.com') || videoSource?.includes('youtu.be');
+  const API_BASE_URL = 'http://143.244.132.118';
+
   
 
   useEffect(() => {
