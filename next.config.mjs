@@ -5,7 +5,9 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'http',
-        hostname: '127.0.0.1',
+        hostname: '143.244.132.118', // Remove the trailing slash
+        port: '',
+        pathname: '/media/**',
       },
     ],
 
