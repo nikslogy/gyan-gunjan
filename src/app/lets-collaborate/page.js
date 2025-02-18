@@ -27,6 +27,8 @@ export default function LetsColaborate() {
     const [contributors, setContributors] = useState([]);
     const [loading, setLoading] = useState(false);
     const [submitSuccess, setSubmitSuccess] = useState(false);
+    const API_BASE_URL = 'http://143.244.132.118';
+
 
     useEffect(() => {
         if (formData.showContributors && contributors.length === 0) {
@@ -36,7 +38,7 @@ export default function LetsColaborate() {
 
     const fetchContributors = async () => {
         try {
-            const response = await fetch('http://127.0.0.1:8000/contribute/api/contributions/');
+            const response = await fetch(`${API_BASE_URL}/contribute/api/contributions/`);
             const data = await response.json();
             setContributors(data);
         } catch (error) {
@@ -62,7 +64,7 @@ export default function LetsColaborate() {
         if (formData.files.video) formPayload.append('video', formData.files.video);
 
         try {
-            const response = await fetch('http://127.0.0.1:8000/contribute/api/contributions/', {
+            const response = await fetch(`${API_BASE_URL}/contribute/api/contributions/`, {
                 method: 'POST',
                 body: formPayload
             });
