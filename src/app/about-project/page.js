@@ -168,7 +168,7 @@ function AboutProjectContent() {
               { img: "/images/Village Gov.png", desc: aboutData.sixth_description }
             ].map((section, index) => (
               <div key={index} className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
-                <div className="relative aspect-[4/3] w-full max-w-md mx-auto order-1 md:order-none">
+                <div className="relative aspect-[4/3] w-full max-w-sm mx-auto order-1 md:order-none">
                   <Image
                     src={aboutData.logo_detail_image || section.img}
                     alt="Logo Details"
