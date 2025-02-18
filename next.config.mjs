@@ -1,12 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
+
     remotePatterns: [
       {
         protocol: 'http',
         hostname: '143.244.132.118',
       },
     ],
+
   },
   experimental: {
     optimizeCss: true,
