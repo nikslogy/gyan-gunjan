@@ -248,7 +248,6 @@ export default function AdminPanel() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      // Here you would typically make an API call to save the data
       console.log('Saving changes:', formData)
       // Show success message
       alert('Changes saved successfully!')
