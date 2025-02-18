@@ -77,10 +77,10 @@ export function NavBar() {
     <div className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
       isScrolled ? 'nav-scrolled' : ''
     }`}>
-      <nav className={`max-w-7xl mx-auto rounded-custom transition-all duration-300 ${
+      <nav className={`max-w-7xl rounded-custom transition-all duration-300 ${
         isScrolled 
-          ? 'bg-[#c4deff]/80 hover:bg-[#c4deff] px-4 py-0 mt-2 mx-4 shadow-md' 
-          : 'bg-[#c4deff] px-4 py-0 mt-4 mx-4'
+          ? 'bg-[#c4deff]/80 hover:bg-[#c4deff] px-4 py-0 mt-2 mx-4 md:mx-auto' 
+          : 'bg-[#c4deff] px-4 py-0 mt-4 mx-4 md:mx-auto'
       }`}>
         <div className="flex items-center justify-between">
           <Link href="/" className="flex flex-col items-start md:items-center gap-0.5 mr-auto md:w-auto">
@@ -124,7 +124,7 @@ export function NavBar() {
               Resources
             </Link>
             <Link href="/lets-collaborate">
-              <button className="bg-[#E7B24B] text-black hover:bg-[#f6a93d] rounded-custom2 px-4 py-1.5 font-medium">
+              <button className="bg-[#E7B24B] text-black hover:bg-[#f6a93d] rounded-custom2 px-3 py-1.5 font-medium">
                 Let's Collaborate
               </button>
             </Link>
@@ -165,23 +165,6 @@ export function NavBar() {
                   </button>
                 </div>
               </form>
-            </div>
-
-            <div className="relative" ref={langRef}>
-              <button
-                onClick={() => setIsLangOpen(!isLangOpen)}
-                className="flex items-center gap-1 text-[#1a365d] text-base"
-              >
-                Eng <ChevronDown className="h-4 w-4" />
-              </button>
-              {isLangOpen && (
-                <div className="absolute top-full left-0 mt-3 w-48 rounded-custom2 shadow-lg bg-[#F6B352] ring-1 ring-black ring-opacity-5 transition-all duration-200 ease-in-out opacity-100 transform scale-100 origin-top">
-                  <div className="py-0" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-                    <a href="#" className="block px-4 py-2 text-black hover:bg-gray-100 rounded-custom2" role="menuitem">English</a>
-                    <a href="#" className="block px-4 py-2 text-black hover:bg-gray-100 rounded-custom2" role="menuitem">Hindi (coming soon)</a>
-                  </div>
-                </div>
-              )}
             </div>
           </div>
 
@@ -259,24 +242,13 @@ export function NavBar() {
               </Link>
               <Link href="/lets-collaborate">
                 <button
-                  className="bg-[#F6B352] text-black hover:bg-[#f6a93d] rounded-custom px-6 py-2 font-medium w-full"
+                  className="bg-[#F6B352] text-black hover:bg-[#f6a93d] rounded-custom2 px-4 py-2 font-medium mb-4"
                   onClick={() => setIsOpen(false)}
                 >
                   Let's Collaborate
                 </button>
               </Link>
-              <button
-                onClick={() => setIsLangOpen(!isLangOpen)}
-                className="flex items-center justify-between text-[#1a365d] text-lg hover:text-gray-900"
-              >
-                Eng <ChevronDown className="h-4 w-4" />
-              </button>
-              {isLangOpen && (
-                <div className="pl-4">
-                  <a href="#" className="block py-2 text-sm text-gray-700 hover:text-gray-900">English</a>
-                  <a href="#" className="block py-2 text-sm text-gray-700 hover:text-gray-900">Hindi (coming soon)</a>
-                </div>
-              )}
+              
             </div>
           </div>
         )}

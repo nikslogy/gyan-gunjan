@@ -20,31 +20,12 @@ export default function LetsColaborate() {
             pdf: false,
             image: false,
             video: false
-        },
-        showContributors: false
+        }
     });
 
-    const [contributors, setContributors] = useState([]);
     const [loading, setLoading] = useState(false);
     const [submitSuccess, setSubmitSuccess] = useState(false);
     const API_BASE_URL = 'http://143.244.132.118';
-
-
-    useEffect(() => {
-        if (formData.showContributors && contributors.length === 0) {
-            fetchContributors();
-        }
-    }, [formData.showContributors]);
-
-    const fetchContributors = async () => {
-        try {
-            const response = await fetch(`${API_BASE_URL}/contribute/api/contributions/`);
-            const data = await response.json();
-            setContributors(data);
-        } catch (error) {
-            console.error('Error fetching contributors:', error);
-        }
-    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -79,12 +60,10 @@ export default function LetsColaborate() {
                 message: '',
                 newsletter: false,
                 files: { pdf: null, image: null, video: null },
-                uploadOptions: { pdf: false, image: false, video: false },
-                showContributors: formData.showContributors
+                uploadOptions: { pdf: false, image: false, video: false }
             });
             
             setSubmitSuccess(true);
-            fetchContributors();
 
         } catch (error) {
             console.error('Submission error:', error);
@@ -253,39 +232,6 @@ export default function LetsColaborate() {
                             />
                         </div>
                     </div>
-                </div>
-
-                <div className="mt-8">
-                    <button 
-                        onClick={() => setFormData(prev => ({...prev, showContributors: !prev.showContributors}))} 
-                        className="w-full bg-[#c4deff] p-4 rounded-custom2 flex justify-center items-center"
-                    >
-                        <h2 className="text-2xl font-bold text-center">List of Contributors</h2>
-                        <svg 
-                            className={`w-6 h-6 transition-transform ml-2 ${formData.showContributors ? 'rotate-180' : ''}`} 
-                            fill="none" 
-                            stroke="currentColor" 
-                            viewBox="0 0 24 24"
-                        >
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                        </svg>
-                    </button>
-                    
-                    {formData.showContributors && (
-                        <div className="bg-[#F6B352] p-8 rounded-b-lg">
-                            {contributors.length === 0 ? (
-                                <div className="text-center py-4">Loading contributors list...</div>
-                            ) : (
-                                <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-                                    {contributors.map((contributor, index) => (
-                                        <div key={index} className="text-black text-sm p-2 bg-white/30 rounded-lg">
-                                            {contributor.first_name} {contributor.last_name}
-                                        </div>
-                                    ))}
-                                </div>
-                            )}
-                        </div>
-                    )}
                 </div>
             </div>
 
