@@ -25,7 +25,7 @@ export default function LetsColaborate() {
 
     const [loading, setLoading] = useState(false);
     const [submitSuccess, setSubmitSuccess] = useState(false);
-    const API_BASE_URL = 'http://143.244.132.118';
+    // const API_BASE_URL = 'http://143.244.132.118';
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -77,7 +77,7 @@ export default function LetsColaborate() {
             <NavBar />
             
             <div className="text-center py-8">
-                <h1 className="mt-20 text-4xl md:text-5xl font-serif">Let's Collaborate</h1>
+                <h1 className="mt-20 text-4xl md:text-5xl">Let's Collaborate</h1>
                 <hr className="my-4 border-black mx-auto w-3/4" />
             </div>
 
@@ -85,7 +85,7 @@ export default function LetsColaborate() {
                 <div className="bg-white rounded-custom shadow-lg overflow-hidden">
                     <div className="flex flex-col md:flex-row">
                         <div className="md:w-1/2 p-8 md:p-12">
-                            <h2 className="text-3xl font-serif mb-8">Collaborate With Us</h2>
+                            <h2 className="text-3xl mb-8">Collaborate With Us</h2>
                             
                             {submitSuccess && (
                                 <div className="mb-4 p-4 bg-green-100 text-green-800 rounded-lg">
@@ -213,7 +213,7 @@ export default function LetsColaborate() {
                                 <button
                                     type="submit"
                                     disabled={loading}
-                                    className={`w-full bg-[#F6B352] text-black py-3 rounded-lg hover:bg-[#E4A853] transition-colors ${
+                                    className={`w-full bg-[#F6B352] text-black py-3 rounded-custom2 hover:bg-[#E4A853] transition-colors ${
                                         loading ? 'opacity-50 cursor-not-allowed' : ''
                                     }`}
                                 >

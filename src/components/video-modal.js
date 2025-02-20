@@ -17,13 +17,15 @@ export default function VideoModal({ isOpen, onClose, videoSource, title }) {
   const [isLoading, setIsLoading] = useState(true);
   const [showSpeedMenu, setShowSpeedMenu] = useState(false);
   const isYouTubeVideo = videoSource?.includes('youtube.com') || videoSource?.includes('youtu.be');
-  const API_BASE_URL = 'http://143.244.132.118';
+  const API_BASE_URL = 'http://143.244.132.118';  
 
   
 
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
+      // Dispatch custom event to hide navbar
+      window.dispatchEvent(new CustomEvent('videoModalOpen'));
       
       // Add a small delay to ensure the modal is rendered
       setTimeout(() => {
@@ -58,9 +60,13 @@ export default function VideoModal({ isOpen, onClose, videoSource, title }) {
       playVideo();
     } else {
       document.body.style.overflow = 'unset';
+      // Dispatch custom event to show navbar
+      window.dispatchEvent(new CustomEvent('videoModalClose'));
     }
     return () => {
       document.body.style.overflow = 'unset';
+      // Ensure navbar is shown when component unmounts
+      window.dispatchEvent(new CustomEvent('videoModalClose'));
     };
   }, [isOpen, isYouTubeVideo]);
 

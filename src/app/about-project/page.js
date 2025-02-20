@@ -16,7 +16,37 @@ function AboutProjectContent() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const API_BASE_URL = 'http://143.244.132.118';
+  const [touchStart, setTouchStart] = useState(null);
+  const [touchEnd, setTouchEnd] = useState(null);
 
+  // Minimum swipe distance (in pixels)
+  const minSwipeDistance = 50;
+
+  const onTouchStart = (e) => {
+    setTouchEnd(null);
+    setTouchStart(e.touches[0].clientX);
+  };
+
+  const onTouchMove = (e) => {
+    setTouchEnd(e.touches[0].clientX);
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd || !aboutData?.images) return;
+    
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+
+    if (isLeftSwipe) {
+      // Swipe left - show next image
+      setCurrentSlide((prev) => (prev === aboutData.images.length - 1 ? 0 : prev + 1));
+    }
+    if (isRightSwipe) {
+      // Swipe right - show previous image
+      setCurrentSlide((prev) => (prev === 0 ? aboutData.images.length - 1 : prev - 1));
+    }
+  };
 
   // Fetch data from API
   useEffect(() => {
@@ -82,7 +112,10 @@ function AboutProjectContent() {
             {/* Image Slider - Now Dynamic */}
             <div className={`transition-all duration-700 delay-500 ${mounted ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
               }`}>
-              <div className="rounded-custom overflow-hidden relative h-[550px]">
+              <div className="rounded-custom overflow-hidden relative h-[300px] md:h-[550px]"
+                   onTouchStart={onTouchStart}
+                   onTouchMove={onTouchMove}
+                   onTouchEnd={onTouchEnd}>
                 {aboutData.images.map((image, index) => (
                   <div
                     key={image.id}
@@ -115,22 +148,27 @@ function AboutProjectContent() {
               </div>
             </div>
 
-            {/* Content Section - Now Dynamic */}
-            <div className={`prose prose-lg mx-auto transition-all duration-700 delay-700 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-[20px]'
-              }`}>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div className="text-black whitespace-pre-line">
-                  <p>{aboutData.description_left}</p>
-                </div>
-                <div className="text-black whitespace-pre-line">
-                  <p>{aboutData.description_right}</p>
-                </div>
-              </div>
-            </div>
+{/* Content Section - Now Dynamic */}
+<div 
+  className={`mx-auto transition-all duration-700 delay-700 ${
+    mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-[20px]'
+  }`}
+>
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+    {/* Left Column */}
+    <div className="text-black text-left list-inside list-disc">
+      <p dangerouslySetInnerHTML={{ __html: aboutData.description_left }} />
+    </div>
+    {/* Right Column */}
+    <div className="text-black text-left list-inside list-disc">
+      <p dangerouslySetInnerHTML={{ __html: aboutData.description_right }} />
+    </div>
+  </div>
+</div>
 
             {/* Logo Section */}
             <div className="inline-block w-full">
-              <span className="bg-[#E7B24B] text-black font-bold px-4 md:px-20 py-6 rounded-custom2 transition-colors text-2xl">
+              <span className="bg-[#E7B24B] text-black font-bold font-philosopher px-4 md:px-20 py-6 rounded-custom2 transition-colors text-2xl">
                 Gyan Gunjan Logo Concept
               </span>
             </div>
@@ -144,46 +182,53 @@ function AboutProjectContent() {
             />
 
             {/* Logo Description Section */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
-              <div className="prose prose-lg text-black max-w-none">
-                <p className="text-justify">{aboutData.first_discripton || "..."}</p>
-              </div>
-              <div className="relative aspect-[4/3] w-full max-w-md mx-auto">
-                <Image
-                  src={aboutData.logo_detail_image || "/images/mulgyangunjan.png"}
-                  alt="Logo Details"
-                  fill
-                  className="object-contain rounded-lg"
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                />
-              </div>
-            </div>
-            
-            <p className="text-black text-justify">{aboutData.long_discripton || "..."}</p>
+<div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
+  {/* Left Column: Description */}
+  <div className="text-black text-left list-inside list-disc">
+    <p dangerouslySetInnerHTML={{ __html: aboutData.first_discripton || "..." }} />
+  </div>
+
+  {/* Right Column: Image */}
+  <div className="relative aspect-[4/3] w-full max-w-md mx-auto">
+    <Image
+      src={aboutData.logo_detail_image || "/images/mulgyangunjan.png"}
+      alt="Logo Details"
+      fill
+      className="object-contain rounded-lg"
+      sizes="(max-width: 768px) 100vw, 50vw"
+    />
+  </div>
+</div>
+
+{/* Long Description */}
+<p className="text-black text-justify" dangerouslySetInnerHTML={{ __html: aboutData.long_discripton || "..." }} />
 
             {/* Repeated sections with consistent styling */}
-            {[
-              { img: "/images/Nature Logo 1 Cover.png", desc: aboutData.second_description },
-              { img: "/images/Family.png", desc: aboutData.third_description },
-              { img: "/images/Knowledge_Learning.png", desc: aboutData.fourth_description },
-              { img: "/images/Art - Devi Black.png", desc: aboutData.fifth_description },
-              { img: "/images/Village Gov.png", desc: aboutData.sixth_description }
-            ].map((section, index) => (
-              <div key={index} className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
-                <div className="relative aspect-[4/3] w-full max-w-sm mx-auto order-1 md:order-none">
-                  <Image
-                    src={aboutData.logo_detail_image || section.img}
-                    alt="Logo Details"
-                    fill
-                    className="object-contain rounded-lg"
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                  />
-                </div>
-                <div className="prose prose-lg text-black max-w-none">
-                  <p className="text-justify">{section.desc || "..."}</p>
-                </div>
-              </div>
-            ))}
+{[
+  { img: "/images/Nature Logo 1 Cover.png", desc: aboutData.second_description },
+  { img: "/images/Family.png", desc: aboutData.third_description },
+  { img: "/images/Knowledge_Learning.png", desc: aboutData.fourth_description },
+  { img: "/images/Art - Devi Black.png", desc: aboutData.fifth_description },
+  { img: "/images/Village Gov.png", desc: aboutData.sixth_description }
+].map((section, index) => (
+  <div key={index} className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
+    {/* Left Column: Image */}
+    <div className="relative aspect-[4/3] w-full max-w-sm mx-auto order-1 md:order-none">
+      <Image
+        src={aboutData.logo_detail_image || section.img}
+        alt="Logo Details"
+        fill
+        className="object-contain rounded-lg"
+        sizes="(max-width: 768px) 100vw, 50vw"
+      />
+    </div>
+
+    {/* Right Column: Description */}
+    <div className="text-black text-left list-inside list-disc">
+      <p dangerouslySetInnerHTML={{ __html: section.desc || "..." }} />
+    </div>
+  </div>
+))}
           </div>
         </div>
       </main>
