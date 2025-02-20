@@ -74,12 +74,44 @@ export function ResourcesContent({ initialCategory = 'Movies' }) {
     }, []);
 
     useEffect(() => {
-        setSelectedCategory(initialCategory);
-        // Reset states when initialCategory changes
-        setSelectedPdf(null);
-        setSelectedTitle('');
-        setShowResources(initialCategory !== 'Movies');
-        fetchInitialData();
+        const initializeResources = async () => {
+            // First fetch the data
+            await fetchInitialData();
+            
+            // Then set the category and handle initial book
+            setSelectedCategory(initialCategory);
+            setShowResources(initialCategory !== 'Movies');
+            
+            if (initialCategory !== 'Movies') {
+                // Get resources based on initial category
+                let resources;
+                switch (initialCategory) {
+                    case 'Coffee Table Books':
+                        resources = coffeeBooks;
+                        break;
+                    case 'Regional Flip Books':
+                        resources = filteredFlipbooks;
+                        break;
+                    case 'Thematic Concept Notes':
+                        resources = thematics;
+                        break;
+                    default:
+                        resources = [];
+                }
+
+                if (resources && resources.length > 0) {
+                    const firstBook = resources[0];
+                    if (firstBook.book_pdf) {
+                        const pdfUrl = firstBook.file || firstBook.book_pdf || firstBook.cover_image;
+                        const title = firstBook.title || firstBook.name || firstBook.coffee_table_book_name;
+                        setSelectedPdf(pdfUrl);
+                        setSelectedTitle(title);
+                    }
+                }
+            }
+        };
+
+        initializeResources();
     }, [initialCategory]);
 
     const resourceMenuItems = [
@@ -154,17 +186,51 @@ export function ResourcesContent({ initialCategory = 'Movies' }) {
         return stateMatch && regionMatch;
     });
 
-    const handleTabChange = (category) => {
+    const handleTabChange = async (category) => {
         setSelectedCategory(category);
-        // Remove the fetchInitialData call since we already have the data
         
-        // Reset selected PDF and hide Resources component when switching to Movies
         if (category === 'Movies') {
             setSelectedPdf(null);
             setSelectedTitle('');
             setShowResources(false);
+            return;
+        }
+
+        setShowResources(true);
+
+        // Get the correct resources based on the category directly
+        let resources;
+        switch (category) {
+            case 'Coffee Table Books':
+                resources = coffeeBooks;
+                break;
+            case 'Regional Flip Books':
+                resources = filteredFlipbooks;
+                break;
+            case 'Thematic Concept Notes':
+                resources = thematics;
+                break;
+            default:
+                resources = [];
+        }
+
+        // Open first available book without scrolling
+        if (resources && resources.length > 0) {
+            const firstBook = resources[0];
+            if (firstBook.book_pdf) {
+                const pdfUrl = firstBook.file || firstBook.book_pdf || firstBook.cover_image;
+                const title = firstBook.title || firstBook.name || firstBook.coffee_table_book_name;
+                setSelectedPdf(pdfUrl);
+                setSelectedTitle(title);
+            } else {
+                // Reset if no PDF available
+                setSelectedPdf(null);
+                setSelectedTitle('');
+            }
         } else {
-            setShowResources(true);
+            // Reset if no resources available
+            setSelectedPdf(null);
+            setSelectedTitle('');
         }
     };
 
@@ -179,6 +245,7 @@ export function ResourcesContent({ initialCategory = 'Movies' }) {
         setSelectedPdf(pdfUrl);
         setSelectedTitle(title);
 
+        // Scroll to PDF viewer
         setTimeout(() => {
             const element = document.getElementById('flipbook-wrapper');
             if (element) {
@@ -519,10 +586,13 @@ export function ResourcesContent({ initialCategory = 'Movies' }) {
 
                         {getResourceData().map((resource, idx) => {
                             const isPdfAvailable = resource.book_pdf !== null;
+                            const isCurrentlyOpen = selectedPdf === (resource.file || resource.book_pdf || resource.cover_image);
+                            
                             return (
                                 <div
                                     key={idx}
-                                    className="group overflow-hidden border rounded-custom2 transition-transform duration-300 hover:scale-105 cursor-pointer relative"
+                                    className={`group overflow-hidden border rounded-custom2 transition-transform duration-300 hover:scale-105 cursor-pointer relative
+                                        ${isCurrentlyOpen ? 'ring-2 ring-[#7A2631] scale-105' : ''}`}
                                     onClick={() => handleBookSelect(resource)}
                                 >
                                     <div className="p-0"></div>
@@ -531,9 +601,9 @@ export function ResourcesContent({ initialCategory = 'Movies' }) {
                                         alt={resource.title || resource.name || resource.coffee_table_book_name}
                                         width={300}
                                         height={400}
-                                        className={`w-full h-auto object-cover transition-opacity duration-300 group-hover:opacity-90 ${
-                                            !isPdfAvailable ? 'filter blur-sm' : ''
-                                        }`}
+                                        className={`w-full h-auto object-cover transition-opacity duration-300 
+                                            ${isCurrentlyOpen ? 'opacity-90' : 'group-hover:opacity-90'}
+                                            ${!isPdfAvailable ? 'filter blur-sm' : ''}`}
                                         onError={(e) => {
                                             e.target.src = "/images/default-thumbnail.jpg";
                                         }}
@@ -541,7 +611,6 @@ export function ResourcesContent({ initialCategory = 'Movies' }) {
                                     {!isPdfAvailable && (
                                         <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40">
                                             <span className="text-white text-lg font-bold">Coming Soon</span>
-                                            
                                         </div>
                                     )}
                                 </div>
