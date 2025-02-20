@@ -70,14 +70,14 @@ const Footer = () => {
               <Link href="https://iksindia.org/about.php" className="text-[#1a365d] hover:text-gray-900 text-sm text-center" target="_blank" rel="noopener noreferrer">
                 About IKS Division
               </Link>
-              <Link href="https://www.flame.edu.in/cka/about-the-centre.php" className="text-[#1a365d] hover:text-gray-900 text-sm text-center" target="_blank" rel="noopener noreferrer">
+              <Link href="/about-cka" className="text-[#1a365d] hover:text-gray-900 text-sm text-center" >
                 About CKA
               </Link>
             </div>
 
             {/* Third Column */}
             <div className="flex flex-col gap-1.5 sm:gap-2 items-center col-span-2 sm:col-span-1">
-              <Link href="#" className="text-[#1a365d] hover:text-gray-900 text-sm text-center">
+              <Link href="/terms-of-use" className="text-[#1a365d] hover:text-gray-900 text-sm text-center">
                 Terms of Use
               </Link>
               <Link href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer" className="text-[#1a365d] hover:text-gray-900 text-sm text-center">

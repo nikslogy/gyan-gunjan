@@ -4,49 +4,57 @@ import { Footer } from "@/components/footer";
 
 export default function Contact() {
     return (
-        <main className="min-h-screen text-black bg-white">
-            <NavBar />
-            
-            <div className="text-center py-8">
-                <h1 className="mt-20 text-4xl md:text-5xl">Contact Us</h1>
-                <hr className="my-4 border-black mx-auto w-3/4" />
+        <div className="page-wrapper">
+            <div className="navbar-wrapper">
+                <NavBar />
             </div>
+            
+            <main className="content-wrapper">
+                <div className="container mx-auto px-4 md:px-6 py-12">
+                    <div className="max-w-5xl mx-auto space-y-8">
+                        {/* Title Section */}
+                        <h1 className="text-3xl md:text-4xl font-bold text-[#7A2631] text-center">
+                            Contact Us
+                        </h1>
 
-            <div className="max-w-7xl mx-auto px-4 py-12">
-                <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-                    <div className="p-8">
-                        <h2 className="text-3xl mb-8">Get in Touch</h2>
-                        <div className="space-y-6">
-                            <div>
-                                <h3 className="font-semibold text-lg mb-2">Address</h3>
-                                <p className="text-gray-600 font-inter">
-                                Head Office:<br />
-                                Nelson Mandela Marg, Vasant Kunj,<br />
-                                New Delhi-110070
-                                </p>
-                                <br />
-                                <p className="text-gray-600 font-inter">
-                                    CKA:<br />
-                                    Flame University,Gate No. 1270, Lavale, 
-                                    <br />
-                                    Off. Pune-Bangalore Highway, Vadzai,
-                                    <br />
-                                    Pune-412115
-                                </p>
-                            </div>
-                            <div>
-                                <h3 className="font-semibold text-lg mb-2">Email</h3>
-                                <p className="text-gray-600">
-                                    <a href="mailto:iksgyangunjan@aicte-india.org" className="hover:text-[#F6B352] transition-colors">iksgyangunjan@aicte-india.org</a><br />
-                                    <a href="mailto:cka@flame.edu.in" className="hover:text-[#F6B352] transition-colors">cka@flame.edu.in</a>
-                                </p>
+                        {/* Contact Card */}
+                        <div className="bg-white rounded-lg shadow-lg p-8">
+                            <div className="grid md:grid-cols-2 gap-12">
+                                {/* Head Office */}
+                                <div className="space-y-4">
+                                    <h3 className="text-xl font-bold text-[#7A2631]">IKS Division</h3>
+                                    <div className="text-gray-700 space-y-2">
+                                        <p>AICTE,<br/>
+                                        Nelson Mandela Marg, Vasant Kunj,<br />
+                                        New Delhi-110070</p>
+                                        <a href="mailto:iksgyangunjan@aicte-india.org" 
+                                           className="block text-[#7A2631] hover:text-[#F6B352] transition-colors font-crimson-pro">
+                                            iksgyangunjan@aicte-india.org
+                                        </a>
+                                    </div>
+                                </div>
+
+                                {/* CKA */}
+                                <div className="space-y-4">
+                                    <h3 className="text-xl font-bold text-[#7A2631]">Center for Knowledge Alternatives</h3>
+                                    <div className="text-gray-700 space-y-2">
+                                        <p>FLAME University,<br/> 
+                                        Gat No. 1270, Lavale,<br />
+                                        Off. Pune-Bangalore Highway, Vadzai,<br />
+                                        Pune-412115</p>
+                                        <a href="mailto:cka@flame.edu.in" 
+                                           className="block text-[#7A2631] hover:text-[#F6B352] font-crimson-pro transition-colors">
+                                            cka@flame.edu.in
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </main>
 
             <Footer />
-        </main>
+        </div>
     );
 }
