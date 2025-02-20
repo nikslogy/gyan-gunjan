@@ -34,7 +34,7 @@ export default function JeevanDarshan() {
 
     const onTouchEnd = () => {
         if (!touchStart || !touchEnd || !currentCategory) return;
-        
+
         const distance = touchStart - touchEnd;
         const isLeftSwipe = distance > minSwipeDistance;
         const isRightSwipe = distance < -minSwipeDistance;
@@ -61,7 +61,7 @@ export default function JeevanDarshan() {
                 const response = await fetch(`${API_BASE_URL}/api/jeevan-darshan/`);
                 if (!response.ok) throw new Error("Failed to fetch Jeevan Darshan data");
                 const data = await response.json();
-                
+
                 // Transform the data to include full image URLs
                 const transformedData = data.map(category => ({
                     ...category,
@@ -70,7 +70,7 @@ export default function JeevanDarshan() {
                         image_url: getImageUrl(img.image_url)
                     }))
                 }));
-                
+
                 setCategories(transformedData);
                 if (transformedData.length > 0) {
                     setSelectedCategory(transformedData[0].title);
@@ -97,7 +97,7 @@ export default function JeevanDarshan() {
     // Auto-slide images
     useEffect(() => {
         if (!currentCategory) return;
-        
+
         const timer = setInterval(() => {
             setCurrentSlide((prev) => {
                 const maxSlides = currentCategory.images.length;
@@ -125,19 +125,18 @@ export default function JeevanDarshan() {
             <div className="navbar-wrapper">
                 <NavBar />
             </div>
-            <main className={`content-wrapper bg-white transition-all duration-1000 ${
-                mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-[20px]"
-            }`}>
+            <main className={`content-wrapper bg-white transition-all duration-1000 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-[20px]"
+                }`}>
                 <div className="container mx-auto px-4 md:px-6 py-12">
                     <div className="max-w-7xl mx-auto space-y-10">
                         <div>
                             <h1 className={`mt-10 text-3xl md:text-4xl font-bold text-[#7A2631] transition-all duration-700 delay-300 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-[20px]"}`}>
                                 Jeevan Darshan
                             </h1>
-                            <p 
-  className="mt-4 text-black whitespace-pre-line"
-  dangerouslySetInnerHTML={{ __html: currentCategory.short_description || "..." }}
-/>
+                            <p
+        className="mt-4 text-black leading-relaxed text-base md:text-lg"
+        dangerouslySetInnerHTML={{ __html: currentCategory.short_description || "..." }}
+      />
                         </div>
 
                         <div className="mb-8">
@@ -146,11 +145,10 @@ export default function JeevanDarshan() {
                                     <button
                                         key={category.title}
                                         onClick={() => handleCategoryChange(category.title)}
-                                        className={`px-6 py-3 rounded-custom2 transition-colors ${
-                                            selectedCategory === category.title 
-                                                ? 'bg-[#E4A853] text-black' 
+                                        className={`px-4 py-2 rounded-custom2 text-sm transition-colors ${selectedCategory === category.title
+                                                ? 'bg-[#E4A853] text-black'
                                                 : 'text-gray-700 hover:bg-[#E4A853] hover:text-black'
-                                        }`}
+                                            }`}
                                     >
                                         {category.title}
                                     </button>
@@ -160,19 +158,19 @@ export default function JeevanDarshan() {
 
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
                             <div className="prose prose-lg max-w-full ">
-                            <p 
-  className="text-black leading-relaxed whitespace-pre-line"
-  dangerouslySetInnerHTML={{ __html: currentCategory.left_description || "..." }}
-/>
+                                <p
+                                    className="text-black leading-relaxed"
+                                    dangerouslySetInnerHTML={{ __html: currentCategory.left_description || "..." }}
+                                />
 
                             </div>
 
                             <div className={`transition-all duration-700 delay-500 ${mounted ? "opacity-100 scale-100" : "opacity-0 scale-95"}`}>
                                 <div className="max-w-[500px] mx-auto">
                                     <div className="rounded-custom4 overflow-hidden relative aspect-[4/3] w-full"
-                                         onTouchStart={onTouchStart}
-                                         onTouchMove={onTouchMove}
-                                         onTouchEnd={onTouchEnd}>
+                                        onTouchStart={onTouchStart}
+                                        onTouchMove={onTouchMove}
+                                        onTouchEnd={onTouchEnd}>
                                         {currentCategory.images.map((image, index) => (
                                             <div
                                                 key={index}
@@ -194,11 +192,10 @@ export default function JeevanDarshan() {
                                             <button
                                                 key={index}
                                                 onClick={() => setCurrentSlide(index)}
-                                                className={`h-2 w-2 rounded-full transition-colors ${
-                                                    currentSlide === index 
-                                                        ? "bg-[#9B2C2C]" 
+                                                className={`h-2 w-2 rounded-full transition-colors ${currentSlide === index
+                                                        ? "bg-[#9B2C2C]"
                                                         : "bg-gray-300"
-                                                }`}
+                                                    }`}
                                                 aria-label={`Go to slide ${index + 1}`}
                                             />
                                         ))}
