@@ -428,12 +428,14 @@ export default function LandingResources() {
             </svg>
           </button>
           
-          <div className="min-h-screen relative">
-            <Resources
-              selectedPdf={selectedPdfData?.pdf}
-              selectedTitle={selectedPdfData?.title}
-              onClose={handleCloseModal}  // Pass close handler to Resources component
-            />
+          <div className="min-h-screen ">
+            <div className="text-center">
+              <Resources
+                selectedPdf={selectedPdfData?.pdf}
+                selectedTitle={selectedPdfData?.title}
+                onClose={handleCloseModal}  // Pass close handler to Resources component
+              />
+            </div>
           </div>
 
           <style jsx global>{`

@@ -247,7 +247,7 @@ export const Resources = ({ selectedPdf, selectedTitle }) => {
                       Purpose of Download <span className="text-red-500">*</span>
                     </label>
                     <div className="space-y-2 text-black">
-                      {['Academia', 'R&D', 'Business', 'Journalistic', 'Other'].map((purpose) => (
+                      {['Academia', 'R&D', 'Business', 'Journalistic', 'General'].map((purpose) => (
                         <label key={purpose} className="flex items-center">
                           <input
                             type="radio"

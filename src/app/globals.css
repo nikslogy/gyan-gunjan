@@ -151,6 +151,21 @@ body {
   a {
     @apply font-inter;
   }
+  label {
+    @apply font-inter;
+  }
+
+  /* Style for unordered lists */
+ul {
+  list-style-type: disc; /* Bullet points */
+  padding-left: 20px; /* Indentation */
+}
+
+/* Style for ordered lists */
+ol {
+  list-style-type: decimal; /* Numbers */
+  padding-left: 20px; /* Indentation */
+}
   
   /* All headings */
   h1, h2, h3, h4, h5, h6 {
@@ -161,6 +176,9 @@ body {
   p {
     @apply font-crimson-pro;
   }
+  li {
+    @apply font-crimson-pro;
+  }
   button{
     @apply font-inter
   }
@@ -168,7 +186,7 @@ body {
     @apply font-inter
   }
   span{
-    @apply font-philosopher
+    @apply font-crimson-pro
   }
 
 }

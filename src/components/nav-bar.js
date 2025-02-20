@@ -12,6 +12,7 @@ export function NavBar() {
   const [isSearchOpen, setIsSearchOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState("")
   const [isScrolled, setIsScrolled] = useState(false)
+  const [isVisible, setIsVisible] = useState(true)
   const router = useRouter()
   const pathname = usePathname()
   
@@ -72,6 +73,21 @@ export function NavBar() {
   const isActivePath = (path) => {
     return pathname === path
   }
+
+  useEffect(() => {
+    const hideNavbar = () => setIsVisible(false);
+    const showNavbar = () => setIsVisible(true);
+
+    window.addEventListener('videoModalOpen', hideNavbar);
+    window.addEventListener('videoModalClose', showNavbar);
+
+    return () => {
+      window.removeEventListener('videoModalOpen', hideNavbar);
+      window.removeEventListener('videoModalClose', showNavbar);
+    };
+  }, []);
+
+  if (!isVisible) return null;
 
   return (
     <div className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
@@ -139,7 +155,7 @@ export function NavBar() {
               >
                 <Search className="h-4 w-4 text-[#1a365d]" />
               </button>
-              <form 
+              <form
                 onSubmit={handleSearch}
                 className={`transition-all duration-300 ease-in-out overflow-hidden ${
                   isSearchOpen ? 'w-64 opacity-100' : 'w-0 opacity-0'

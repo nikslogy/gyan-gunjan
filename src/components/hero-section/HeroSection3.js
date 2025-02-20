@@ -30,7 +30,7 @@ export function HeroSection3() {
 
   // Tile positions and styles
   const tileConfigurations = [
-    { position: "absolute right-[8%] bottom-[12%] w-[40%] rotate-[-7deg]", shape: "rounded-custom5", titleRotation: "rotate-[8deg]" },
+    { position: "absolute right-[5%] bottom-[12%] w-[40%] rotate-[-7deg]", shape: "rounded-custom5", titleRotation: "rotate-[9deg]" },
     { position: "absolute right-[6%] top-[10%] w-[40%] rotate-[6deg]", shape: "rounded-custom4", titleRotation: "rotate-[-6deg]" },
     { position: "absolute left-[39%] top-[2%] -translate-x-1/2 w-[40%] rotate-[25deg]", shape: "rounded-custom3", titleRotation: "rotate-[-25deg]" },
     { position: "absolute left-[-3%] top-[25%] w-[40%] rotate-[-34deg]", shape: "rounded-custom7", titleRotation: "rotate-[34deg]" },
@@ -144,10 +144,10 @@ export function HeroSection3() {
 
         {/* Right Column: Section Description */}
         <div className="space-y-6 md:mt-48">
-          <p className="text-black leading-relaxed text-base md:text-lg max-w-lg whitespace-pre-line">
-            {currentSection.short_description}
-
-          </p>
+        <p 
+  className="text-black leading-relaxed text-base md:text-lg max-w-lg"
+  dangerouslySetInnerHTML={{ __html: currentSection.short_description || "..." }}
+/>
           <button 
             onClick={handleLearnMore} 
             className="bg-[#F8D89A] text-black px-4 md:px-6 py-2 rounded-custom2 hover:bg-[#f6a93d] transition-colors text-sm"

@@ -20,15 +20,25 @@ export default function Contact() {
                             <div>
                                 <h3 className="font-semibold text-lg mb-2">Address</h3>
                                 <p className="text-gray-600 font-inter">
-                                    Test address<br />
-                                    Maharashtra,<br />
-                                    India
+                                Head Office:<br />
+                                Nelson Mandela Marg, Vasant Kunj,<br />
+                                New Delhi-110070
+                                </p>
+                                <br />
+                                <p className="text-gray-600 font-inter">
+                                    CKA:<br />
+                                    Flame University,Gate No. 1270, Lavale, 
+                                    <br />
+                                    Off. Pune-Bangalore Highway, Vadzai,
+                                    <br />
+                                    Pune-412115
                                 </p>
                             </div>
                             <div>
                                 <h3 className="font-semibold text-lg mb-2">Email</h3>
                                 <p className="text-gray-600">
-                                    <a href="mailto:cka@flame.edu.in" className="hover:text-[#F6B352] transition-colors">cka@flame.edu.in</a><br />
+                                    <a href="mailto:iksgyangunjan@aicte-india.org" className="hover:text-[#F6B352] transition-colors">iksgyangunjan@aicte-india.org</a><br />
+                                    <a href="mailto:cka@flame.edu.in" className="hover:text-[#F6B352] transition-colors">cka@flame.edu.in</a>
                                 </p>
                             </div>
                         </div>

@@ -17,7 +17,41 @@ export default function JeevanDarshan() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const API_BASE_URL = 'http://143.244.132.118';
+    const [touchStart, setTouchStart] = useState(null);
+    const [touchEnd, setTouchEnd] = useState(null);
 
+    // Minimum swipe distance (in pixels)
+    const minSwipeDistance = 50;
+
+    const onTouchStart = (e) => {
+        setTouchEnd(null);
+        setTouchStart(e.touches[0].clientX);
+    };
+
+    const onTouchMove = (e) => {
+        setTouchEnd(e.touches[0].clientX);
+    };
+
+    const onTouchEnd = () => {
+        if (!touchStart || !touchEnd || !currentCategory) return;
+        
+        const distance = touchStart - touchEnd;
+        const isLeftSwipe = distance > minSwipeDistance;
+        const isRightSwipe = distance < -minSwipeDistance;
+
+        if (isLeftSwipe) {
+            // Swipe left - show next image
+            setCurrentSlide((prev) => (
+                prev === currentCategory.images.length - 1 ? 0 : prev + 1
+            ));
+        }
+        if (isRightSwipe) {
+            // Swipe right - show previous image
+            setCurrentSlide((prev) => (
+                prev === 0 ? currentCategory.images.length - 1 : prev - 1
+            ));
+        }
+    };
 
     // Fetch Jeevan Darshan data from the API
     useEffect(() => {
@@ -100,9 +134,10 @@ export default function JeevanDarshan() {
                             <h1 className={`mt-10 text-3xl md:text-4xl font-bold text-[#7A2631] transition-all duration-700 delay-300 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-[20px]"}`}>
                                 Jeevan Darshan
                             </h1>
-                            <p className="mt-4 text-black whitespace-pre-line">
-                                {currentCategory.short_description}
-                            </p>
+                            <p 
+  className="mt-4 text-black whitespace-pre-line"
+  dangerouslySetInnerHTML={{ __html: currentCategory.short_description || "..." }}
+/>
                         </div>
 
                         <div className="mb-8">
@@ -125,15 +160,19 @@ export default function JeevanDarshan() {
 
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
                             <div className="prose prose-lg max-w-full ">
-                                    <p className="text-black leading-relaxed whitespace-pre-line">
-                                        {currentCategory.left_description}
-                                    </p>
+                            <p 
+  className="text-black leading-relaxed whitespace-pre-line"
+  dangerouslySetInnerHTML={{ __html: currentCategory.left_description || "..." }}
+/>
 
                             </div>
 
                             <div className={`transition-all duration-700 delay-500 ${mounted ? "opacity-100 scale-100" : "opacity-0 scale-95"}`}>
                                 <div className="max-w-[500px] mx-auto">
-                                    <div className="rounded-custom4 overflow-hidden relative aspect-[4/3] w-full">
+                                    <div className="rounded-custom4 overflow-hidden relative aspect-[4/3] w-full"
+                                         onTouchStart={onTouchStart}
+                                         onTouchMove={onTouchMove}
+                                         onTouchEnd={onTouchEnd}>
                                         {currentCategory.images.map((image, index) => (
                                             <div
                                                 key={index}
