@@ -114,7 +114,7 @@ export function NavBar() {
           </Link>
 
           {/* Desktop*/}
-          <div className="hidden md:flex items-center gap-6 justify-center w-full">
+          <div className="hidden md:flex items-center gap-16 justify-center w-full">
             <Link 
               href="/about-project" 
               className={`font-inter text-[#1a365d] hover:text-gray-900 relative ${
