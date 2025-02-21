@@ -15,7 +15,9 @@ function AboutProjectContent() {
   const [aboutData, setAboutData] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
-  const API_BASE_URL = 'http://143.244.132.118';
+  // const API_BASE_URL = 'http://143.244.132.118';
+  // const API_BASE_URL = 'http://127.0.0.1:';
+
 
 
   // Fetch data from API

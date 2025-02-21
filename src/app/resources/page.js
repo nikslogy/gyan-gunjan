@@ -14,7 +14,9 @@ const PdfInitializer = dynamic(() => import('@/components/pdf-initializer'), {
 export default function ResourcePage() {
     const [mounted, setMounted] = useState(false);
     const [initialCategory, setInitialCategory] = useState('Thematic Concept Notes');
-    const API_BASE_URL = 'http://143.244.132.118';
+    // const API_BASE_URL = 'http://143.244.132.118';
+    // const API_BASE_URL = 'http://127.0.0.1:8000';
+
 
 
     useEffect(() => {

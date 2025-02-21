@@ -28,7 +28,9 @@ export function ResourcesContent({ initialCategory = 'Movies' }) {
     const [regions, setRegions] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    const API_BASE_URL = 'http://143.244.132.118';
+    // const API_BASE_URL = 'http://143.244.132.118';
+    // const API_BASE_URL = 'http://127.0.0.1:8000';
+
 
 
     // Movie Data

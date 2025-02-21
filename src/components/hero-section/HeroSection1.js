@@ -9,7 +9,7 @@ export function HeroSection1() {
   const [currentSlide, setCurrentSlide] = useState(0); // State for slider
   const router = useRouter(); // Next.js router for navigation
   const [exitAnimation, setExitAnimation] = useState(false); // State for exit animation
-  const API_BASE_URL = 'http://143.244.132.118';
+  // const API_BASE_URL = 'http://143.244.132.118';
 
 
   // Function to handle "Learn More" button click

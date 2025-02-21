@@ -18,7 +18,7 @@ export default function MoviesPage() {
   const [currentShortMovie, setCurrentShortMovie] = useState(0)
   const [currentRecommendedMovie, setCurrentRecommendedMovie] = useState(0)
   const [selectedVideo, setSelectedVideo] = useState(null)
-  const API_BASE_URL = 'http://143.244.132.118';
+  // const API_BASE_URL = 'http://143.244.132.118';
 
 
   const shortMovies = [

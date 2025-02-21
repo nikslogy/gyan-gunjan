@@ -27,7 +27,9 @@ export default function LetsColaborate() {
     const [contributors, setContributors] = useState([]);
     const [loading, setLoading] = useState(false);
     const [submitSuccess, setSubmitSuccess] = useState(false);
-    const API_BASE_URL = 'http://143.244.132.118';
+    // const API_BASE_URL = 'http://143.244.132.118';
+    // const API_BASE_URL = 'http://127.0.0.1:8000';
+
 
 
     useEffect(() => {
