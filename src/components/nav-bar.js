@@ -196,13 +196,7 @@ export function NavBar() {
             </div>
 
             <div className="relative" ref={langRef}>
-            <Link href="/">Home</Link>
-      <Link href="/admin">Admin</Link>
-      {user ? (
-        <button onClick={handleLogout}>Logout</button>
-      ) : (
-        <a href="http://143.244.132.118/profile/login/">Login</a>
-      )}
+            
             
             </div>
           </div>
@@ -293,12 +287,7 @@ export function NavBar() {
               >
                 Eng <ChevronDown className="h-4 w-4" />
               </button>
-              {isLangOpen && (
-                <div className="pl-4">
-                  <a href="#" className="block py-2 text-sm text-gray-700 hover:text-gray-900">English</a>
-                  <a href="#" className="block py-2 text-sm text-gray-700 hover:text-gray-900">Hindi (coming soon)</a>
-                </div>
-              )}
+              
             </div>
           </div>
         )}
