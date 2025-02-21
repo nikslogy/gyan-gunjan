@@ -6,6 +6,10 @@ import Image from "next/image"
 import { Menu, Search, X, ChevronDown } from 'lucide-react'
 import { useRouter, usePathname } from 'next/navigation'
 
+
+// for login validation
+import { checkAuth, handleLogout } from '../utils/auth'
+
 export function NavBar() {
   const [isOpen, setIsOpen] = useState(false)
   const [isLangOpen, setIsLangOpen] = useState(false)
@@ -17,8 +21,16 @@ export function NavBar() {
   const pathname = usePathname()
   
   const langRef = useRef(null)
-  const API_BASE_URL = 'http://143.244.132.118';
+  // const API_BASE_URL = 'http://127.0.0.1:8000/';
 
+
+  // for user authentication 
+  const [user, setUser] = useState(null)
+  useEffect(() => {
+    checkAuth().then(data => {
+      if (data.authenticated) setUser(data.username)
+    })
+  }, [])
 
   useEffect(() => {
     function handleScroll() {
@@ -182,6 +194,17 @@ export function NavBar() {
                 </div>
               </form>
             </div>
+
+            <div className="relative" ref={langRef}>
+            <Link href="/">Home</Link>
+      <Link href="/admin">Admin</Link>
+      {user ? (
+        <button onClick={handleLogout}>Logout</button>
+      ) : (
+        <a href="http://143.244.132.118/profile/login/">Login</a>
+      )}
+            
+            </div>
           </div>
 
           {/* Mobile */}
@@ -264,7 +287,18 @@ export function NavBar() {
                   Let's Collaborate
                 </button>
               </Link>
-              
+              <button
+                onClick={() => setIsLangOpen(!isLangOpen)}
+                className="flex items-center justify-between text-[#1a365d] text-lg hover:text-gray-900"
+              >
+                Eng <ChevronDown className="h-4 w-4" />
+              </button>
+              {isLangOpen && (
+                <div className="pl-4">
+                  <a href="#" className="block py-2 text-sm text-gray-700 hover:text-gray-900">English</a>
+                  <a href="#" className="block py-2 text-sm text-gray-700 hover:text-gray-900">Hindi (coming soon)</a>
+                </div>
+              )}
             </div>
           </div>
         )}

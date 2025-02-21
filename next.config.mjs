@@ -1,12 +1,21 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
+    
+    domains: ['127.0.0.1'],
+    
 
     remotePatterns: [
       {
         protocol: 'http',
+<<<<<<< HEAD
         hostname: '143.244.132.118',
         port: '',
+=======
+        // hostname: '143.244.132.118', // Remove the trailing slash
+        hostname: '127.0.0.1', // Remove the trailing slash
+        port: '8000',
+>>>>>>> LoginBrnch
         pathname: '/media/**',
       },
     ],
@@ -43,12 +52,20 @@ const nextConfig = {
       // Handle API requests
       {
         source: '/api/:path*',
+<<<<<<< HEAD
         destination: 'http://143.244.132.118:8000/api/:path*',
+=======
+        destination: 'http://127.0.0.1/api/:path*',
+>>>>>>> LoginBrnch
       },
       // Handle direct requests to the base URL
       {
         source: '/:path*',
+<<<<<<< HEAD
         destination: 'http://143.244.132.118:8000/:path*',
+=======
+        destination: 'http://127.0.0.1/:path*',
+>>>>>>> LoginBrnch
         has: [
           {
             type: 'header',

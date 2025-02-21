@@ -22,6 +22,7 @@ export default function AdminLogin() {
     }
   }
 
+
   return (
     <div className="min-h-screen flex">
       {/* Left side - Image */}

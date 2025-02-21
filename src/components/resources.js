@@ -24,7 +24,8 @@ export const Resources = ({ selectedPdf, selectedTitle }) => {
   const [formError, setFormError] = useState('');
   const [pdfInitialized, setPdfInitialized] = useState(false);
   const API_BASE_URL = 'http://143.244.132.118';
-
+  // const API_BASE_URL = 'http://127.0.0.1:8000';
+  
 
   useEffect(() => {
     // Initialize PDF.js only on client side
