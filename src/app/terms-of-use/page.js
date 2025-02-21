@@ -1,4 +1,3 @@
-
 "use client"
 
 import { useState, useEffect, Suspense } from "react"
@@ -37,45 +36,51 @@ function TermsOfUseContent() {
     setMounted(true)
   }, [])
 
-  if (loading) return <div className="min-h-screen bg-white flex items-center justify-center">Loading...</div>
-  if (error) return <div className="min-h-screen bg-white flex items-center justify-center text-red-500">Error: {error}</div>
-  if (!termsData) return null
-
   return (
-    <div className="page-wrapper">
+    <div className="page-wrapper min-h-screen flex flex-col">
       <div className="navbar-wrapper">
         <NavBar />
       </div>
-      <main className="content-wrapper">
+      <main className="content-wrapper flex-grow">
         <div className="container mx-auto px-4 md:px-6 py-12">
           <div className="max-w-5xl mx-auto space-y-8">
-            {/* Page Title */}
-            <h1 className={`mt-10 text-3xl md:text-4xl font-bold text-[#7A2631] transition-all duration-700 delay-300 ${
-              mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-[20px]'
-            }`}>
-              {termsData.title || "Terms of Use"}
-            </h1>
+            {/* Show loading, error, or content */}
+            {loading ? (
+              <div className="flex items-center justify-center py-12">Loading...</div>
+            ) : error ? (
+              <div className="flex items-center justify-center py-12 text-red-500">Error: {error}</div>
+            ) : termsData ? (
+              <>
+                {/* Page Title */}
+                <h1 className={`mt-10 text-3xl md:text-4xl font-bold text-[#7A2631] transition-all duration-700 delay-300 ${
+                  mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-[20px]'
+                }`}>
+                  {termsData.title || "Terms of Use"}
+                </h1>
 
-            {/* Terms Content */}
-            <div className={`transition-all duration-700 delay-500 ${
-              mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-[20px]'
-            }`}>
-              <div className="prose max-w-none text-black">
-                {/* Last Updated Date */}
-                <p className="text-gray-600 mb-6">
-                  Last Updated: {termsData.last_updated || new Date().toLocaleDateString()}
-                </p>
-
-                {/* Terms Sections */}
-                <div className="space-y-6">
-                  <div dangerouslySetInnerHTML={{ __html: termsData.content }} />
+                {/* Terms Content */}
+                <div className={`transition-all duration-700 delay-500 ${
+                  mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-[20px]'
+                }`}>
+                  <div className="prose max-w-none text-black">
+                    <p className="text-gray-600 mb-6">
+                      Last Updated: {termsData.last_updated || new Date().toLocaleDateString()}
+                    </p>
+                    <div className="space-y-6">
+                      <div dangerouslySetInnerHTML={{ __html: termsData.content }} />
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
+              </>
+            ) : (
+              <div className="flex items-center justify-center py-12">No terms data available</div>
+            )}
           </div>
         </div>
       </main>
-      <Footer />
+      <div className="mt-auto mb-0">
+        <Footer />
+      </div>
     </div>
   )
 }
