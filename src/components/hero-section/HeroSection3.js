@@ -10,7 +10,7 @@ export function HeroSection3() {
   const [currentTile, setCurrentTile] = useState(0)
   const [sections, setSections] = useState([])
   const [loading, setLoading] = useState(true)
-  const API_BASE_URL = 'admin.iksgyangunjan.in';
+  const API_BASE_URL = 'https://admin.iksgyangunjan.in';
 
 
   // Fetch data from Django API

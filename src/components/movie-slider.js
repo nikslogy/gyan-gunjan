@@ -9,7 +9,7 @@ export default function MovieSlider({ movies }) {
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const [selectedVideo, setSelectedVideo] = useState(null);
   const modalRef = useRef(null);
-  const API_BASE_URL = 'admin.iksgyangunjan.in';
+  const API_BASE_URL = 'https://admin.iksgyangunjan.in';
 
 
 

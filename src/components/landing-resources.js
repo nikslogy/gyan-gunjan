@@ -22,7 +22,7 @@ export default function LandingResources() {
 
   const [showPdfModal, setShowPdfModal] = useState(false);
   const [selectedPdfData, setSelectedPdfData] = useState(null);
-  const API_BASE_URL = 'admin.iksgyangunjan.in';
+  const API_BASE_URL = 'https://admin.iksgyangunjan.in';
 
 
   // Fetch API Data

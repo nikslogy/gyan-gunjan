@@ -17,7 +17,7 @@ export function NavBar() {
   const pathname = usePathname()
   
   const langRef = useRef(null)
-  const API_BASE_URL = 'admin.iksgyangunjan.in';
+  const API_BASE_URL = 'https://admin.iksgyangunjan.in';
 
 
 
