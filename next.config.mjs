@@ -4,8 +4,8 @@ const nextConfig = {
 
     remotePatterns: [
       {
-        protocol: 'http',
-        hostname: '143.244.132.118',
+        protocol: 'https',
+        hostname: 'admin.iksgyangunjan.in',
         port: '',
         pathname: '/media/**',
       },
