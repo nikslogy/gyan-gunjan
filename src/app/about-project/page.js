@@ -15,9 +15,10 @@ function AboutProjectContent() {
   const [aboutData, setAboutData] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
-  const API_BASE_URL = 'http://143.244.132.118';
+ 
   const [touchStart, setTouchStart] = useState(null);
   const [touchEnd, setTouchEnd] = useState(null);
+  const API_BASE_URL = 'admin.iksgyangunjan.in';
 
   // Minimum swipe distance (in pixels)
   const minSwipeDistance = 50;

@@ -10,7 +10,8 @@ export function HeroSection3() {
   const [currentTile, setCurrentTile] = useState(0)
   const [sections, setSections] = useState([])
   const [loading, setLoading] = useState(true)
-  const API_BASE_URL = 'http://143.244.132.118';
+  const API_BASE_URL = 'admin.iksgyangunjan.in';
+
 
   // Fetch data from Django API
   useEffect(() => {
