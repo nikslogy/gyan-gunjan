@@ -13,7 +13,7 @@ export function JeevanResources({ selectedCategory = "Nature and Agriculture", d
   const [selectedTitle, setSelectedTitle] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const API_BASE_URL = 'admin.iksgyangunjan.in';
+  const API_BASE_URL = 'https://admin.iksgyangunjan.in';
 
 
 

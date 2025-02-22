@@ -28,7 +28,7 @@ export function ResourcesContent({ initialCategory = 'Movies' }) {
     const [regions, setRegions] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    const API_BASE_URL = 'admin.iksgyangunjan.in';
+    const API_BASE_URL = 'https://admin.iksgyangunjan.in';
 
 
 

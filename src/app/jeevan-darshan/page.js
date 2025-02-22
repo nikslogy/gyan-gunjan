@@ -16,7 +16,7 @@ export default function JeevanDarshan() {
     const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    const API_BASE_URL = 'admin.iksgyangunjan.in';
+    const API_BASE_URL = 'https://admin.iksgyangunjan.in';
 
     const [touchStart, setTouchStart] = useState(null);
     const [touchEnd, setTouchEnd] = useState(null);

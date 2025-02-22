@@ -14,7 +14,7 @@ const PdfInitializer = dynamic(() => import('@/components/pdf-initializer'), {
 export default function ResourcePage() {
     const [mounted, setMounted] = useState(false);
     const [initialCategory, setInitialCategory] = useState('Thematic Concept Notes');
-    const API_BASE_URL = 'admin.iksgyangunjan.in';
+    const API_BASE_URL = 'https://admin.iksgyangunjan.in';
 
 
 

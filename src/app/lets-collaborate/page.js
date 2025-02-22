@@ -25,7 +25,7 @@ export default function LetsColaborate() {
 
     const [loading, setLoading] = useState(false);
     const [submitSuccess, setSubmitSuccess] = useState(false);
-    const API_BASE_URL = 'admin.iksgyangunjan.in';
+    const API_BASE_URL = 'https://admin.iksgyangunjan.in';
 
 
     const handleSubmit = async (e) => {
