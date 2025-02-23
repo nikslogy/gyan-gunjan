@@ -5,6 +5,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { Menu, Search, X, ChevronDown } from 'lucide-react'
 import { useRouter, usePathname } from 'next/navigation'
+import { useAuth } from '@/hooks/useAuth'
 
 export function NavBar() {
   const [isOpen, setIsOpen] = useState(false)
@@ -20,6 +21,8 @@ export function NavBar() {
   const API_BASE_URL = 'https://admin.iksgyangunjan.in';
 
 
+  // Use the auth hook
+  useAuth()
 
   useEffect(() => {
     function handleScroll() {
