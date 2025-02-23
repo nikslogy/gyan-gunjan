@@ -1,24 +1,50 @@
 "use client"
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
+import { AUTH_CONFIG } from '@/config/auth'
 
-export default function AdminLogin() {
-  const [credentials, setCredentials] = useState({ email: '', password: '' })
+export default function Login() {
+  const [credentials, setCredentials] = useState({ username: '', password: '' })
   const [error, setError] = useState('')
   const router = useRouter()
-  const API_BASE_URL = 'http://143.244.132.118';
 
+  // Check if already logged in
+  useEffect(() => {
+    const isLoggedIn = localStorage.getItem('isLoggedIn')
+    const loginTime = localStorage.getItem('loginTime')
+    
+    if (isLoggedIn === 'true' && loginTime) {
+      const currentTime = new Date().getTime()
+      const loginTimeStamp = parseInt(loginTime)
+      const sessionDuration = AUTH_CONFIG.SESSION_DURATION * 60 * 1000
+      
+      if (currentTime - loginTimeStamp < sessionDuration) {
+        router.push('/')
+      }
+    }
+  }, [router])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     
-    if (credentials.email === 'admin@example.com' && credentials.password === 'admin123') {
-      localStorage.setItem('adminAuth', 'true')
-      router.push('/admin') 
-    } else {
-      setError('Invalid credentials')
+    try {
+      // Simple hardcoded credentials check
+      if (credentials.username === 'Ramanujan' && credentials.password === '1729') {
+        // Set both localStorage and cookie with current timestamp
+        localStorage.setItem('isLoggedIn', 'true')
+        localStorage.setItem('loginTime', new Date().getTime().toString())
+        document.cookie = 'isLoggedIn=true; path=/'
+        
+        // Force a page reload to ensure middleware picks up the new cookie
+        window.location.href = '/'
+      } else {
+        setError('Invalid credentials')
+      }
+    } catch (error) {
+      console.error('Login error:', error)
+      setError('An error occurred during login')
     }
   }
 
@@ -28,7 +54,7 @@ export default function AdminLogin() {
       <div className="hidden lg:block lg:w-2/4 relative">
         <Image
           src="/images/login_image.png"
-          alt="Rice field landscape"
+          alt="Login background"
           fill
           sizes="(max-width: 1024px) 0vw, 66vw"
           className="object-cover object-center"
@@ -55,8 +81,8 @@ export default function AdminLogin() {
                   required
                   className="mt-1 block w-full px-3 py-2 border font-inter border-gray-300 rounded-custom2 text-gray-900 placeholder-gray-400"
                   placeholder="Enter your username"
-                  value={credentials.email}
-                  onChange={(e) => setCredentials({...credentials, email: e.target.value})}
+                  value={credentials.username}
+                  onChange={(e) => setCredentials({...credentials, username: e.target.value})}
                 />
               </div>
 
