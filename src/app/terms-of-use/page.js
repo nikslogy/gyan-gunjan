@@ -10,7 +10,8 @@ function TermsOfUseContent() {
   const [termsData, setTermsData] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
-  const API_BASE_URL = 'http://143.244.132.118';
+  const API_BASE_URL = 'https://admin.iksgyangunjan.in';
+
 
   // Fetch data from API
   useEffect(() => {
