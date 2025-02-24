@@ -9,7 +9,6 @@ function TermsOfUseContent() {
   const [mounted, setMounted] = useState(false)
   const [termsData, setTermsData] = useState(null)
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
   const API_BASE_URL = 'https://admin.iksgyangunjan.in';
 
 
@@ -24,8 +23,7 @@ function TermsOfUseContent() {
           setTermsData(data[0])
         }
       } catch (err) {
-        setError(err.message)
-      } finally {
+        // Instead of setting error, we'll just set loading to false
         setLoading(false)
       }
     }
@@ -45,11 +43,9 @@ function TermsOfUseContent() {
       <main className="content-wrapper flex-grow">
         <div className="container mx-auto px-4 md:px-6 py-12">
           <div className="max-w-5xl mx-auto space-y-8">
-            {/* Show loading, error, or content */}
+            {/* Show loading or content */}
             {loading ? (
               <div className="flex items-center justify-center py-12">Loading...</div>
-            ) : error ? (
-              <div className="flex items-center justify-center py-12 text-red-500">Error: {error}</div>
             ) : termsData ? (
               <>
                 {/* Page Title */}
@@ -74,7 +70,9 @@ function TermsOfUseContent() {
                 </div>
               </>
             ) : (
-              <div className="flex items-center justify-center py-12">No terms data available</div>
+              <div className="flex items-center justify-center py-12 text-2xl font-semibold text-gray-600">
+                Coming Soon
+              </div>
             )}
           </div>
         </div>
