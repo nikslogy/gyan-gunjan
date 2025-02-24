@@ -86,8 +86,9 @@ export default function LetsColaborate() {
                 <div className="bg-white rounded-custom shadow-lg overflow-hidden">
                     <div className="flex flex-col md:flex-row">
                         <div className="md:w-1/2 p-8 md:p-12">
-                            <h2 className="text-3xl mb-8">Collaborate With Us</h2>
-                            
+                            <h2 className="text-3xl mb-4">Collaborate With Us</h2>
+                            <hr className="my-6 border-black mx-auto " />
+
                             {submitSuccess && (
                                 <div className="mb-4 p-4 bg-green-100 text-green-800 rounded-lg">
                                     Thank you for your contribution! 🙏 Your submission helps us grow and improve. 

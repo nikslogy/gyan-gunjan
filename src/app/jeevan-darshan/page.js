@@ -168,10 +168,30 @@ export default function JeevanDarshan() {
 
                             <div className={`transition-all duration-700 delay-500 ${mounted ? "opacity-100 scale-100" : "opacity-0 scale-95"}`}>
                                 <div className="max-w-[500px] mx-auto">
-                                    <div className="rounded-custom4 overflow-hidden relative aspect-[4/3] w-full"
+                                    <div className="rounded-custom4 overflow-hidden relative aspect-[4/3] w-full group"
                                         onTouchStart={onTouchStart}
                                         onTouchMove={onTouchMove}
                                         onTouchEnd={onTouchEnd}>
+                                        {/* Desktop Navigation Arrows - Only visible on md and up */}
+                                        <button 
+                                          onClick={() => setCurrentSlide(prev => prev === 0 ? currentCategory.images.length - 1 : prev - 1)}
+                                          className="hidden md:flex absolute left-4 top-1/2 -translate-y-1/2 z-10 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                                          aria-label="Previous slide"
+                                        >
+                                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                            <path d="M15 18l-6-6 6-6"/>
+                                          </svg>
+                                        </button>
+                                        <button 
+                                          onClick={() => setCurrentSlide(prev => prev === currentCategory.images.length - 1 ? 0 : prev + 1)}
+                                          className="hidden md:flex absolute right-4 top-1/2 -translate-y-1/2 z-10 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                                          aria-label="Next slide"
+                                        >
+                                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                            <path d="M9 18l6-6-6-6"/>
+                                          </svg>
+                                        </button>
+
                                         {currentCategory.images.map((image, index) => (
                                             <div
                                                 key={index}
@@ -188,19 +208,21 @@ export default function JeevanDarshan() {
                                         ))}
                                     </div>
 
-                                    <div className="flex justify-center gap-3 mt-4">
-                                        {currentCategory.images.map((_, index) => (
-                                            <button
-                                                key={index}
-                                                onClick={() => setCurrentSlide(index)}
-                                                className={`h-2 w-2 rounded-full transition-colors ${currentSlide === index
-                                                        ? "bg-[#9B2C2C]"
-                                                        : "bg-gray-300"
-                                                    }`}
-                                                aria-label={`Go to slide ${index + 1}`}
-                                            />
-                                        ))}
-                                    </div>
+                                    {currentCategory.images.length > 1 && (
+                                        <div className="flex justify-center gap-3 mt-4">
+                                            {currentCategory.images.map((_, index) => (
+                                                <button
+                                                    key={index}
+                                                    onClick={() => setCurrentSlide(index)}
+                                                    className={`h-2 w-2 rounded-full transition-colors ${currentSlide === index
+                                                            ? "bg-[#9B2C2C]"
+                                                            : "bg-gray-300"
+                                                        }`}
+                                                    aria-label={`Go to slide ${index + 1}`}
+                                                />
+                                            ))}
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         </div>

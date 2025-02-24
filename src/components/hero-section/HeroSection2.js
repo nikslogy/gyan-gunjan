@@ -54,7 +54,7 @@ export function HeroSection2() {
             {data.title}
           </h2>
           <p 
-  className="text-black leading-relaxed text-base md:text-lg max-w-lg whitespace-pre-line"
+  className="text-black leading-relaxed text-base md:text-lg max-w-lg"
   dangerouslySetInnerHTML={{ __html: data.short_description || "..." }}
 />
           {/* <button
