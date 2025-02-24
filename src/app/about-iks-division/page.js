@@ -8,16 +8,14 @@ function AboutIKSDivisionContent() {
   const [mounted, setMounted] = useState(false)
 
   const iksData = {
-    title: "About Indian Knowledge Systems Division",
-    subtitle: "Ministry of Education",
+    title: "IKS Division, Ministry of Education",
     introduction: `The Indian Knowledge System comprises of Gyan (ज्ञान), Vigyan (विज्ञान), 
       and Jeevan Darshan (जीवन दर्शशन) of the people of Bharat continuously arising out of deep experience, 
       observation, experimentation and rigorous analysis...`,
     
-    vision: `The vision of the IKS Division is to completely decolonize the Indian mind by generating interest 
-      and healthy critical reverence for the unbroken knowledge traditions of Bharat, for the welfare of the world.`,
+    vision: `The IKS Division was established with a Vision to promote interdiciplinary and transdisciplinary research on all aspects of IKS, preserve and disseminate IKS knowledge for further research, and socieatal applications.`,
     
-    mission: `The IKS Division's mission, vision and objectives are focused on the Panch Pran (पंंच प्राणी) in totality. 
+    mission: `The IKS Division's mission, vision and objectives are focused on the Panch Pran in totality. 
       Three of the five pledges (Panch Pran) are focused on removing any trace of the colonial mindset and taking 
       pride in our legacy while strengthening our unity.`,
 

@@ -67,7 +67,7 @@ const Footer = () => {
               <Link href="/contact" className="text-[#1a365d] hover:text-gray-900 text-sm text-center">
                 Contact Us
               </Link>
-              <Link href="https://iksindia.org/about.php" className="text-[#1a365d] hover:text-gray-900 text-sm text-center" target="_blank" rel="noopener noreferrer">
+              <Link href="/about-iks-division" className="text-[#1a365d] hover:text-gray-900 text-sm text-center">
                 About IKS Division
               </Link>
               <Link href="/about-cka" className="text-[#1a365d] hover:text-gray-900 text-sm text-center" >

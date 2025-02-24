@@ -11,7 +11,7 @@ function AboutCKAContent() {
 
   // Demo data
   const ckaData = {
-    title: "About CKA (Centre for Knowledge Alternatives)",
+    title: "Centre for Knowledge Alternatives, FLAME University",
     images: [
       {
         id: 1,
@@ -28,8 +28,8 @@ function AboutCKAContent() {
       <h3 class="text-xl font-bold mb-4 text-[#7A2631]">Our Foundation</h3>
       <ul class="space-y-4">
         <li>A unique research initiative to understand India through experiences rather than theories</li>
-        <li>Inspired by the paradoxes and complexities of Indian society</li>
-        <li>Focused on documenting and mapping local cultures</li>
+        <li>Inspired by the ease as well as complexities of Indian society</li>
+        <li>Focused on documenting and mapping local cultures and statistics</li>
         <li>Creating decentralized chronicles of India</li>
       </ul>
     `,
@@ -38,7 +38,7 @@ function AboutCKAContent() {
       <ul class="space-y-4">
         <li>Understanding India through lived experiences</li>
         <li>Embracing complexity without seeking unified theories</li>
-        <li>Inspired by Heisenberg's approach to quantum reality</li>
+        <li>Working on policies that matter at local levels</li>
         <li>Symbolized by the story of blind men and elephant</li>
       </ul>
     `,
@@ -96,45 +96,7 @@ function AboutCKAContent() {
               {ckaData.title}
             </h1>
 
-            {/* Image Slider */}
-            <div className={`transition-all duration-700 delay-500 ${
-              mounted ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
-            }`}>
-              <div className="rounded-custom overflow-hidden relative h-[300px] md:h-[550px] shadow-xl">
-                {ckaData.images.map((image, index) => (
-                  <div
-                    key={image.id}
-                    className={`absolute inset-0 transition-opacity duration-500 ${
-                      currentSlide === index ? "opacity-100" : "opacity-0"
-                    }`}
-                  >
-                    <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/30" />
-                    <Image
-                      src={image.image}
-                      alt={image.alt_text}
-                      fill
-                      className="object-cover"
-                      priority={index === 0}
-                      sizes="(max-width: 768px) 100vw, 50vw"
-                    />
-                  </div>
-                ))}
-              </div>
-
-              {/* Slider Dots */}
-              <div className="flex justify-center gap-3 mt-6">
-                {ckaData.images.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setCurrentSlide(index)}
-                    className={`h-2 w-2 rounded-full transition-colors duration-300 ${
-                      currentSlide === index ? "bg-[#7A2631] w-4" : "bg-gray-300"
-                    }`}
-                    aria-label={`Go to slide ${index + 1}`}
-                  />
-                ))}
-              </div>
-            </div>
+            
 
             {/* Main Content Section */}
             <div className={`mx-auto transition-all duration-700 delay-700 ${
