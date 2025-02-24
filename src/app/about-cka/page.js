@@ -100,7 +100,7 @@ function AboutCKAContent() {
             <div className={`transition-all duration-700 delay-500 ${
               mounted ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
             }`}>
-              <div className="rounded-lg overflow-hidden relative h-[300px] md:h-[550px] shadow-xl">
+              <div className="rounded-custom overflow-hidden relative h-[300px] md:h-[550px] shadow-xl">
                 {ckaData.images.map((image, index) => (
                   <div
                     key={image.id}
@@ -140,7 +140,7 @@ function AboutCKAContent() {
             <div className={`mx-auto transition-all duration-700 delay-700 ${
               mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-[20px]'
             }`}>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 bg-gray-50 p-8 rounded-lg shadow-md">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 bg-gray-50 p-8 rounded-custom shadow-md">
                 <div className="text-black">
                   <div dangerouslySetInnerHTML={{ __html: ckaData.description_left }} />
                 </div>
@@ -153,11 +153,11 @@ function AboutCKAContent() {
             {/* Vision Section */}
             <div className="space-y-6">
               <div className="inline-block">
-                <span className="bg-[#E7B24B] text-black font-bold font-philosopher px-8 py-4 rounded-lg shadow-md transition-all hover:shadow-lg hover:scale-105 duration-300 text-2xl inline-block">
+                <span className="bg-[#E7B24B] text-black font-bold font-philosopher px-8 py-4 rounded-custom2 shadow-md transition-all hover:shadow-lg hover:scale-105 duration-300 text-2xl inline-block">
                   Our Vision
                 </span>
               </div>
-              <div className="bg-white p-8 rounded-lg shadow-md text-black">
+              <div className="bg-white p-8 rounded-custom2 shadow-md text-black">
                 <div dangerouslySetInnerHTML={{ __html: ckaData.vision }} />
               </div>
             </div>
@@ -165,11 +165,11 @@ function AboutCKAContent() {
             {/* Mission Section */}
             <div className="space-y-6">
               <div className="inline-block">
-                <span className="bg-[#E7B24B] text-black font-bold font-philosopher px-8 py-4 rounded-lg shadow-md transition-all hover:shadow-lg hover:scale-105 duration-300 text-2xl inline-block">
+                <span className="bg-[#E7B24B] text-black font-bold font-philosopher px-8 py-4 rounded-custom2 shadow-md transition-all hover:shadow-lg hover:scale-105 duration-300 text-2xl inline-block">
                   Our Mission
                 </span>
               </div>
-              <div className="bg-white p-8 rounded-lg shadow-md text-black">
+              <div className="bg-white p-8 rounded-custom2 shadow-md text-black">
                 <div dangerouslySetInnerHTML={{ __html: ckaData.mission }} />
               </div>
             </div>
@@ -183,7 +183,7 @@ function AboutCKAContent() {
                 className="inline-block group"
               >
                 <span className="bg-[#7A2631] text-white font-bold font-philosopher 
-                  px-8 py-4 rounded-lg shadow-md transition-all duration-300 
+                  px-8 py-4 rounded-custom2 shadow-md transition-all duration-300 
                   hover:shadow-lg hover:bg-[#8B3641] hover:scale-105 
                   flex items-center gap-2"
                 >
