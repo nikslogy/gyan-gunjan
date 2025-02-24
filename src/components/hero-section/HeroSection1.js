@@ -108,11 +108,31 @@ export function HeroSection1() {
 
         {/* Right Column: Image Slider */}
         <div className={`transition-all duration-700 ${exitAnimation ? 'translate-x-[100px] opacity-0' : 'translate-x-0 opacity-100'}`}>
-          <div className="relative h-[350px] md:h-[400px] lg:h-[350px] w-full"
+          <div className="relative h-[350px] md:h-[400px] lg:h-[350px] w-full group"
                onTouchStart={onTouchStart}
                onTouchMove={onTouchMove}
                onTouchEnd={onTouchEnd}>
             <div className="rounded-custom overflow-hidden relative h-full">
+              {/* Desktop Navigation Arrows - Only visible on md and up */}
+              <button 
+                onClick={() => setCurrentSlide(prev => prev === 0 ? data.images.length - 1 : prev - 1)}
+                className="hidden md:flex absolute left-4 top-1/2 -translate-y-1/2 z-10 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                aria-label="Previous slide"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M15 18l-6-6 6-6"/>
+                </svg>
+              </button>
+              <button 
+                onClick={() => setCurrentSlide(prev => prev === data.images.length - 1 ? 0 : prev + 1)}
+                className="hidden md:flex absolute right-4 top-1/2 -translate-y-1/2 z-10 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                aria-label="Next slide"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M9 18l6-6-6-6"/>
+                </svg>
+              </button>
+
               {data.images.map((image, index) => (
                 <div
                   key={index}

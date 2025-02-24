@@ -307,7 +307,7 @@ export const Resources = ({ selectedPdf, selectedTitle }) => {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-sm font-medium text-gray-700 mb-1 text-left">
                       Name <span className="text-red-500">*</span>
                     </label>
                     <input
@@ -320,7 +320,7 @@ export const Resources = ({ selectedPdf, selectedTitle }) => {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-sm font-medium text-gray-700 mb-1 text-left">
                       Mobile No
                     </label>
                     <input
@@ -332,7 +332,7 @@ export const Resources = ({ selectedPdf, selectedTitle }) => {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-sm font-medium text-gray-700 mb-1 text-left">
                       Email <span className="text-red-500">*</span>
                     </label>
                     <input

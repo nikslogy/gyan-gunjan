@@ -111,12 +111,31 @@ function AboutProjectContent() {
             </h1>
 
             {/* Image Slider - Now Dynamic */}
-            <div className={`transition-all duration-700 delay-500 ${mounted ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
-              }`}>
-              <div className="rounded-custom overflow-hidden relative h-[300px] md:h-[550px]"
+            <div className={`transition-all duration-700 delay-500 ${mounted ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}>
+              <div className="rounded-custom overflow-hidden relative h-[300px] md:h-[550px] group"
                    onTouchStart={onTouchStart}
                    onTouchMove={onTouchMove}
                    onTouchEnd={onTouchEnd}>
+                {/* Desktop Navigation Arrows - Only visible on md and up */}
+                <button 
+                  onClick={() => setCurrentSlide(prev => prev === 0 ? aboutData.images.length - 1 : prev - 1)}
+                  className="hidden md:flex absolute left-4 top-1/2 -translate-y-1/2 z-10 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                  aria-label="Previous slide"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M15 18l-6-6 6-6"/>
+                  </svg>
+                </button>
+                <button 
+                  onClick={() => setCurrentSlide(prev => prev === aboutData.images.length - 1 ? 0 : prev + 1)}
+                  className="hidden md:flex absolute right-4 top-1/2 -translate-y-1/2 z-10 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                  aria-label="Next slide"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M9 18l6-6-6-6"/>
+                  </svg>
+                </button>
+                
                 {aboutData.images.map((image, index) => (
                   <div
                     key={image.id}
@@ -208,8 +227,8 @@ function AboutProjectContent() {
 {[
   { img: "/images/Nature Logo 1 Cover.png", desc: aboutData.second_description },
   { img: "/images/Family.png", desc: aboutData.third_description },
-  { img: "/images/Knowledge_Learning.png", desc: aboutData.fourth_description },
-  { img: "/images/Art - Devi Black.png", desc: aboutData.fifth_description },
+  { img: "/images/Knowledge_Learning.png", desc: aboutData.fourth_description, className:"scale-75" },
+  { img: "/images/Art - Devi Black.png", desc: aboutData.fifth_description, className: "scale-75" },
   { img: "/images/Village Gov.png", desc: aboutData.sixth_description }
 ].map((section, index) => (
   <div key={index} className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
@@ -219,7 +238,7 @@ function AboutProjectContent() {
         src={aboutData.logo_detail_image || section.img}
         alt="Logo Details"
         fill
-        className="object-contain rounded-lg"
+        className={`object-contain rounded-lg ${section.className || ''}`}
         sizes="(max-width: 768px) 100vw, 50vw"
       />
     </div>
