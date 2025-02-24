@@ -30,7 +30,20 @@ export function ResourcesContent({ initialCategory = 'Movies' }) {
     const [error, setError] = useState(null);
     const API_BASE_URL = 'https://admin.iksgyangunjan.in';
 
-
+    // Add this new effect to handle initial load
+    useEffect(() => {
+        if (thematics.length > 0 && selectedCategory === 'Thematic Concept Notes') {
+            // Automatically open the first available PDF, but don't scroll
+            const firstAvailablePdf = thematics.find(item => item.book_pdf);
+            if (firstAvailablePdf) {
+                const pdfUrl = firstAvailablePdf.file || firstAvailablePdf.book_pdf || firstAvailablePdf.cover_image;
+                const title = firstAvailablePdf.title || firstAvailablePdf.name || firstAvailablePdf.coffee_table_book_name;
+                setSelectedPdf(pdfUrl);
+                setSelectedTitle(title);
+                // Remove the scrolling behavior from here
+            }
+        }
+    }, [thematics]); // This will run when thematics is loaded
 
     // Movie Data
     const movieResources = movies.map(movie => ({
@@ -56,7 +69,7 @@ export function ResourcesContent({ initialCategory = 'Movies' }) {
     const [showResources, setShowResources] = useState(true);
 
     // Replace dropdown-related state and ref
-    const [activeTab, setActiveTab] = useState('Thematic Concept Notes');
+    const [activeTab, setActiveTab] = useState(initialCategory);
 
     useEffect(() => {
         // Handle category changes from navbar
@@ -246,7 +259,7 @@ export function ResourcesContent({ initialCategory = 'Movies' }) {
         setSelectedPdf(pdfUrl);
         setSelectedTitle(title);
 
-        // Scroll to PDF viewer
+        // Keep the scrolling behavior only in the click handler
         setTimeout(() => {
             const element = document.getElementById('flipbook-wrapper');
             if (element) {
