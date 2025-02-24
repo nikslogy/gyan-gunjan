@@ -177,9 +177,51 @@ export const Resources = ({ selectedPdf, selectedTitle }) => {
     };
   }, [selectedPdf, pdfInitialized]);
 
-  const handleDownload = (e) => {
+  const handleDownload = async (e) => {
     e.preventDefault();
-    // Handle download logic here
+    
+    // Validate form
+    if (!downloadForm.purpose || !downloadForm.name || !downloadForm.email) {
+      setFormError('Please fill in all required fields.');
+      return;
+    }
+
+    try {
+      // Log download attempt
+      const response = await fetch(`${API_BASE_URL}/api/download-logs/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...downloadForm,
+          pdf_url: selectedPdf,
+          title: selectedTitle
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to log download');
+      }
+
+      // Create a temporary link to download the PDF
+      const link = document.createElement('a');
+      link.href = selectedPdf;
+      link.target = '_blank';
+      link.download = selectedTitle || 'download.pdf';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      // Close modal and reset form
+      setShowDownloadModal(false);
+      setDownloadForm({ purpose: '', name: '', mobile: '', email: '' });
+      setFormError('');
+      
+    } catch (error) {
+      console.error('Download error:', error);
+      setFormError('Error downloading the file. Please try again.');
+    }
   };
 
   const openModal = () => {
