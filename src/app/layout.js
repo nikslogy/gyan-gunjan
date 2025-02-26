@@ -26,12 +26,12 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
-        <script src="/js/jquery.min.js"></script>
-        <script src="/js/html2canvas.min.js"></script>
-        <script src="/js/three.min.js"></script>
-        <script src="/js/pdf.min.js"></script>
+        <script src="/js/libs/jquery.min.js"></script>
+        <script src="/js/libs/html2canvas.min.js"></script>
+        <script src="/js/libs/three.min.js"></script>
+        <script src="/js/libs/pdf.min.js"></script>
         <script src="/js/pdf.worker.js"></script>
-        <script src="/js/3dflipbook.min.js"></script>
+        <script src="/js/dist/3dflipbook.js"></script>
         <link rel="stylesheet" href="/css/custom-flipbook.css" />
       </head>
       <body
