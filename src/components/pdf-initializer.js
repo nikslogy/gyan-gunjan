@@ -9,8 +9,9 @@ export default function PdfInitializer() {
             
             try {
                 const pdfjs = await import('pdfjs-dist');
-                const worker = await import('pdfjs-dist/build/pdf.worker.entry');
-                pdfjs.GlobalWorkerOptions.workerSrc = worker;
+                // Use the version from pdfjs to create a consistent worker URL
+                const workerUrl = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
+                pdfjs.GlobalWorkerOptions.workerSrc = workerUrl;
             } catch (error) {
                 console.error('Error initializing PDF.js:', error);
             }

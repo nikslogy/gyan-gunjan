@@ -1,91 +1,132 @@
-<div id="fb3d-ctx" class="flip-book">
+<div class="main">
+
   <div class="view">
-    <div class="fnav">
-      <div class="prev">
-        <a class="cmdBackward" href="#"><span class="icon"><i class="fa fa-angle-left" title="<$tr>Previous page</$tr>"></i></span></a>
-      </div>
-      <div class="next">
-        <a class="cmdForward" href="#"><span class="icon"><i class="fa fa-angle-right" title="<$tr>Next page</$tr>"></i></span></a>
-      </div>
-    </div>
-    <div class="widLoadingProgress loading-progress hidden">
-      <div class="progress">
-      </div>
-      <div class="txtLoadingProgress caption">
-      </div>
-    </div>
-    <div class="widLoading page-loading hidden">
+    <div class="render">
+
     </div>
   </div>
 
-  <div class="widFloatWnd float-wnd hidden">
-    <div class="header">
+  <div class="toc widFloatWnd float-wnd hidden fade">
+    <div class="head">
       <$tr>Table of contents</$tr>
-      <a href="#" title="<$tr>Close</$tr>" class="close cmdCloseToc">
-        <span class="icon"><i class="fa fa-times"></i></span>
+      <a class="cmd close cmdCloseToc" title="<$tr>Close</$tr>">
+        <i class="fa fa-times"></i>
       </a>
     </div>
     <div class="body">
-      <div class="ctrl">
-        <div class="toc">
-          <div class="toc-menu widTocMenu">
-            <ul>
-              <li class="cmdBookmarks"><a href="#"><$tr>Bookmarks</$tr></a></li>
-              <li class="cmdThumbnails"><a href="#"><$tr>Thumbnails</$tr></a></li>
-              <li class="cmdSearch"><a href="#"><$tr>Search</$tr></a></li>
-            </ul>
-          </div>
-          <div class="widBookmarks toc-view">
+      <ul class="h-menu widTocMenu">
+        <li><a class="cmd cmdBookmarks"><$tr>Bookmarks</$tr></a></li>
+        <li><a class="cmd cmdThumbnails"><$tr>Thumbnails</$tr></a></li>
+        <li><a class="cmd cmdSearch"><$tr>Search</$tr></a></li>
+      </ul>
+      <div class="widBookmarks tocview">
 
-          </div>
-          <div class="widThumbnails toc-view">
+      </div>
+      <div class="widThumbnails tocview">
 
-          </div>
-          <div class="widSearch toc-view">
+      </div>
+      <div class="widSearch tocview">
 
-          </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="share widShare float-wnd hidden fade">
+    <div class="head">
+      <$tr>Share</$tr>
+      <a class="cmd close cmdCloseShare" title="<$tr>Close</$tr>">
+        <i class="fa fa-times"></i>
+      </a>
+    </div>
+    <div class="body">
+      <div class="shareview">
+        <div class="txtShareLink link"></div>
+        <div class="btns">
+          <a class="cmd cmdFacebook btn"><i class="fa fa-facebook-f" title="<$tr>Facebook</$tr>"></i></a>
+          <a class="cmd cmdTwitter btn"><i class="fa fa-twitter" title="<$tr>Twitter</$tr>"></i></a>
+          <a class="cmd cmdEmail btn"><i class="fa fa-at" title="<$tr>Email</$tr>"></i></a>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="controls">
+  <div class="widLoadingProgress loading-progress hidden fade">
+    <div class="progress">
+      <div class="loader-box">
+        <div class="loader">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+      </div>
+    </div>
+    <div class="txtLoadingProgress caption">
+    </div>
+  </div>
 
-    <div class="ctrl js-center">
-      <nav class="fnavbar">
-        <ul class="fnav">
+  <div class="widLoading page-loading hidden fade">
+    <div class="loader-box">
+      <div class="loader">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    </div>
+  </div>
 
-          <li class="fnav-item cmdZoomIn"><a href="#"><span class="icon"><i class="fa fa-search-plus" title="<$tr>Zoom in</$tr>"></i></span></a></li>
-          <li class="fnav-item cmdZoomOut"><a href="#"><span class="icon"><i class="fa fa-search-minus" title="<$tr>Zoom out</$tr>"></i></span></a></li>
-          <li class="fnav-item cmdDefaultZoom"><a href="#"><span class="icon"><i class="fa fa-compress" title="<$tr>Fit view</$tr>"></i></span></a></li>
-          <li class="fnav-item cmdToc"><a href="#"><span class="icon"><i class="fa fa-bookmark" title="<$tr>Table of contents</$tr>"></i></span></a></li>
-          <li class="fnav-item cmdFastBackward"><a href="#"><span class="icon"><i class="fa fa-fast-backward" title="<$tr>10 pages backward</$tr>"></i></span></a></li>
-          <li class="fnav-item cmdBackward"><a href="#"><span class="icon"><i class="fa fa-backward" title="<$tr>Previous page</$tr>"></i></span></a></li>
-          <li class="fnav-item">
+  <div class="widUserMessage txtUserMessage user-message hidden fade">
+  </div>
+
+  <div class="widPendingPlay pending-play hidden hbtn fade">
+    <a class="cmd cmdPendingPlay"><i class="fa fa-play" title="<$tr>Play</$tr>"></i></a>
+  </div>
+
+  <div class="widControls ctrls hidden fade">
+    <div class="prev hbtn">
+      <a class="cmd cmdBigBackward"><i class="fa fa-angle-left" title="<$tr>Previous page</$tr>"></i></a>
+    </div>
+
+    <div class="next hbtn">
+      <a class="cmd cmdBigForward"><i class="fa fa-angle-right" title="<$tr>Next page</$tr>"></i></a>
+    </div>
+
+    <div class="tbox">
+      <div class="toolbar widToolbar">
+        <ul class="buttons">
+          <li><a class="cmd cmdZoomIn"><i class="fa fa-search-plus" title="<$tr>Zoom in</$tr>"></i></a></li>
+          <li><a class="cmd cmdZoomOut"><i class="fa fa-search-minus" title="<$tr>Zoom out</$tr>"></i></a></li>
+          <li><a class="cmd cmdDefaultZoom"><i class="fa fa-compress" title="<$tr>Fit view</$tr>"></i></a></li>
+          <li><a class="cmd cmdAutoPlay" title="<$tr>Auto play</$tr>"><i class="fa fa-play active-hidden"></i><i class="fa fa-pause active-visible"></i></a></li>
+          <li><a class="cmd cmdToc"><i class="fa fa-bookmark" title="<$tr>Table of contents</$tr>"></i></a></li>
+          <li><a class="cmd cmdBackward"><i class="fa fa-backward" title="<$tr>Previous page</$tr>"></i></a></li>
+          <li>
             <div class="pages">
               <input type="text" class="number inpPage" maxlength="4" placeholder="1">
               <input type="text" class="amount inpPages" readOnly maxlength="4" placeholder="1">
             </div>
           </li>
-          <li class="fnav-item cmdForward"><a href="#"><span class="icon"><i class="fa fa-forward" title="<$tr>Next page</$tr>"></i></span></a></li>
-          <li class="fnav-item cmdFastForward"><a href="#"><span class="icon"><i class="fa fa-fast-forward"  title="<$tr>10 pages forward</$tr>"></i></span></a></li>
-          <li class="fnav-item cmdSave"><a href="#"><span class="icon"><i class="fa fa-download"  title="<$tr>Download</$tr>"></i></span></a></li>
-          <li class="fnav-item cmdPrint"><a href="#"><span class="icon"><i class="fa fa-print"  title="<$tr>Print</$tr>"></i></span></a></li>
-          <li class="fnav-item cmdFullScreen"><a href="#"><span class="icon"><i class="fa fa-arrows-alt" title="<$tr>Full screen</$tr>"></i></span></a></li>
-          <li class="dropup fnav-item toggle widSettings">
-            <a href="#"><div class="icon-caret"><span class="icon"><i class="fa fa-cog" title="<$tr>Settings</$tr>"></i> <i class="caret"></i></span></div></a>
-            <ul class="menu hidden">
-              <li  class="cmdSmartPan"><a href="#"><span class="icon"><i class="fa fa-eye"></i></span> <$tr>Smart pan</$tr></a></li>
-              <li  class="cmdSinglePage"><a href="#"><span class="icon"><i class="fa fa-file-o"></i></span> <$tr>Single page</$tr></a></li>
-              <li  class="cmdSounds"><a href="#"><span class="icon"><i class="fa fa-volume-up"></i></span> <$tr>Sounds</$tr></a></li>
-              <li  class="cmdStats"><a href="#"><span class="icon"><i class="fa fa-line-chart"></i></span> <$tr>Stats</$tr></a></li>
+          <li><a class="cmd cmdForward"><i class="fa fa-forward" title="<$tr>Next page</$tr>"></i></a></li>
+          <li><a class="cmd cmdShare"><i class="fa fa-share-alt" title="<$tr>Share</$tr>"></i></a></li>
+          <li><a class="cmd cmdSearchBtn"><i class="fa fa-search" title="<$tr>Search</$tr>"></i></a></li>
+          <li><a class="cmd cmdFullScreen"><i class="fa fa-arrows-alt" title="<$tr>Full screen</$tr>"></i></a></li>
+          <li class="dropup widSettings">
+            <a class="cmd menu-toggle"><i class="fa fa-ellipsis-h" title="<$tr>More</$tr>"></i></a>
+            <ul class="v-menu hidden fade">
+              <li><a class="cmd cmdSmartPan"><i class="fa fa-eye"></i> <$tr>Smart pan</$tr></a></li>
+              <li><a class="cmd cmdSinglePage"><i class="fa fa-file-o"></i> <$tr>Single page</$tr></a></li>
+              <li><a class="cmd cmdSounds"><i class="fa fa-volume-up"></i> <$tr>Sounds</$tr></a></li>
+              <li><a class="cmd cmdStats"><i class="fa fa-line-chart"></i> <$tr>Stats</$tr></a></li>
+              <li><a class="cmd cmdPrint"><i class="fa fa-print"></i> <$tr>Print</$tr></a></li>
+              <li><a class="cmd cmdSave"><i class="fa fa-download"></i> <$tr>Download</$tr></a></li>
               <li class="divider"></li>
-              <li  class="cmdLightingUp"><a href="#"><span class="icon"><i class="fa fa-chevron-up"></i></span> <$tr>Increase lighting</$tr></a></li>
-              <li  class="cmdLightingDown"><a href="#"><span class="icon"><i class="fa fa-chevron-down"></i></span> <$tr>Reduce lighting</$tr></a></li>
+              <li><a class="cmd cmdGotoFirstPage"><i class="fa fa-fast-backward"></i> <$tr>Goto first page</$tr></a></li>
+              <li><a class="cmd cmdGotoLastPage"><i class="fa fa-fast-forward"></i> <$tr>Goto last page</$tr></a></li>
             </ul>
           </li>
         </ul>
-      </nav>
+      </div>
     </div>
 
   </div>

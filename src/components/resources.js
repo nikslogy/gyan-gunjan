@@ -4,13 +4,15 @@ import { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 
 // Move PDF.js initialization to a separate function
+// Update your initPdfJs function to ensure consistent versioning
 const initPdfJs = async () => {
   if (typeof window === 'undefined') return null;
   
   try {
     const pdfjs = await import('pdfjs-dist');
-    const worker = await import('pdfjs-dist/build/pdf.worker.entry');
-    pdfjs.GlobalWorkerOptions.workerSrc = worker;
+    // Import the worker from the same package
+    const workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
+    pdfjs.GlobalWorkerOptions.workerSrc = workerSrc;
     return pdfjs;
   } catch (error) {
     console.error('Error initializing PDF.js:', error);
@@ -58,7 +60,8 @@ export const Resources = ({ selectedPdf, selectedTitle }) => {
         if (!window.pdfjsLib) {
           const pdfjsLib = await import('pdfjs-dist');
           window.pdfjsLib = pdfjsLib;
-          pdfjsLib.GlobalWorkerOptions.workerSrc = '/js/pdf.worker.js';
+          // Use the same worker source as in initPdfJs
+          pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`;
         }
         return true;
       } catch (error) {
@@ -90,7 +93,8 @@ export const Resources = ({ selectedPdf, selectedTitle }) => {
       }
 
       window.PDFJS_LOCALE = {
-        pdfJsWorker: '/js/pdf.worker.js',
+        // Use the dynamic URL instead of a static path
+        pdfJsWorker: `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${window.pdfjsLib.version}/pdf.worker.min.js`,
         pdfJsCMapUrl: '/cmaps/',
         isOffscreenCanvasSupported: true
       };
@@ -114,7 +118,11 @@ export const Resources = ({ selectedPdf, selectedTitle }) => {
                   rel: 'stylesheet',
                   href: '/css/font-awesome.min.css'
                 }],
-                script: '/js/default-book-view.js'
+                script: '/js/default-book-view.js',
+                sounds: {
+                  startFlip: 'sounds/start-flip.mp3',
+                  endFlip: 'sounds/end-flip.mp3'
+                }
               },
               controlsProps: {
                 downloadURL: selectedPdf,

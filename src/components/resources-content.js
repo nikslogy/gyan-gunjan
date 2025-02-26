@@ -29,6 +29,7 @@ export function ResourcesContent({ initialCategory = 'Movies' }) {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const API_BASE_URL = 'https://admin.iksgyangunjan.in';
+    // const API_BASE_URL = 'http://127.0.0.1:8000';
 
     // Add this new effect to handle initial load
     useEffect(() => {
