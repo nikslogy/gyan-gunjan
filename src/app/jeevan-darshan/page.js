@@ -16,7 +16,6 @@ export default function JeevanDarshan() {
     const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    const API_BASE_URL = 'https://admin.iksgyangunjan.in';
 
     const [touchStart, setTouchStart] = useState(null);
     const [touchEnd, setTouchEnd] = useState(null);
@@ -141,12 +140,12 @@ export default function JeevanDarshan() {
                         </div>
 
                         <div className="mb-8">
-                            <div className="flex flex-wrap gap-2 bg-[#FAF3E0] p-1 rounded-custom2 w-fit">
+                            <div className="flex flex-wrap md:flex-nowrap gap-2 bg-[#FAF3E0] p-1 rounded-custom2 w-full">
                                 {categories.map((category) => (
                                     <button
                                         key={category.title}
                                         onClick={() => handleCategoryChange(category.title)}
-                                        className={`px-4 py-2 rounded-custom2 text-sm transition-colors ${selectedCategory === category.title
+                                        className={`flex-1 px-2 py-2 rounded-custom2 text-sm transition-colors text-center flex items-center justify-center ${selectedCategory === category.title
                                                 ? 'bg-[#E4A853] text-black'
                                                 : 'text-gray-700 hover:bg-[#E4A853] hover:text-black'
                                             }`}

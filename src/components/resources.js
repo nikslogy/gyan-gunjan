@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
+import { API_BASE_URL } from '@/utils/api';
 
 // Move PDF.js initialization to a separate function
 // Update your initPdfJs function to ensure consistent versioning
@@ -25,7 +26,6 @@ export const Resources = ({ selectedPdf, selectedTitle }) => {
   const [downloadForm, setDownloadForm] = useState({ purpose: '', name: '', mobile: '', email: '' });
   const [formError, setFormError] = useState('');
   const [pdfInitialized, setPdfInitialized] = useState(false);
-  const API_BASE_URL = 'https://admin.iksgyangunjan.in';
 
 
 
@@ -196,20 +196,24 @@ export const Resources = ({ selectedPdf, selectedTitle }) => {
 
     try {
       // Log download attempt
-      const response = await fetch(`${API_BASE_URL}/api/download-logs/`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          ...downloadForm,
-          pdf_url: selectedPdf,
-          title: selectedTitle
-        })
-      });
+      try {
+        const response = await fetch(`${API_BASE_URL}/api/download-logs/`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            ...downloadForm,
+            pdf_url: selectedPdf,
+            title: selectedTitle
+          })
+        });
 
-      if (!response.ok) {
-        throw new Error('Failed to log download');
+        if (!response.ok) {
+          console.error('Failed to log download');
+        }
+      } catch (logError) {
+        console.warn('Logging failed, proceeding with download:', logError);
       }
 
       // Create a temporary link to download the PDF

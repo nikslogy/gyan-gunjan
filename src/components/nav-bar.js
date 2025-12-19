@@ -6,6 +6,7 @@ import Image from "next/image"
 import { Menu, Search, X, ChevronDown } from 'lucide-react'
 import { useRouter, usePathname } from 'next/navigation'
 import { useAuth } from '@/hooks/useAuth'
+import { API_BASE_URL } from '@/utils/api'
 
 export function NavBar() {
   const [isOpen, setIsOpen] = useState(false)
@@ -18,7 +19,6 @@ export function NavBar() {
   const pathname = usePathname()
   
   const langRef = useRef(null)
-  const API_BASE_URL = 'https://admin.iksgyangunjan.in';
 
 
   // Use the auth hook

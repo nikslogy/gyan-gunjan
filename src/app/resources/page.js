@@ -5,6 +5,7 @@ import { NavBar } from "@/components/nav-bar";
 import { Footer } from "@/components/footer";
 import { ResourcesContent } from "@/components/resources-content";
 import dynamic from 'next/dynamic';
+import { API_BASE_URL } from '@/utils/api';
 
 // Create a dynamic component for PDF initialization
 const PdfInitializer = dynamic(() => import('@/components/pdf-initializer'), {
@@ -14,7 +15,6 @@ const PdfInitializer = dynamic(() => import('@/components/pdf-initializer'), {
 export default function ResourcePage() {
     const [mounted, setMounted] = useState(false);
     const [initialCategory, setInitialCategory] = useState('Thematic Concept Notes');
-    const API_BASE_URL = 'https://admin.iksgyangunjan.in';
 
 
 

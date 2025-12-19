@@ -22,8 +22,6 @@
 
     const [showPdfModal, setShowPdfModal] = useState(false);
     const [selectedPdfData, setSelectedPdfData] = useState(null);
-    const API_BASE_URL = 'https://admin.iksgyangunjan.in';
-    // const API_BASE_URL = 'http://127.0.0.1:8000';
 
 
     // Fetch API Data

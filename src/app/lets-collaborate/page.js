@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { NavBar } from "@/components/nav-bar";
 import { Footer } from "@/components/footer";
 import Image from "next/image";
+import { API_BASE_URL } from '@/utils/api';
 
 export default function LetsColaborate() {
     const [formData, setFormData] = useState({
@@ -25,7 +26,6 @@ export default function LetsColaborate() {
 
     const [loading, setLoading] = useState(false);
     const [submitSuccess, setSubmitSuccess] = useState(false);
-    const API_BASE_URL = 'https://admin.iksgyangunjan.in';
 
 
     const handleSubmit = async (e) => {

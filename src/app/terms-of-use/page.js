@@ -9,7 +9,6 @@ function TermsOfUseContent() {
   const [mounted, setMounted] = useState(false)
   const [termsData, setTermsData] = useState(null)
   const [loading, setLoading] = useState(true)
-  const API_BASE_URL = 'https://admin.iksgyangunjan.in';
 
 
   // Fetch data from API

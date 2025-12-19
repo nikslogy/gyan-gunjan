@@ -28,8 +28,6 @@ export function ResourcesContent({ initialCategory = 'Movies' }) {
     const [regions, setRegions] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    const API_BASE_URL = 'https://admin.iksgyangunjan.in';
-    // const API_BASE_URL = 'http://127.0.0.1:8000';
 
     // Add this new effect to handle initial load
     useEffect(() => {
@@ -319,12 +317,12 @@ export function ResourcesContent({ initialCategory = 'Movies' }) {
 
             {/* Replace dropdown with tabs */}
             <div className="mb-8">
-                <div className="flex flex-wrap gap-2 bg-[#FAF3E0] p-1 rounded-custom2">
+                <div className="flex flex-wrap md:flex-nowrap gap-2 bg-[#FAF3E0] p-1 rounded-custom2 w-full">
                     {resourceMenuItems.map((tab) => (
                         <button
                             key={tab}
                             onClick={() => handleTabChange(tab)}
-                            className={`px-6 py-3 rounded-custom2 transition-colors ${
+                            className={`flex-1 px-2 py-2 rounded-custom2 transition-colors text-center flex items-center justify-center ${
                                 selectedCategory === tab 
                                     ? 'bg-[#E4A853] text-black' 
                                     : 'text-gray-700 hover:bg-[#E4A853] hover:text-black'

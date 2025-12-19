@@ -18,7 +18,6 @@ function AboutProjectContent() {
  
   const [touchStart, setTouchStart] = useState(null);
   const [touchEnd, setTouchEnd] = useState(null);
-  const API_BASE_URL = 'https://admin.iksgyangunjan.in';
 
   // Minimum swipe distance (in pixels)
   const minSwipeDistance = 50;

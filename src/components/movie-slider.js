@@ -3,13 +3,13 @@
 import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import VideoModal from './video-modal';
+import { API_BASE_URL } from '@/utils/api';
 
 export default function MovieSlider({ movies }) {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const [selectedVideo, setSelectedVideo] = useState(null);
   const modalRef = useRef(null);
-  const API_BASE_URL = 'https://admin.iksgyangunjan.in';
 
 
 

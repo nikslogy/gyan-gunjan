@@ -8,7 +8,6 @@ export function HeroSection2() {
   const [data, setData] = useState(null); // State to store API data
   const router = useRouter(); // Next.js router for navigation
   const [exitAnimation, setExitAnimation] = useState(false); // State for exit animation
-  const API_BASE_URL = 'https://admin.iksgyangunjan.in';
 
 
 
