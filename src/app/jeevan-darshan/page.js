@@ -135,7 +135,7 @@ export default function JeevanDarshan() {
                             </h1>
                             <p
         className="mt-4 text-black leading-relaxed text-base md:text-lg"
-        dangerouslySetInnerHTML={{ __html: currentCategory.right_description || "..." }}
+        dangerouslySetInnerHTML={{ __html: currentCategory.short_description || "..." }}
       />
                         </div>
 
