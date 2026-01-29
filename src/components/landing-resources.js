@@ -1,4 +1,4 @@
-  import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
   import Image from 'next/image';
   import { Book, BookOpen, Notebook, Video } from 'lucide-react';
   import MovieSlider from './movie-slider';
@@ -209,7 +209,7 @@
             {/* Tab navigation remains exactly the same */}
             <div className="mb-8">
               <div className="flex flex-wrap gap-2 bg-[#FAF3E0] p-1 rounded-custom2">
-                {['thematic', 'coffee', 'regional', 'movies'].map((tab) => (
+                {['thematic', 'coffee', 'regional', 'course'].map((tab) => (
                   <button
                     key={tab}
                     onClick={() => setActiveTab(tab)}
@@ -219,9 +219,9 @@
                     {tab === 'thematic' && <Notebook className="w-4 h-4 inline mr-2" />}
                     {tab === 'coffee' && <Book className="w-4 h-4 inline mr-2" />}
                     {tab === 'regional' && <BookOpen className="w-4 h-4 inline mr-2" />}
-                    {tab === 'movies' && <Video className="w-4 h-4 inline mr-2" />}
+                    {tab === 'course' && <Video className="w-4 h-4 inline mr-2" />}
                     {tab.charAt(0).toUpperCase() + tab.slice(1)}{' '}
-                    {tab === 'thematic' ? 'Concept Notes' : tab === 'coffee' ? 'Table Books' : tab === 'regional' ? 'Flip Books' : ''}
+                    {tab === 'thematic' ? 'Essays' : tab === 'coffee' ? 'Table Books' : tab === 'regional' ? 'Flip Books' : ''}
                   </button>
                 ))}
               </div>
@@ -369,15 +369,15 @@
               )}
 
               {/* Movies Section with API Data */}
-              {activeTab === 'movies' && (
+              {activeTab === 'course' && (
                 <>
                   <div className="flex justify-end mb-4 sm:mb-6">
                     <button
                       onClick={() => {
                         router.push('/resources');
-                        localStorage.setItem('selectedResourceType', 'Movies');
+                        localStorage.setItem('selectedResourceType', 'Course');
                         window.dispatchEvent(new CustomEvent('navResourceChange', {
-                          detail: 'Movies'
+                          detail: 'Course'
                         }));
                       }}
                       className="text-gray-600 hover:text-gray-900 text-sm sm:text-base"
@@ -393,9 +393,9 @@
                     />
                   ) : (
                     <div className="flex flex-col items-center justify-center py-20 bg-[#f5f5f5] rounded-lg mt-8 space-y-4">
-                      <h3 className="text-3xl font-bold text-[#7A2631]">Movies Coming Soon!</h3>
+                      <h3 className="text-3xl font-bold text-[#7A2631]">Course Coming Soon!</h3>
                       <p className="text-gray-600 text-lg text-center max-w-lg">
-                          We're preparing an exciting collection of movies. If you have interesting films to share about India's transformation, we'd love to feature them!
+                          We're preparing an exciting collection of courses. If you have interesting films to share about India's transformation, we'd love to feature them!
                       </p>
                       <a 
                           href="/lets-collaborate" 

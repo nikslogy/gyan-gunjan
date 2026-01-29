@@ -133,7 +133,7 @@ export function NavBar() {
                 isActivePath('/jeevan-darshan') ? 'after:content-[""] after:absolute after:left-0 after:bottom-[-4px] after:w-full after:h-0.5 after:bg-[#1a365d]' : ''
               }`}
             >
-              Jeevan Darshan
+              Jeevan Darshana
             </Link>
             <Link 
               href="/resources" 

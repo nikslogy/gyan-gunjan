@@ -8,7 +8,7 @@ import MovieSlider from "@/components/movie-slider";
 import VideoModal from "@/components/video-modal";
 import { API_BASE_URL, getImageUrl } from '@/utils/api';
 
-export function ResourcesContent({ initialCategory = 'Movies' }) {
+export function ResourcesContent({ initialCategory = 'Thematic Essays' }) {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedCategory, setSelectedCategory] = useState(initialCategory);
     const [selectedState, setSelectedState] = useState('');
@@ -31,7 +31,7 @@ export function ResourcesContent({ initialCategory = 'Movies' }) {
 
     // Add this new effect to handle initial load
     useEffect(() => {
-        if (thematics.length > 0 && selectedCategory === 'Thematic Concept Notes') {
+        if (thematics.length > 0 && selectedCategory === 'Thematic Essays') {
             // Automatically open the first available PDF, but don't scroll
             const firstAvailablePdf = thematics.find(item => item.book_pdf);
             if (firstAvailablePdf) {
@@ -77,7 +77,7 @@ export function ResourcesContent({ initialCategory = 'Movies' }) {
             // Reset states when changing categories
             setSelectedPdf(null);
             setSelectedTitle('');
-            setShowResources(event.detail !== 'Movies');
+            setShowResources(event.detail !== 'Course');
         };
 
         window.addEventListener('navResourceChange', handleNavResourceChange);
@@ -93,9 +93,9 @@ export function ResourcesContent({ initialCategory = 'Movies' }) {
             
             // Then set the category and handle initial book
             setSelectedCategory(initialCategory);
-            setShowResources(initialCategory !== 'Movies');
+            setShowResources(initialCategory !== 'Course');
             
-            if (initialCategory !== 'Movies') {
+            if (initialCategory !== 'Course') {
                 // Get resources based on initial category
                 let resources;
                 switch (initialCategory) {
@@ -105,7 +105,7 @@ export function ResourcesContent({ initialCategory = 'Movies' }) {
                     case 'Regional Flip Books':
                         resources = filteredFlipbooks;
                         break;
-                    case 'Thematic Concept Notes':
+                    case 'Thematic Essays':
                         resources = thematics;
                         break;
                     default:
@@ -128,10 +128,10 @@ export function ResourcesContent({ initialCategory = 'Movies' }) {
     }, [initialCategory]);
 
     const resourceMenuItems = [
-        'Thematic Concept Notes',
+        'Thematic Essays',
         'Coffee Table Books',
         'Regional Flip Books',
-        'Movies'
+        'Course'
     ];
 
     const fetchInitialData = async () => {
@@ -202,7 +202,7 @@ export function ResourcesContent({ initialCategory = 'Movies' }) {
     const handleTabChange = async (category) => {
         setSelectedCategory(category);
         
-        if (category === 'Movies') {
+        if (category === 'Course') {
             setSelectedPdf(null);
             setSelectedTitle('');
             setShowResources(false);
@@ -220,7 +220,7 @@ export function ResourcesContent({ initialCategory = 'Movies' }) {
             case 'Regional Flip Books':
                 resources = filteredFlipbooks;
                 break;
-            case 'Thematic Concept Notes':
+            case 'Thematic Essays':
                 resources = thematics;
                 break;
             default:
@@ -276,9 +276,9 @@ export function ResourcesContent({ initialCategory = 'Movies' }) {
                 return coffeeBooks;
             case 'Regional Flip Books':
                 return filteredFlipbooks;
-            case 'Thematic Concept Notes':
+            case 'Thematic Essays':
                 return thematics;
-            case 'Movies':
+            case 'Course':
                 return movies;
             default:
                 return [];
@@ -328,10 +328,10 @@ export function ResourcesContent({ initialCategory = 'Movies' }) {
                                     : 'text-gray-700 hover:bg-[#E4A853] hover:text-black'
                             }`}
                         >
-                            {tab === 'Thematic Concept Notes' && <Notebook className="w-4 h-4 inline mr-2" />}
+                            {tab === 'Thematic Essays' && <Notebook className="w-4 h-4 inline mr-2" />}
                             {tab === 'Coffee Table Books' && <Book className="w-4 h-4 inline mr-2" />}
                             {tab === 'Regional Flip Books' && <BookOpen className="w-4 h-4 inline mr-2" />}
-                            {tab === 'Movies' && <Video className="w-4 h-4 inline mr-2" />}
+                            {tab === 'Course' && <Video className="w-4 h-4 inline mr-2" />}
                             {tab}
                         </button>
                     ))}
@@ -340,7 +340,7 @@ export function ResourcesContent({ initialCategory = 'Movies' }) {
 
             {/* Rest of the content - Lower z-index */}
             <div className="relative z-0">
-                {selectedCategory === 'Movies' ? (
+                {selectedCategory === 'Course' ? (
                     // Movies Content
                     <div className="space-y-12">
                         {/* Movie Slider - Added conditional rendering */}
@@ -351,9 +351,9 @@ export function ResourcesContent({ initialCategory = 'Movies' }) {
                             />
                         ) : (
                             <div className="flex flex-col items-center justify-center py-20 bg-[#f5f5f5] rounded-lg mt-8 space-y-4">
-                                <h3 className="text-3xl font-bold text-[#7A2631]">Movies Coming Soon!</h3>
+                                <h3 className="text-3xl font-bold text-[#7A2631]">Course Coming Soon!</h3>
                                 <p className="text-gray-600 text-lg text-center max-w-lg">
-                                    We're preparing an exciting collection of movies. If you have interesting films to share about India's transformation, we'd love to feature them!
+                                    We're preparing an exciting collection of Course. If you have interesting films to share about India's transformation, we'd love to feature them!
                                 </p>
                                 <a
                                     href="/lets-collaborate"
@@ -368,7 +368,7 @@ export function ResourcesContent({ initialCategory = 'Movies' }) {
                         <section>
                             <div className="inline-block w-full mb-8 mt-10">
                                 <span className="bg-[#E7B24B] text-black font-bold px-4 md:px-12 py-6 rounded-custom2 transition-colors text-2xl">
-                                    Recommended Movies
+                                    Recommended Course
                                 </span>
                             </div>
 
@@ -477,7 +477,7 @@ export function ResourcesContent({ initialCategory = 'Movies' }) {
                         <section className="pb-12">
                             <div className="inline-block w-full mb-8 mt-20">
                                 <span className="bg-[#E7B24B] text-black font-bold px-4 md:px-12 py-6 rounded-custom2 transition-colors text-2xl">
-                                    Short Movies
+                                    Short Course
                                 </span>
                             </div>
 

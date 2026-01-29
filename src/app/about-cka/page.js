@@ -7,77 +7,9 @@ import { Footer } from "@/components/footer"
 
 function AboutCKAContent() {
   const [mounted, setMounted] = useState(false)
-  const [currentSlide, setCurrentSlide] = useState(0)
 
-  // Demo data
-  const ckaData = {
-    title: "Centre for Knowledge Alternatives, FLAME University",
-    images: [
-      {
-        id: 1,
-        image: "/images/About-The-Centre-for-Knowledge-Alternatives.jpg",
-        alt_text: "CKA Building"
-      },
-      {
-        id: 2,
-        image: "/images/About-the-Centre1.png",
-        alt_text: "CKA Activities"
-      },
-    ],
-    description_left: `
-      <h3 class="text-xl font-bold mb-4 text-[#7A2631]">Our Foundation</h3>
-      <ul class="space-y-4">
-        <li>A unique research initiative to understand India through experiences rather than theories</li>
-        <li>Inspired by the ease as well as complexities of Indian society</li>
-        <li>Focused on documenting and mapping local cultures and statistics</li>
-        <li>Creating decentralized chronicles of India</li>
-      </ul>
-    `,
-    description_right: `
-      <h3 class="text-xl font-bold mb-4 text-[#7A2631]">Our Philosophy</h3>
-      <ul class="space-y-4">
-        <li>Understanding India through lived experiences</li>
-        <li>Embracing complexity without seeking unified theories</li>
-        <li>Working on policies that matter at local levels</li>
-        <li>Symbolized by the story of blind men and elephant</li>
-      </ul>
-    `,
-    vision: `
-      <div class="space-y-4">
-        <p>Like Werner Heisenberg's approach to quantum physics, we believe in observing reality without preconceived notions. India, with its apparent contradictions and complexities, demands a unique approach to understanding:</p>
-        <ul class="list-disc pl-6 space-y-2">
-          <li>Documenting India's diverse cultural landscape without theoretical constraints</li>
-          <li>Understanding the coexistence of seeming contradictions in Indian society</li>
-          <li>Mapping local cultures and creating decentralized narratives</li>
-          <li>Bridging the gap between external perceptions and lived experiences</li>
-        </ul>
-      </div>
-    `,
-    mission: `
-      <div class="space-y-4">
-        <p>Our mission is to:</p>
-        <ul class="list-disc pl-6 space-y-2">
-          <li>Document and understand India through its experiences rather than theoretical frameworks</li>
-          <li>Create comprehensive mappings of local level cultures and traditions</li>
-          <li>Develop decentralized chronicles that capture India's diverse realities</li>
-          <li>Bridge the gap between perceived paradoxes and everyday Indian life</li>
-          <li>Preserve and study the unique aspects of Indian civilization</li>
-        </ul>
-      </div>
-    `
-  }
-
-  // Mount animation
   useEffect(() => {
     setMounted(true)
-  }, [])
-
-  // Slider animation
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentSlide(prev => (prev === ckaData.images.length - 1 ? 0 : prev + 1))
-    }, 3000)
-    return () => clearInterval(timer)
   }, [])
 
   return (
@@ -87,57 +19,44 @@ function AboutCKAContent() {
       </div>
       <main className="content-wrapper">
         <div className="container mx-auto px-4 md:px-6 py-12">
-          <div className="max-w-5xl mx-auto space-y-16">
+          <div className="max-w-5xl mx-auto space-y-8">
             
             {/* Page Title */}
             <h1 className={`mt-10 text-3xl md:text-4xl font-bold text-[#7A2631] transition-all duration-700 delay-300 ${
               mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-[20px]'
             }`}>
-              {ckaData.title}
+              About Centre for Knowledge Alternatives
             </h1>
 
-            
-
-            {/* Main Content Section */}
-            <div className={`mx-auto transition-all duration-700 delay-700 ${
+            {/* Main Content - Flowing Text */}
+            <div className={`prose prose-lg max-w-none text-black transition-all duration-700 delay-500 ${
               mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-[20px]'
             }`}>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 bg-gray-50 p-8 rounded-custom shadow-md">
-                <div className="text-black">
-                  <div dangerouslySetInnerHTML={{ __html: ckaData.description_left }} />
-                </div>
-                <div className="text-black">
-                  <div dangerouslySetInnerHTML={{ __html: ckaData.description_right }} />
-                </div>
-              </div>
-            </div>
+              <p className="text-lg leading-relaxed mb-6">
+                The Centre for Knowledge Alternatives at FLAME University, Pune, leads research at the intersection of public policy, data, and cultures. It focuses on creating grounded, decentralised knowledge about Bharat by foregrounding lived experience rather than abstract theory.
+              </p>
 
-            {/* Vision Section */}
-            <div className="space-y-6">
-              <div className="inline-block">
-                <span className="bg-[#E7B24B] text-black font-bold font-philosopher px-8 py-4 rounded-custom2 shadow-md transition-all hover:shadow-lg hover:scale-105 duration-300 text-2xl inline-block">
-                  Our Vision
-                </span>
-              </div>
-              <div className="bg-white p-8 rounded-custom2 shadow-md text-black">
-                <div dangerouslySetInnerHTML={{ __html: ckaData.vision }} />
-              </div>
-            </div>
+              <p className="text-lg leading-relaxed mb-6">
+                Its flagship Districts Project documents district‑level cultures and statistics across Bharat, presenting local cultural attributes alongside developmental challenges and opportunities on an open, continuously evolving website—an emerging working encyclopedia of Bharat's districts. The first full state, Maharashtra, was completed in November 2025 (<a href="https://www.indiandistricts.in" target="_blank" rel="noopener noreferrer" className="text-[#7A2631]  hover:underline">www.indiandistricts.in</a>).
+              </p>
 
-            {/* Mission Section */}
-            <div className="space-y-6">
-              <div className="inline-block">
-                <span className="bg-[#E7B24B] text-black font-bold font-philosopher px-8 py-4 rounded-custom2 shadow-md transition-all hover:shadow-lg hover:scale-105 duration-300 text-2xl inline-block">
-                  Our Mission
-                </span>
-              </div>
-              <div className="bg-white p-8 rounded-custom2 shadow-md text-black">
-                <div dangerouslySetInnerHTML={{ __html: ckaData.mission }} />
-              </div>
+              <p className="text-lg leading-relaxed mb-6">
+                A core strand of the project curates local cultures through the eyes and voices of communities themselves, deliberately avoiding the imposition of pre‑set theoretical frames. As the parable of the blind men and the elephant—echoed in the Centre's logo—suggests, each perspective reveals a different facet of reality, and the Centre treats this plurality as a strength rather than a problem to be solved.
+              </p>
+
+              <p className="text-lg leading-relaxed mb-6">
+                More broadly, the Centre for Knowledge Alternatives is a fresh attempt to understand Bharat through its everyday experiences, without assuming that a single grand theory of the country lies waiting to be discovered. It takes seriously the apparent contrast between the "enigmatic" image of Bharat in intellectual discourse and the effortlessness with which Bharatiyas navigate daily life.
+              </p>
+
+              <p className="text-lg leading-relaxed mb-6">
+                Beyond the Districts Project, the Centre also conceives and curates global indices, including a Democracy Index and a Sustainability Index currently in development. By drawing on large‑scale global datasets and designing more holistic measures, it seeks to offer alternatives to conventional world rankings whose methodologies are often narrow or contestable.
+              </p>
             </div>
 
             {/* External Link Section */}
-            <div className="space-y-6 text-center">
+            <div className={`pt-8 text-center transition-all duration-700 delay-700 ${
+              mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-[20px]'
+            }`}>
               <a 
                 href="https://www.flame.edu.in/cka/about-the-centre.php" 
                 target="_blank" 
@@ -151,7 +70,7 @@ function AboutCKAContent() {
                 >
                   Learn More at FLAME CKA
                   <svg 
-                    xmlns="http://www.w3.org/2000/svg" 
+                    xmlns="http://www.w3.org/2000/svg"  
                     className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" 
                     fill="none" 
                     viewBox="0 0 24 24" 
