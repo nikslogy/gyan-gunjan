@@ -7,41 +7,6 @@ import { Footer } from "@/components/footer"
 function AboutIKSDivisionContent() {
   const [mounted, setMounted] = useState(false)
 
-  const iksData = {
-    title: "IKS Division, Ministry of Education",
-    introduction: `The Indian Knowledge System comprises of Gyan (ज्ञान), Vigyan (विज्ञान), 
-      and Jeevan Darshan (जीवन दर्शशन) of the people of Bharat continuously arising out of deep experience, 
-      observation, experimentation and rigorous analysis...`,
-    
-    vision: `The IKS Division was established with a Vision to promote interdiciplinary and transdisciplinary research on all aspects of IKS, preserve and disseminate IKS knowledge for further research, and socieatal applications.`,
-    
-    mission: `The IKS Division's mission, vision and objectives are focused on the Panch Pran in totality. 
-      Three of the five pledges (Panch Pran) are focused on removing any trace of the colonial mindset and taking 
-      pride in our legacy while strengthening our unity.`,
-
-    principles: [
-      {
-        title: "Parampara (परम्परा)",
-        description: "Embracing the rich heritage and lineage of Indian Knowledge Systems, the IKS division aims to uphold and carry forward the wisdom that has been passed down through generations. The goal is to highlight and nurture the continuous unbroken knowledge traditions of Bharat since time immemorial."
-      },
-      {
-        title: "Drishti (दृष्टी)",
-        description: "The unique perspectives provided make this knowledge system 'Indian' and valuable to the world. Indian Knowledge Systems offer a unique perspective that holds immense value in addressing contemporary and emerging challenges. By combining traditional wisdom with modern knowledge, we can find holistic solutions that transcend the limitations of either approach."
-      },
-      {
-        title: "Prayojan (प्रयोजन)",
-        description: "The practical utility of the Indian Knowledge System to solve current and emerging problems of Indian and the world. To ensure the practicality and impact of IKS projects, emphasis is placed on developing knowledge systems that are relevant to the present. By focusing on areas of societal importance, such as health, technology, and social well-being, IKS projects strive to make a tangible difference."
-      }
-    ],
-
-    activities: `The IKS Division supports and funds the establishment of IKS centres, and
-interdisciplinary and transdisciplinary research in IKS. The IKS Division
-specially conducts internship programs for undergraduate students in
-addition to conducting Faculty-Development Programs, Workshops, Text
-Mining and Documentation Projects, and many outreach activities in
-partnership with other institutions.`
-  }
-
   useEffect(() => {
     setMounted(true)
   }, [])
@@ -53,52 +18,56 @@ partnership with other institutions.`
       </div>
       <main className="content-wrapper">
         <div className="container mx-auto px-4 md:px-6 py-12">
-          <div className="max-w-4xl mx-auto space-y-12">
+          <div className="max-w-5xl mx-auto space-y-8">
             
             {/* Title Section */}
-            <div className={`text-center transition-all duration-700 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-[20px]'}`}>
-              <h1 className="text-3xl md:text-4xl font-bold text-[#7A2631] mb-2">{iksData.title}</h1>
-              <h2 className="text-xl text-gray-600">{iksData.subtitle}</h2>
-            </div>
+            <h1 className={`mt-10 text-3xl md:text-4xl font-bold text-[#7A2631] transition-all duration-700 delay-300 ${
+              mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-[20px]'
+            }`}>
+              IKS Division, Ministry of Education
+            </h1>
 
-            {/* Introduction */}
-            <div className="bg-gray-50 p-6 rounded-lg shadow-md">
-              <p className="text-gray-800 leading-relaxed">{iksData.introduction}</p>
-            </div>
+            {/* Main Content - Flowing Text */}
+            <div className={`prose prose-lg max-w-none text-black transition-all duration-700 delay-500 ${
+              mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-[20px]'
+            }`}>
+              <p className="text-lg leading-relaxed mb-6">
+                The Indian Knowledge System comprises of Gyan (ज्ञान), Vigyan (विज्ञान), and Jeevan Darshan (जीवन दर्शन) of the people of Bharat continuously arising out of deep experience, observation, experimentation and rigorous analysis, with a tradition of validating and putting into practice in several areas including education, arts, administration, law, justice, health, manufacturing, and commerce, documented in classical and other languages of Bharat, and transmitted through textual, oral and artistic traditions.
+              </p>
 
-            {/* Vision & Mission */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="bg-white p-6 rounded-lg shadow-md border-t-4 border-[#7A2631]">
-                <h3 className="text-xl font-bold text-[#7A2631] mb-4">Our Vision</h3>
-                <p className="text-gray-800">{iksData.vision}</p>
-              </div>
-              <div className="bg-white p-6 rounded-lg shadow-md border-t-4 border-[#7A2631]">
-                <h3 className="text-xl font-bold text-[#7A2631] mb-4">Our Mission</h3>
-                <p className="text-gray-800">{iksData.mission}</p>
-              </div>
-            </div>
+              <p className="text-lg leading-relaxed mb-6">
+                The IKS Division of the Ministry of Education was established with a vision to promote interdisciplinary and transdisciplinary research on all aspects of IKS, preserve and disseminate IKS knowledge for further research, and societal applications. IKS Division’s mission, vision and objectives are focused on the Panch Pran (पंच प्राण) in totality. Three of the five pledges (Panch Pran) are focused on removing any trace of the colonial mindset and taking pride in our legacy while strengthening our unity. IKS Division’s mission is completely focused on these three pledges while enhancing a sense of duty among the citizens for the goal of developed India.
+              </p>
 
-            {/* Principles */}
-            <div className="space-y-6">
-              <h3 className="text-2xl font-bold text-[#7A2631]">Fundamental Principles</h3>
-              <div className="grid grid-cols-1 gap-6">
-                {iksData.principles.map((principle, index) => (
-                  <div key={index} className="bg-white p-6 rounded-lg shadow-md">
-                    <h4 className="text-xl font-bold text-[#7A2631] mb-2">{principle.title}</h4>
-                    <p className="text-gray-800">{principle.description}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
+              <p className="text-lg leading-relaxed mb-6">
+                The primary goal of the IKS division is to bridge the gap between the traditional Indian knowledge systems and contemporary knowledge systems. The vision of the IKS Division is to completely decolonize the Indian mind by generating interest and healthy critical reverence to the unbroken knowledge traditions of Bharat for the welfare of the world. The objective of the IKS division is to rejuvenate and Indian knowledge systems for the contemporary world.
+              </p>
 
-            {/* Activities */}
-            <div className="bg-gray-50 p-6 rounded-lg shadow-md">
-              <h3 className="text-2xl font-bold text-[#7A2631] mb-4">Our Activities</h3>
-              <p className="text-gray-800 leading-relaxed">{iksData.activities}</p>
+              <p className="text-lg leading-relaxed mb-4">
+                The IKS division focuses on three fundamental principles when undertaking any activity:
+              </p>
+              
+              <ul className="list-disc pl-6 space-y-4 mb-6 text-lg text-black marker:text-[#7A2631]">
+                <li>
+                  <span className="font-bold text-[#7A2631]">Paramapara (परम्परा)</span> - Embracing the rich heritage and lineage of Indian Knowledge Systems, the IKS division aims to uphold and carry forward the wisdom that has been passed down through generations. The goal is to highlight and nurture the continuous, unbroken knowledge traditions of Bharat since time immemorial.
+                </li>
+                <li>
+                  <span className="font-bold text-[#7A2631]">Drishti (दृष्टि)</span> - The unique perspectives provided make this knowledge system ‘Indian’ and valuable to the world. Indian knowledge systems offer a unique perspective that holds immense value in addressing contemporary and emerging challenges. By combining traditional wisdom with modern knowledge, we can find holistic solutions that transcend the limitations of either approach.
+                </li>
+                <li>
+                  <span className="font-bold text-[#7A2631]">Prayojana (प्रयोजन)</span> - The practical utility of the Indian knowledge system to solve current and emerging problems of India and the world. To ensure the practicality and impact of IKS projects, emphasis is placed on developing knowledge systems that are relevant to the present. By focusing on areas of societal importance, such as health, technology, and social well-being, IKS projects strive to make a tangible difference.
+                </li>
+              </ul>
+
+              <p className="text-lg leading-relaxed mb-6">
+                The IKS division supports and funds the establishment of IKS centres and interdisciplinary and transdisciplinary research in IKS. The IKS Division conducts internship programs for undergraduate students in addition to conducting Faculty-Development Programs, workshops, text mining and documentation projects, and many outreach activities in partnership with other institutions.
+              </p>
             </div>
 
             {/* External Link Section */}
-            <div className="space-y-6 text-center">
+            <div className={`pt-8 text-center transition-all duration-700 delay-700 ${
+              mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-[20px]'
+            }`}>
               <a 
                 href="https://iksindia.org/about.php" 
                 target="_blank" 
@@ -106,7 +75,7 @@ partnership with other institutions.`
                 className="inline-block group"
               >
                 <span className="bg-[#7A2631] text-white font-bold font-philosopher 
-                  px-8 py-4 rounded-lg shadow-md transition-all duration-300 
+                  px-8 py-4 rounded-custom2 shadow-md transition-all duration-300 
                   hover:shadow-lg hover:bg-[#8B3641] hover:scale-105 
                   flex items-center gap-2"
                 >

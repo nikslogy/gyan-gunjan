@@ -102,7 +102,7 @@ export function ResourcesContent({ initialCategory = 'Thematic Essays' }) {
                     case 'Coffee Table Books':
                         resources = coffeeBooks;
                         break;
-                    case 'Regional Flip Books':
+                    case 'Regional Reading Resources':
                         resources = filteredFlipbooks;
                         break;
                     case 'Thematic Essays':
@@ -181,7 +181,7 @@ export function ResourcesContent({ initialCategory = 'Thematic Essays' }) {
     };
 
     useEffect(() => {
-        if (selectedCategory === 'Regional Flip Books') {
+        if (selectedCategory === 'Regional Reading Resources') {
             fetchRegions(selectedState);
         }
     }, [selectedState, selectedCategory]);
@@ -221,7 +221,7 @@ export function ResourcesContent({ initialCategory = 'Thematic Essays' }) {
             case 'Coffee Table Books':
                 resources = coffeeBooks;
                 break;
-            case 'Regional Flip Books':
+            case 'Regional Reading Resources':
                 resources = filteredFlipbooks;
                 break;
             case 'Thematic Essays':
@@ -278,7 +278,7 @@ export function ResourcesContent({ initialCategory = 'Thematic Essays' }) {
         switch (selectedCategory) {
             case 'Coffee Table Books':
                 return coffeeBooks;
-            case 'Regional Flip Books':
+            case 'Regional Reading Resources':
                 return filteredFlipbooks;
             case 'Thematic Essays':
                 return thematics;
@@ -334,7 +334,7 @@ export function ResourcesContent({ initialCategory = 'Thematic Essays' }) {
                         >
                             {tab === 'Thematic Essays' && <Notebook className="w-4 h-4 inline mr-2" />}
                             {tab === 'Coffee Table Books' && <Book className="w-4 h-4 inline mr-2" />}
-                            {tab === 'Regional Flip Books' && <BookOpen className="w-4 h-4 inline mr-2" />}
+                            {tab === 'Regional Reading Resources' && <BookOpen className="w-4 h-4 inline mr-2" />}
                             {tab === 'Course' && <Video className="w-4 h-4 inline mr-2" />}
                             {tab}
                         </button>
@@ -349,10 +349,22 @@ export function ResourcesContent({ initialCategory = 'Thematic Essays' }) {
                     <div className="space-y-12">
                         {/* Movie Slider - Added conditional rendering */}
                         {movieResources.length > 0 ? (
-                            <MovieSlider
-                                movies={movieResources}
-                                onPlayClick={handleWatchNow}
-                            />
+                            <>
+                                <MovieSlider
+                                    movies={movieResources}
+                                    onPlayClick={handleWatchNow}
+                                />
+                                <div className="flex justify-center mt-8">
+                                    <a
+                                        href="https://onlinecourses.swayam2.ac.in/nou26_ge64/preview"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="px-8 py-4 bg-[#E7B24B] text-black font-bold rounded-custom2 hover:bg-[#F6B352] transition-colors text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300"
+                                    >
+                                         Access the Course Now!
+                                    </a>
+                                </div>
+                            </>
                         ) : (
                             <div className="flex flex-col items-center justify-center py-20 bg-[#f5f5f5] rounded-lg mt-8 space-y-4">
                                 <h3 className="text-3xl font-bold text-[#7A2631]">Course Coming Soon!</h3>
@@ -368,7 +380,7 @@ export function ResourcesContent({ initialCategory = 'Thematic Essays' }) {
                             </div>
                         )}
 
-                        {/* Recommended Movies Section */}
+                        {/* Recommended Movies Section
                         <section>
                             <div className="inline-block w-full mb-8 mt-10">
                                 <span className="bg-[#E7B24B] text-black font-bold px-4 md:px-12 py-6 rounded-custom2 transition-colors text-2xl">
@@ -377,7 +389,6 @@ export function ResourcesContent({ initialCategory = 'Thematic Essays' }) {
                             </div>
 
                             <div className="relative rounded-lg overflow-hidden mt-8">
-                                {/* Film strip border - top */}
                                 <div className="h-8 w-full bg-[#7B7B7B]"
                                     style={{
                                         backgroundImage: 'repeating-linear-gradient(to right, transparent, transparent 20px, white 20px, white 48px)',
@@ -387,7 +398,6 @@ export function ResourcesContent({ initialCategory = 'Thematic Essays' }) {
                                 <div className="bg-[#7B7B7B] p-8 relative">
                                     {recommendedMovies.length > 0 ? (
                                         <>
-                                            {/* Previous button */}
                                             <button
                                                 onClick={() => setCurrentRecommendedMovie((prev) =>
                                                     prev === 0 ? 0 : prev - 1
@@ -400,7 +410,6 @@ export function ResourcesContent({ initialCategory = 'Thematic Essays' }) {
                                                 </div>
                                             </button>
 
-                                            {/* Next button */}
                                             <button
                                                 onClick={() => setCurrentRecommendedMovie((prev) =>
                                                     prev + 3 >= recommendedMovies.length ? prev : prev + 1
@@ -452,7 +461,6 @@ export function ResourcesContent({ initialCategory = 'Thematic Essays' }) {
                                     )}
                                 </div>
 
-                                {/* Film strip border - bottom */}
                                 <div className="h-8 w-full bg-[#7B7B7B]"
                                     style={{
                                         backgroundImage: 'repeating-linear-gradient(to right, transparent, transparent 20px, white 20px, white 48px)',
@@ -476,8 +484,9 @@ export function ResourcesContent({ initialCategory = 'Thematic Essays' }) {
                                 )}
                             </div>
                         </section>
+                         */}
 
-                        {/* Short Movies Section */}
+                        {/* Short Movies Section 
                         <section className="pb-12">
                             <div className="inline-block w-full mb-8 mt-20">
                                 <span className="bg-[#E7B24B] text-black font-bold px-4 md:px-12 py-6 rounded-custom2 transition-colors text-2xl">
@@ -488,7 +497,6 @@ export function ResourcesContent({ initialCategory = 'Thematic Essays' }) {
                             <div className="relative mt-8">
                                 {shortMovies.length > 0 ? (
                                     <>
-                                        {/* Previous button */}
                                         <button
                                             onClick={() => setCurrentShortMovie((prev) =>
                                                 prev === 0 ? 0 : prev - 1
@@ -501,7 +509,6 @@ export function ResourcesContent({ initialCategory = 'Thematic Essays' }) {
                                             </div>
                                         </button>
 
-                                        {/* Next button */}
                                         <button
                                             onClick={() => setCurrentShortMovie((prev) =>
                                                 prev + 3 >= shortMovies.length ? prev : prev + 1
@@ -567,11 +574,12 @@ export function ResourcesContent({ initialCategory = 'Thematic Essays' }) {
                                 )}
                             </div>
                         </section>
+                        */}
                     </div>
                 ) : (
                     // Other Resources Grid
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
-                        {selectedCategory === 'Regional Flip Books' && (
+                        {selectedCategory === 'Regional Reading Resources' && (
                             <div className="col-span-full">
                                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
                                     <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">

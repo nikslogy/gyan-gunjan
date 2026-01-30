@@ -337,7 +337,7 @@ import { useState, useEffect } from 'react';
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
-                    {filteredFlipbooks.map((item) => {
+                    {filteredFlipbooks.slice(0, 5).map((item) => {
                       const isPdfAvailable = item.book_pdf !== null;
                       return (
                         <div
@@ -387,10 +387,22 @@ import { useState, useEffect } from 'react';
                   </div>
 
                   {transformedMovies.length > 0 ? (
-                    <MovieSlider
-                      movies={transformedMovies}
-                      onPlayClick={handlePlayClick}
-                    />
+                    <>
+                      <MovieSlider
+                        movies={transformedMovies}
+                        onPlayClick={handlePlayClick}
+                      />
+                      <div className="flex justify-center mt-8">
+                        <a
+                          href="https://onlinecourses.swayam2.ac.in/nou26_ge64/preview"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="px-8 py-4 bg-[#E7B24B] text-black font-bold rounded-custom2 hover:bg-[#F6B352] transition-colors text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300"
+                        >
+                          Access the Course Now! 
+                        </a>
+                      </div>
+                    </>
                   ) : (
                     <div className="flex flex-col items-center justify-center py-20 bg-[#f5f5f5] rounded-lg mt-8 space-y-4">
                       <h3 className="text-3xl font-bold text-[#7A2631]">Course Coming Soon!</h3>

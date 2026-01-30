@@ -95,34 +95,41 @@ export default function MovieSlider({ movies }) {
             })}
           </div>
 
-          <button
-            onClick={prevSlide}
-            className="absolute left-1 sm:left-4 top-1/2 -translate-y-1/2 z-40 bg-white/90 hover:bg-[#9B2C2C] hover:text-white p-2 sm:p-3 rounded-full shadow-lg transition-colors"
-          >
-            <svg className="w-4 h-4 sm:w-6 sm:h-6" fill="none" stroke="black" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-          </button>
-
-          <button
-            onClick={nextSlide}
-            className="absolute right-1 sm:right-4 top-1/2 -translate-y-1/2 z-40 bg-white/90 hover:bg-[#9B2C2C] hover:text-white p-2 sm:p-3 rounded-full shadow-lg transition-colors"
-          >
-            <svg className="w-4 h-4 sm:w-6 sm:h-6" fill="none" stroke="black" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
-          </button>
-
-          <div className="absolute bottom-2 sm:bottom-0 left-0 right-0 flex justify-center gap-2 sm:gap-3 z-50">
-            {movies.map((_, index) => (
+          {movies.length > 1 && (
+            <>
               <button
-                key={index}
-                onClick={() => setCurrentSlide(index)}
-                className={`h-1.5 sm:h-2 transition-all duration-300 rounded-full ${currentSlide === index ? 'w-6 sm:w-8 bg-[#9B2C2C]' : 'w-1.5 sm:w-2 bg-gray-300 hover:bg-gray-400'
-                  }`}
-              />
-            ))}
-          </div>
+                onClick={prevSlide}
+                className="absolute left-1 sm:left-4 top-1/2 -translate-y-1/2 z-40 bg-white/90 hover:bg-[#9B2C2C] hover:text-white p-2 sm:p-3 rounded-full shadow-lg transition-colors"
+                aria-label="Previous slide"
+              >
+                <svg className="w-4 h-4 sm:w-6 sm:h-6" fill="none" stroke="black" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                </svg>
+              </button>
+
+              <button
+                onClick={nextSlide}
+                className="absolute right-1 sm:right-4 top-1/2 -translate-y-1/2 z-40 bg-white/90 hover:bg-[#9B2C2C] hover:text-white p-2 sm:p-3 rounded-full shadow-lg transition-colors"
+                aria-label="Next slide"
+              >
+                <svg className="w-4 h-4 sm:w-6 sm:h-6" fill="none" stroke="black" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+
+              <div className="absolute bottom-2 sm:bottom-0 left-0 right-0 flex justify-center gap-2 sm:gap-3 z-50">
+                {movies.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentSlide(index)}
+                    className={`h-1.5 sm:h-2 transition-all duration-300 rounded-full ${currentSlide === index ? 'w-6 sm:w-8 bg-[#9B2C2C]' : 'w-1.5 sm:w-2 bg-gray-300 hover:bg-gray-400'
+                      }`}
+                    aria-label={`Go to slide ${index + 1}`}
+                  />
+                ))}
+              </div>
+            </>
+          )}
         </div>
       </div>
 
