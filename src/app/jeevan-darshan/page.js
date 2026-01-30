@@ -62,14 +62,16 @@ export default function JeevanDarshan() {
                 if (!response.ok) throw new Error("Failed to fetch Jeevan Darshan data");
                 const data = await response.json();
 
-                // Transform the data to include full image URLs
-                const transformedData = data.map(category => ({
-                    ...category,
-                    images: category.images.map(img => ({
-                        ...img,
-                        image_url: getImageUrl(img.image_url)
+                // Transform the data to include full image URLs and sort by order
+                const transformedData = data
+                    .map(category => ({
+                        ...category,
+                        images: category.images.map(img => ({
+                            ...img,
+                            image_url: getImageUrl(img.image_url)
+                        }))
                     }))
-                }));
+                    .sort((a, b) => (a.order || 0) - (b.order || 0));
 
                 setCategories(transformedData);
                 if (transformedData.length > 0) {

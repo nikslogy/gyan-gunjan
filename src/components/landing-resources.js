@@ -38,10 +38,10 @@ import { useState, useEffect } from 'react';
           ]);
 
           const thematicJson = await thematicRes.json();
-          setThematicData(thematicJson);
+          setThematicData(thematicJson.sort((a, b) => (a.order || 0) - (b.order || 0)));
 
           const coffeeJson = await coffeeRes.json();
-          setCoffeeData(coffeeJson);
+          setCoffeeData(coffeeJson.sort((a, b) => (a.order || 0) - (b.order || 0)));
 
           const flipbookJson = await flipbooksRes.json();
           setRegionalData(flipbookJson);
@@ -50,10 +50,10 @@ import { useState, useEffect } from 'react';
           setStates(stateJson);
 
           const regionJson = await regionsRes.json();
-          setRegions(regionJson);
+          setRegions(regionJson.sort((a, b) => (a.order || 0) - (b.order || 0)));
 
           const movieJson = await movieRes.json();
-          setMovieData(movieJson);
+          setMovieData(movieJson.sort((a, b) => (a.order || 0) - (b.order || 0)));
         } catch (error) {
           console.error('Error fetching data:', error);
         }
@@ -209,7 +209,7 @@ import { useState, useEffect } from 'react';
             {/* Tab navigation remains exactly the same */}
             <div className="mb-8">
               <div className="flex flex-wrap gap-2 bg-[#FAF3E0] p-1 rounded-custom2">
-                {['thematic', 'coffee', 'regional', 'course'].map((tab) => (
+                {['coffee','regional','thematic','course'].map((tab) => (
                   <button
                     key={tab}
                     onClick={() => setActiveTab(tab)}

@@ -128,9 +128,9 @@ export function ResourcesContent({ initialCategory = 'Thematic Essays' }) {
     }, [initialCategory]);
 
     const resourceMenuItems = [
-        'Thematic Essays',
         'Coffee Table Books',
-        'Regional Flip Books',
+        'Regional Reading Resources',
+        'Thematic Essays',
         'Course'
     ];
 
@@ -147,11 +147,15 @@ export function ResourcesContent({ initialCategory = 'Thematic Essays' }) {
             ]);
 
             setStates(await statesRes.json());
-            setCoffeeBooks(await coffeeRes.json());
-            setThematics(await thematicRes.json());
-            setMovies(await movieRes.json());
+            const coffeeData = await coffeeRes.json();
+            setCoffeeBooks(coffeeData.sort((a, b) => (a.order || 0) - (b.order || 0)));
+            const thematicData = await thematicRes.json();
+            setThematics(thematicData.sort((a, b) => (a.order || 0) - (b.order || 0)));
+            const movieData = await movieRes.json();
+            setMovies(movieData.sort((a, b) => (a.order || 0) - (b.order || 0)));
             setFlipBooks(await flipbookRes.json());
-            setRegions(await regionRes.json());
+            const regionData = await regionRes.json();
+            setRegions(regionData.sort((a, b) => (a.order || 0) - (b.order || 0)));
         } catch (err) {
             setError(err.message);
         } finally {
