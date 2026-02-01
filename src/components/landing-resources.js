@@ -8,7 +8,7 @@ import { useState, useEffect } from 'react';
 
   export default function LandingResources() {
     const router = useRouter();
-    const [activeTab, setActiveTab] = useState('thematic');
+    const [activeTab, setActiveTab] = useState('coffee');
     const [selectedState, setSelectedState] = useState('');
     const [selectedRegion, setSelectedRegion] = useState('');
 

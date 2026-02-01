@@ -10,6 +10,7 @@ import { API_BASE_URL, getImageUrl } from '@/utils/api';
 
 export default function JeevanDarshan() {
     const router = useRouter();
+    const searchParams = useSearchParams();
     const [currentSlide, setCurrentSlide] = useState(0);
     const [mounted, setMounted] = useState(false);
     const [selectedCategory, setSelectedCategory] = useState("");
@@ -53,6 +54,8 @@ export default function JeevanDarshan() {
         }
     };
 
+    const normalizeTitle = (value) => (value || "").trim().toLowerCase();
+
     // Fetch Jeevan Darshan data from the API
     useEffect(() => {
         const fetchJeevanDarshanData = async () => {
@@ -75,7 +78,19 @@ export default function JeevanDarshan() {
 
                 setCategories(transformedData);
                 if (transformedData.length > 0) {
-                    setSelectedCategory(transformedData[0].title);
+                    const categoryParam = searchParams.get("category");
+                    const storedCategory = localStorage.getItem("selectedCategory");
+                    const requestedTitle = categoryParam ? decodeURIComponent(categoryParam) : null;
+                    const targetTitle = requestedTitle || storedCategory;
+                    const matched = targetTitle
+                        ? transformedData.find(cat => normalizeTitle(cat.title) === normalizeTitle(targetTitle))
+                        : null;
+
+                    setSelectedCategory(matched ? matched.title : transformedData[0].title);
+
+                    if (storedCategory) {
+                        localStorage.removeItem("selectedCategory");
+                    }
                 }
             } catch (err) {
                 setError(err.message);
@@ -85,7 +100,7 @@ export default function JeevanDarshan() {
         };
 
         fetchJeevanDarshanData();
-    }, []);
+    }, [searchParams]);
 
     // Get current category data
     const currentCategory = categories.find(cat => cat.title === selectedCategory);
@@ -112,11 +127,6 @@ export default function JeevanDarshan() {
     // Trigger mount animation
     useEffect(() => {
         setMounted(true);
-        const storedCategory = localStorage.getItem("selectedCategory");
-        if (storedCategory) {
-            setSelectedCategory(storedCategory);
-            localStorage.removeItem("selectedCategory");
-        }
     }, []);
 
     if (error) return <div className="text-red-500 p-4">Error loading categories: {error}</div>;
@@ -158,7 +168,8 @@ export default function JeevanDarshan() {
                             </div>
                         </div>
 
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+                        <div>
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 lg:gap-8 items-start">
                             <div className="prose prose-lg max-w-full ">
                                 <p
                                     className="text-black leading-relaxed"
@@ -228,13 +239,14 @@ export default function JeevanDarshan() {
                             </div>
                         </div>
 
-                        <div className="flex justify-center">
+                        <div className="flex justify-center mt-10 md:mt-6">
                             <button
                                 onClick={() => router.push('/resources')}
                                 className="px-6 py-3 bg-[#E4A853] text-black rounded-custom2 hover:bg-[#F6B352] transition-colors"
                             >
                                 View All Resources
                             </button>
+                        </div>
                         </div>
                     </div>
                 </div>

@@ -191,14 +191,46 @@ function AboutProjectContent() {
                 Gyan Gunjan Logo Concept
               </span>
             </div>
+
+            <div className="text-center text-[#7A2631] space-y-4 max-w-4xl mx-auto py-2">
+              <p className="font-semibold text-lg md:text-xl leading-relaxed">
+                तस्माद्वा एतस्मात् आत्मनः आकाशः सम्भूतः । आकाशाद्वायुः । वायोरग्निः । अग्नेरापः । <br className="hidden md:block" />
+                अद्भ्यः पृथिवी । पृथिव्या ओषधयः । ओषधीभ्योन्नम् । अन्नात् पुरुषः ॥
+              </p>
+              <p className="italic text-base md:text-lg">
+                tasmad va etasmad atmanah akashah sambhutah | akashad vayuh | vayor agnih | agner apah | <br className="hidden md:block" />
+                adbhyah prithivi | prithivya oshadhayah | oshadhibhyo annam | annat purushah ||
+              </p>
+              <div className="text-sm font-bold pt-2">
+                <p>Taittiriya Upanishad 2.1.2</p>
+                <p>specifically from Brahmananda Valli, Chapter 2, Section 1, Verse 1</p>
+              </div>
+            </div>
+
             <Image
-              src={"/images/gyangunjannewlogo.png"}
+              src={"/images/GyanGunjan-Logo-Concept.png"}
               alt="Gyan Gunjan Logo Concept"
               width={800}
               height={400}
               className="object-contain w-full max-w-xl mx-auto"
               sizes="(max-width: 768px) 100vw, 800px"
             />
+            <div className="text-center text-black  max-w-4xl mx-auto ">
+              
+              <p className="text-base md:text-lg">
+                It all begins from nothingness, Nada Bindu.
+              </p>
+              
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-black text-left max-w-6xl mx-auto">
+               <div>
+                  <p className="leading-relaxed">From Bindu emerges vibration, Pranav, the cosmic sound. From Pranav, the five fundamental elements of existence emerge. First comes Akash (sky, sense of hearing). From Akash emerges Vayu (air, senses of hearing and touch). From Vayu emerges Agni (fire, senses of hearing, touch, and sight).</p>
+               </div>
+               <div>
+                  <p className="leading-relaxed">From Agni emerges Jal (water, senses of hearing, touch, sight, and taste). From Jal emerges Prithvi (earth or soil, senses of hearing, touch, sight, taste, and smell). From Prithvi emerges Oshadhayah (vegetation). From vegetation emerges Annam (food). From Annam emerges Purush, encompassing insects, animals, and humans.</p>
+               </div>
+            </div>
 
             {/* Logo Description Section */}
 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
@@ -210,7 +242,7 @@ function AboutProjectContent() {
   {/* Right Column: Image */}
   <div className="relative aspect-[4/3] w-full max-w-md mx-auto">
     <Image
-      src={aboutData.logo_detail_image || "/images/mulgyangunjan.png"}
+      src={aboutData.logo_detail_image || "/images/gyangunjannewlogo2.png"}
       alt="Logo Details"
       fill
       className="object-contain rounded-lg"

@@ -24,9 +24,11 @@ export default function Contact() {
                                 <div className="space-y-4">
                                     <h3 className="text-xl font-bold text-[#7A2631]">IKS Division</h3>
                                     <div className="text-gray-700 space-y-2">
-                                        <p>AICTE,<br/>
-                                        Nelson Mandela Marg, <br/>Vasant Kunj,<br />
-                                        New Delhi-110070</p>
+                                        <p>Head Office,<br/>
+                                        3rd Floor, J Block, World Trade Centre,<br/>
+                                        Nauroji Nagar, Safdargunj Enclave, <br/>
+                                        New Delhi - 110029
+                                         </p>
                                         <a href="mailto:iksgyangunjan@aicte-india.org" 
                                            className="block text-[#7A2631] hover:text-[#F6B352] transition-colors font-crimson-pro">
                                             iksgyangunjan@aicte-india.org

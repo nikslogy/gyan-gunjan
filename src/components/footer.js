@@ -60,13 +60,13 @@ const Footer = () => {
                 About the Project
               </Link>
               <Link href="/jeevan-darshan" className="text-[#1a365d] hover:text-gray-900 text-sm text-center">
-                Jeevan Darshan
+                Jeevan Darshana 
               </Link>
               <Link href="/resources" className="text-[#1a365d] hover:text-gray-900 text-sm text-center">
                 Resources
               </Link>
               <Link href="/lets-collaborate" className="text-[#1a365d] hover:text-gray-900 text-sm text-center">
-                Lets Collaborate
+                Let's Collaborate
               </Link>
             </div>
 
@@ -81,17 +81,13 @@ const Footer = () => {
               <Link href="/about-cka" className="text-[#1a365d] hover:text-gray-900 text-sm text-center" >
                 About CKA
               </Link>
-            </div>
-
-            {/* Third Column */}
-            <div className="flex flex-col gap-1.5 sm:gap-2 items-center col-span-2 sm:col-span-1">
               <Link href="/terms-of-use" className="text-[#1a365d] hover:text-gray-900 text-sm text-center">
                 Terms of Use
               </Link>
-              <Link href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer" className="text-[#1a365d] hover:text-gray-900 text-sm text-center">
-                Creative Commons 4.0
-              </Link>
+              
             </div>
+
+            
           </div>
         </div>
       </div>

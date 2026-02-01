@@ -24,7 +24,7 @@ function AboutIKSDivisionContent() {
             <h1 className={`mt-10 text-3xl md:text-4xl font-bold text-[#7A2631] transition-all duration-700 delay-300 ${
               mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-[20px]'
             }`}>
-              IKS Division, Ministry of Education
+              Indian Knowledge Systems Division, Ministry of Education
             </h1>
 
             {/* Main Content - Flowing Text */}
@@ -79,7 +79,7 @@ function AboutIKSDivisionContent() {
                   hover:shadow-lg hover:bg-[#8B3641] hover:scale-105 
                   flex items-center gap-2"
                 >
-                  Visit Official IKS Website
+                  Learn More about IKS Division
                   <svg 
                     xmlns="http://www.w3.org/2000/svg" 
                     className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" 

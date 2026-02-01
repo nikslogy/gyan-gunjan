@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { Menu, Search, X, ChevronDown } from 'lucide-react'
+import { Menu, X, ChevronDown } from 'lucide-react'
 import { useRouter, usePathname } from 'next/navigation'
 import { useAuth } from '@/hooks/useAuth'
 import { API_BASE_URL } from '@/utils/api'
@@ -11,8 +11,6 @@ import { API_BASE_URL } from '@/utils/api'
 export function NavBar() {
   const [isOpen, setIsOpen] = useState(false)
   const [isLangOpen, setIsLangOpen] = useState(false)
-  const [isSearchOpen, setIsSearchOpen] = useState(false)
-  const [searchQuery, setSearchQuery] = useState("")
   const [isScrolled, setIsScrolled] = useState(false)
   const [isVisible, setIsVisible] = useState(true)
   const router = useRouter()
@@ -47,12 +45,6 @@ export function NavBar() {
     document.addEventListener('mousedown', handleClickOutside)
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
-
-  const handleSearch = (e) => {
-    if (e) e.preventDefault()
-    // Add your search logic here
-    console.log("Searching for:", searchQuery)
-  }
 
   const handleNavigation = (e) => {
     // Prevent the black flash during navigation
@@ -143,57 +135,18 @@ export function NavBar() {
             >
               Resources
             </Link>
-            <Link href="/lets-collaborate">
-              <button className="bg-[#E7B24B] text-black hover:bg-[#f6a93d] rounded-custom2 px-3 py-1.5 font-medium">
-                Let's Collaborate
-              </button>
+            <Link 
+              href="/lets-collaborate"
+              className={`text-[#1a365d] hover:text-gray-900 relative ${
+                isActivePath('/lets-collaborate') ? 'after:content-[""] after:absolute after:left-0 after:bottom-[-4px] after:w-full after:h-0.5 after:bg-[#1a365d]' : ''
+              }`}
+            >
+              Let's Collaborate
             </Link>
-            
-            {/* Desktop Search */}
-            <div className="flex items-center">
-              <button
-                onClick={() => setIsSearchOpen(!isSearchOpen)}
-                className={`p-1.5 hidden md:block transition-opacity duration-300 ${
-                  isSearchOpen ? 'opacity-0' : 'opacity-100'
-                }`}
-              >
-                <Search className="h-4 w-4 text-[#1a365d]" />
-              </button>
-              <form
-                onSubmit={handleSearch}
-                className={`transition-all duration-300 ease-in-out overflow-hidden ${
-                  isSearchOpen ? 'w-64 opacity-100' : 'w-0 opacity-0'
-                }`}
-              >
-                <div className="flex">
-                  <input
-                    type="text"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder="Search..."
-                    className="w-full p-2 rounded-custom2 text-black border border-r-0 border-gray-300 focus:outline-none"
-                  />
-                  <button 
-                    type="button"
-                    onClick={() => {
-                      setIsSearchOpen(false);
-                      setSearchQuery("");
-                    }}
-                    className="p-2 border border-l-0 border-gray-300 hover:bg-gray-50"
-                  >
-                    <X className="h-4 w-4 text-[#1a365d]" />
-                  </button>
-                </div>
-              </form>
-            </div>
           </div>
 
           {/* Mobile */}
           <div className="md:hidden flex items-center gap-4">
-            <button onClick={() => setIsSearchOpen(!isSearchOpen)} className="p-2">
-              <Search className="h-5 w-5 text-[#1a365d]" />
-            </button>
-            
             <button onClick={() => setIsOpen(!isOpen)} className="p-2">
               {isOpen ? (
                 <X className="h-5 w-5 text-[#1a365d]" />
@@ -203,31 +156,6 @@ export function NavBar() {
             </button>
           </div>
         </div>
-
-        {/* Mobile Search Bar - Moved outside the navigation items */}
-        {isSearchOpen && (
-          <div className="md:hidden mt-4 px-2">
-            <form onSubmit={handleSearch} className="relative w-full">
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search..."
-                className="w-full p-2 pr-10 rounded-custom2 text-black border border-gray-300 focus:outline-none"
-              />
-              <button 
-                type="button"
-                onClick={() => {
-                  setIsSearchOpen(false);
-                  setSearchQuery("");
-                }}
-                className="absolute right-2 top-1/2 transform -translate-y-1/2 p-1"
-              >
-                <X className="h-5 w-5 text-[#1a365d]" />
-              </button>
-            </form>
-          </div>
-        )}
 
         {/* Mobile Menu Content */}
         {isOpen && (
@@ -260,13 +188,14 @@ export function NavBar() {
               >
                 Resources
               </Link>
-              <Link href="/lets-collaborate">
-                <button
-                  className="bg-[#F6B352] text-black hover:bg-[#f6a93d] rounded-custom2 px-4 py-2 font-medium mb-4"
-                  onClick={() => setIsOpen(false)}
-                >
-                  Let's Collaborate
-                </button>
+              <Link
+                href="/lets-collaborate"
+                className={`text-[#1a365d] text-lg hover:text-gray-900 mb-4 ${
+                  isActivePath('/lets-collaborate') ? 'font-semibold border-b-2 border-[#1a365d]' : ''
+                }`}
+                onClick={() => setIsOpen(false)}
+              >
+                Let's Collaborate
               </Link>
               
             </div>

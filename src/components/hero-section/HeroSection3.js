@@ -30,26 +30,34 @@ export function HeroSection3() {
 
   // Tile positions and styles
   const tileConfigurations = [
-    { position: "absolute right-[5%] bottom-[12%] w-[40%] rotate-[-7deg]", shape: "rounded-custom5", titleRotation: "rotate-[9deg]" },
     { position: "absolute right-[6%] top-[10%] w-[40%] rotate-[6deg]", shape: "rounded-custom4", titleRotation: "rotate-[-6deg]" },
-    { position: "absolute left-[39%] top-[2%] -translate-x-1/2 w-[40%] rotate-[25deg]", shape: "rounded-custom3", titleRotation: "rotate-[-25deg]" },
+    { position: "absolute right-[5%] bottom-[12%] w-[40%] rotate-[-7deg]", shape: "rounded-custom5", titleRotation: "rotate-[9deg]" },
+    { position: "absolute left-[19%] top-[55%] bottom-[4%] w-[40%] rotate-[-30deg]", shape: "rounded-custom6", titleRotation: "rotate-[30deg]" },
     { position: "absolute left-[-3%] top-[25%] w-[40%] rotate-[-34deg]", shape: "rounded-custom7", titleRotation: "rotate-[34deg]" },
-    { position: "absolute left-[19%] top-[55%] bottom-[4%] w-[40%] rotate-[-30deg]", shape: "rounded-custom6", titleRotation: "rotate-[30deg]" }
+    { position: "absolute left-[39%] top-[2%] -translate-x-1/2 w-[40%] rotate-[25deg]", shape: "rounded-custom3", titleRotation: "rotate-[-25deg]" },
   ]
 
   const handleTileClick = (index) => {
     setExitAnimation(true)
+    const title = sections[index]?.title || ''
     setTimeout(() => {
-      localStorage.setItem('selectedCategory', sections[index].title)
-      router.push('/jeevan-darshan')
+      if (title) {
+        localStorage.setItem('selectedCategory', title)
+      }
+      const query = title ? `?category=${encodeURIComponent(title)}` : ''
+      router.push(`/jeevan-darshan${query}`)
     }, 500)
   }
 
   const handleLearnMore = () => {
     setExitAnimation(true)
+    const title = sections[currentTile]?.title || ''
     setTimeout(() => {
-      localStorage.setItem('selectedCategory', sections[currentTile].title)
-      router.push('/jeevan-darshan')
+      if (title) {
+        localStorage.setItem('selectedCategory', title)
+      }
+      const query = title ? `?category=${encodeURIComponent(title)}` : ''
+      router.push(`/jeevan-darshan${query}`)
     }, 500)
   }
 
@@ -150,7 +158,7 @@ export function HeroSection3() {
 />
           <button 
             onClick={handleLearnMore} 
-            className="bg-[#F8D89A] text-black px-4 md:px-6 py-2 rounded-custom2 hover:bg-[#f6a93d] transition-colors text-sm"
+            className="bg-[#F8D89A] text-black px-4 md:px-4 py-2 rounded-custom2 hover:bg-[#f6a93d] transition-colors text-sm"
           >
             Learn More
           </button>
