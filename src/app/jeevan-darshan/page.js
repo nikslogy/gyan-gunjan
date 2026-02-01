@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { NavBar } from "@/components/nav-bar";
 import Image from "next/image";
@@ -8,7 +8,7 @@ import { Footer } from "@/components/footer";
 import { Share2, ChevronDown } from "lucide-react";
 import { API_BASE_URL, getImageUrl } from '@/utils/api';
 
-export default function JeevanDarshan() {
+function JeevanDarshanContent() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const [currentSlide, setCurrentSlide] = useState(0);
@@ -253,5 +253,13 @@ export default function JeevanDarshan() {
             </main>
             <Footer />
         </div>
+    );
+}
+
+export default function JeevanDarshan() {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <JeevanDarshanContent />
+        </Suspense>
     );
 }
