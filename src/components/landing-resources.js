@@ -221,7 +221,7 @@ import { useState, useEffect } from 'react';
                     {tab === 'regional' && <BookOpen className="w-4 h-4 inline mr-2" />}
                     {tab === 'course' && <Video className="w-4 h-4 inline mr-2" />}
                     {tab.charAt(0).toUpperCase() + tab.slice(1)}{' '}
-                    {tab === 'thematic' ? 'Essays' : tab === 'coffee' ? 'Table Books' : tab === 'regional' ? 'Flip Books' : ''}
+                    {tab === 'thematic' ? 'Essays' : tab === 'coffee' ? 'Table Books' : tab === 'regional' ? 'Reading Resources' : ''}
                   </button>
                 ))}
               </div>
@@ -325,9 +325,9 @@ import { useState, useEffect } from 'react';
                     <button
                       onClick={() => {
                         router.push('/resources');
-                        localStorage.setItem('selectedResourceType', 'Regional Flip Books');
+                        localStorage.setItem('selectedResourceType', 'Regional Reading Resources');
                         window.dispatchEvent(new CustomEvent('navResourceChange', {
-                          detail: 'Regional Flip Books'
+                          detail: 'Regional Reading Resources'
                         }));
                       }}
                       className="text-gray-600 hover:text-gray-900 w-full sm:w-auto text-center sm:text-left"

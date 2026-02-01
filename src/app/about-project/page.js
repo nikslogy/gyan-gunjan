@@ -223,12 +223,13 @@ function AboutProjectContent() {
               
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-black text-left max-w-6xl mx-auto">
-               <div>
-                  <p className="leading-relaxed">From Bindu emerges vibration, Pranav, the cosmic sound. From Pranav, the five fundamental elements of existence emerge. First comes Akash (sky, sense of hearing). From Akash emerges Vayu (air, senses of hearing and touch). From Vayu emerges Agni (fire, senses of hearing, touch, and sight).</p>
+            <div className="grid grid-cols-1 md:grid-cols-2  text-black text-left max-w-6xl mx-auto">
+              {/* make this alignedd center  */}
+               <div className="text-center text-black text-lg">
+                  <p className="leading-relaxed ">From Bindu emerges vibration, Pranav, the cosmic sound. <br/> From Pranav, the five fundamental elements of existence emerge.<br/> First comes Akash (sky, sense of hearing).<br/> From Akash emerges Vayu (air, senses of hearing and touch). <br/> From Vayu emerges Agni (fire, senses of hearing, touch, and sight).</p>
                </div>
-               <div>
-                  <p className="leading-relaxed">From Agni emerges Jal (water, senses of hearing, touch, sight, and taste). From Jal emerges Prithvi (earth or soil, senses of hearing, touch, sight, taste, and smell). From Prithvi emerges Oshadhayah (vegetation). From vegetation emerges Annam (food). From Annam emerges Purush, encompassing insects, animals, and humans.</p>
+               <div className="text-center text-black">
+                  <p className="leading-relaxed text-lg">From Agni emerges Jal (water, senses of hearing, touch, sight, and taste).<br/> From Jal emerges Prithvi (earth or soil, senses of hearing, touch, sight, taste, and smell).<br/> From Prithvi emerges Oshadhayah (vegetation). <br/> From vegetation emerges Annam (food). <br/> From Annam emerges Purush, encompassing insects, animals, and humans.</p>
                </div>
             </div>
 

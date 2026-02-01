@@ -78,15 +78,15 @@ export default function LetsColaborate() {
             <NavBar />
             
             <div className="text-center py-8">
-                <h1 className="mt-20 text-4xl md:text-5xl">Let's Collaborate</h1>
+                <h1 className="mt-20 text-4xl text-[#7A2631]  md:text-5xl">Let's Collaborate</h1>
                 <hr className="my-4 border-black mx-auto w-3/4" />
             </div>
 
             <div className="max-w-7xl mx-auto px-4 py-12">
                 <div className="bg-white rounded-custom shadow-lg overflow-hidden">
                     <div className="flex flex-col md:flex-row">
-                        <div className="md:w-1/2 p-8 md:p-12">
-                            <h2 className="text-3xl mb-4">Collaborate With Us</h2>
+                        <div className="md:w-1/2 p-4  md:px-12">
+                            <h2 className="text-3xl mb-4 text-[#7A2631] ">Collaborate With Us</h2>
                             <hr className="my-6 border-black mx-auto " />
 
                             {submitSuccess && (

@@ -8,7 +8,7 @@ import MovieSlider from "@/components/movie-slider";
 import VideoModal from "@/components/video-modal";
 import { API_BASE_URL, getImageUrl } from '@/utils/api';
 
-export function ResourcesContent({ initialCategory = 'Thematic Essays' }) {
+export function ResourcesContent({ initialCategory = 'Coffee Table Books' }) {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedCategory, setSelectedCategory] = useState(initialCategory);
     const [selectedState, setSelectedState] = useState('');
@@ -31,7 +31,7 @@ export function ResourcesContent({ initialCategory = 'Thematic Essays' }) {
 
     // Add this new effect to handle initial load
     useEffect(() => {
-        if (thematics.length > 0 && selectedCategory === 'Thematic Essays') {
+        if (thematics.length > 0 && selectedCategory === 'Coffee Table Books') {
             // Automatically open the first available PDF, but don't scroll
             const firstAvailablePdf = thematics.find(item => item.book_pdf);
             if (firstAvailablePdf) {
